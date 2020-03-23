@@ -12,6 +12,7 @@ import os
 import pygame_gui
 
 from game import loader
+from game import events
 
 
 width, height = [1280, 720]
@@ -34,23 +35,54 @@ def main():
 
     manager = pygame_gui.UIManager((width, height))
 
-    test_label = pygame_gui.elements.UILabel(relative_rect = pygame.Rect(50,50,300,30),
-                                             text = "Hello world",
-                                             manager = manager)
-    
-    test_button = pygame_gui.elements.UIButton(relative_rect = pygame.Rect(500,500,100,30),
-                                               text = "Click me",
-                                               manager = manager)
-
     n = popups.Newspaper("Ant Colony Overruns Granary! City Officials Scramble.")
-    textbox = pygame_gui.elements.ui_text_box.UITextBox(html_text = "oh boy a text box. there's so much room for activites",
-                                                        relative_rect = pygame.Rect(50, 200, 200, 200),
-                                                        manager = manager)
-    textbox.set_active_effect(pygame_gui.TEXT_EFFECT_TYPING_APPEAR)
 
-    refresh_textbox_button = pygame_gui.elements.UIButton(relative_rect = pygame.Rect(50,420,200,30),
-                                                           text = "refresh text box",
-                                                           manager = manager)
+
+    food = 50
+    population = 50
+    territory = 50
+
+    food_display = pygame_gui.elements.UILabel(manager = manager,
+                                                relative_rect = pygame.Rect(20,20,150,25),
+                                                text = "Food: " + str(food))
+    population_display = pygame_gui.elements.UILabel(manager = manager,
+                                                relative_rect = pygame.Rect(20,50,150,25),
+                                                text = "Population: " + str(population))
+    territory_display = pygame_gui.elements.UILabel(manager = manager,
+                                                relative_rect = pygame.Rect(20,80,150,25),
+                                                text = "Territory: " + str(territory))
+    updateResourceDisplay(food, food_display, population, population_display, territory, territory_display)
+
+
+
+    decision_textbox = pygame_gui.elements.ui_text_box.UITextBox(manager = manager,
+                                                                relative_rect = pygame.Rect(50,200,300,200),
+                                                                html_text = "*decision text*")
+    decision_buttons = []
+    next_decision_button = pygame_gui.elements.UIButton(manager = manager,
+                                                        relative_rect = pygame.Rect(50,600,300,50),
+                                                        text = "Next")
+    next_decision_button.disable()
+
+    #example decisions
+    theft_decision = events.Decision("theft")
+    theft_decision.text = "An ant was found stealing from the colony's food supply! How do you respond?"
+    theft_decision.options = ["Banish the ant", "Do nothing"]
+    theft_decision.outcomes = ["Angry at your decision, several of the banished ant's friends leave with them", "Seeing there are no conequences, more ants begin to steal food"]
+    theft_decision.impacts = [[0,-5,0],[-10,0,0]]
+
+    war_decision = events.Decision("war")
+    war_decision.text = "The beetles have been encroaching on your territory recently. Should we go to war to teach them a lesson?"
+    war_decision.options = ["Yes, war!", "No, peace"]
+    war_decision.outcomes = ["Your soldiers attack the beetles, sucessfully pushing them back and gaining territory. You do face some losses though", "The beetles continue to take your land"]
+    war_decision.impacts = [[0,5,-10],[0,-20,0]]
+
+    decision_queue = [theft_decision, war_decision]
+
+
+    current_decision = decision_queue.pop(0)
+    displayDecision(manager, decision_textbox, decision_buttons, current_decision)
+
 
     while True:
         time_delta = clock.tick(60) / 1000
@@ -62,10 +94,25 @@ def main():
 
             if event.type == pygame.USEREVENT:
                 if event.user_type == "ui_button_pressed":
-                    if event.ui_element == test_button:
-                        print("button clicked my dudes")
-                    if event.ui_element == refresh_textbox_button:
-                        textbox.set_active_effect(pygame_gui.TEXT_EFFECT_TYPING_APPEAR)
+                    if event.ui_element in decision_buttons:
+                        user_choice = decision_buttons.index(event.ui_element)
+
+                        displayOutcome(decision_textbox, decision_buttons, current_decision, user_choice)
+
+                        food += current_decision.impacts[user_choice][0]
+                        population += current_decision.impacts[user_choice][1]
+                        territory += current_decision.impacts[user_choice][2]
+
+                        updateResourceDisplay(food, food_display, population, population_display, territory, territory_display)  
+
+                        next_decision_button.enable()
+
+                    if event.ui_element == next_decision_button:
+                        if len(decision_queue) > 0:
+                            current_decision = decision_queue.pop(0)  
+                            displayDecision(manager, decision_textbox, decision_buttons, current_decision)  
+                        else:
+                            print("no more decisions")         
 
             manager.process_events(event)
 
@@ -77,3 +124,30 @@ def main():
         manager.draw_ui(screen)
         
         pygame.display.flip()
+
+
+def displayDecision(manager, decision_textbox, decision_buttons, decision):
+    decision_textbox.html_text = decision.text
+    decision_textbox.rebuild()
+
+    for i,option in enumerate(decision.options):
+        button = pygame_gui.elements.UIButton(relative_rect = pygame.Rect(50,400+50*i,300,50),
+                                            text = option,
+                                            manager = manager)
+        decision_buttons.append(button)
+
+def displayOutcome(decision_textbox, decision_buttons, decision, user_choice):
+    decision_textbox.html_text = decision.outcomes[user_choice]
+    decision_textbox.rebuild()
+
+    for i in range(len(decision_buttons) - 1, -1, -1):
+        decision_buttons[i].kill()
+        decision_buttons.pop(i)
+
+def updateResourceDisplay(food, food_display, population, population_display, territory, territory_display):
+    food_display.set_text("Food: " + str(food))
+    food_display.rebuild()
+    population_display.set_text("Population: " + str(population))
+    population_display.rebuild()
+    territory_display.set_text("Territory: " + str(territory))
+    territory_display.rebuild()
