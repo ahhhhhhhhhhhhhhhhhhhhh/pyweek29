@@ -24,6 +24,8 @@ def main():
     
     pygame.init()
 
+    pygame.display.set_caption("Amazing Game 10/10") #changes name of pygame window
+
     screen = pygame.display.set_mode((width,height))
     clock = pygame.time.Clock()
 
@@ -41,6 +43,14 @@ def main():
                                                manager = manager)
 
     n = popups.Newspaper("Ant Colony Overruns Granary! City Officials Scramble.")
+    textbox = pygame_gui.elements.ui_text_box.UITextBox(html_text = "oh boy a text box. there's so much room for activites",
+                                                        relative_rect = pygame.Rect(50, 200, 200, 200),
+                                                        manager = manager)
+    textbox.set_active_effect(pygame_gui.TEXT_EFFECT_TYPING_APPEAR)
+
+    refresh_textbox_button = pygame_gui.elements.UIButton(relative_rect = pygame.Rect(50,420,200,30),
+                                                           text = "refresh text box",
+                                                           manager = manager)
 
     while True:
         time_delta = clock.tick(60) / 1000
@@ -54,6 +64,8 @@ def main():
                 if event.user_type == "ui_button_pressed":
                     if event.ui_element == test_button:
                         print("button clicked my dudes")
+                    if event.ui_element == refresh_textbox_button:
+                        textbox.set_active_effect(pygame_gui.TEXT_EFFECT_TYPING_APPEAR)
 
             manager.process_events(event)
 
@@ -65,8 +77,3 @@ def main():
         manager.draw_ui(screen)
         
         pygame.display.flip()
-
-
-
-
-    
