@@ -91,8 +91,8 @@ def main():
     current_decision = event_queue.pop(0)
     # displayDecision(manager, decision_textbox, decision_buttons, current_decision)
 
-    image = pygame.image.load (loader.filepath("Queen's room.png")
-    image = pygmae.transform.scal(image, (1280,720))
+    image = pygame.image.load (loader.filepath("Queen's room.png"))
+    image = pygame.transform.scale(image,(1280,720))
     while True:
         time_delta = clock.tick(60) / 1000
 
@@ -110,7 +110,7 @@ def main():
         manager.update(time_delta)
 
         screen.fill(bgcolor)
-        screen.blit(image, (0,0))
+        screen.blit(image,(0,0))
 
         if current_decision.display(time_delta):
             if len(event_queue) > 0:
