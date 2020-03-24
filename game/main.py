@@ -19,7 +19,6 @@ from game.resources import Resources
 
 
 width, height = [1280, 720]
-bgcolor = (230, 30, 70)
 
 
 def main():
@@ -58,7 +57,6 @@ def main():
         "Seeing there are no conequences, more ants begin to steal food",
     ]
     theft_decision.impacts = [[0, -5, 0], [-10, 0, 0]]
-    theft_decision.ready()  # builds the UI stuff
 
     war_decision = events.Decision("war")
     war_decision.text = "The beetles have been encroaching on your territory recently. Should we go to war to teach them a lesson?"
@@ -68,7 +66,6 @@ def main():
         "The beetles continue to take your land",
     ]
     war_decision.impacts = [[0, -10, 5], [0, 0, -20]]
-    war_decision.ready()  # builds the UI stuff
 
 
     #example events
@@ -81,18 +78,18 @@ def main():
 
     new_land_event = events.Event("new land")
     new_land_event.text = (
-        "Your scouts have found some new uninhabitaded land!"
+        "Your scouts have found some new uninhabited land!"
     )
     new_land_event.impacts = [0, 0, 5]
     new_land_event.ready()
 
-    event_queue = [war_decision, spoiled_food_event, newspaper, theft_decision, new_land_event]
+    event_queue = [newspaper, war_decision, new_land_event, spoiled_food_event, newspaper, theft_decision, new_land_event]
 
     current_decision = event_queue.pop(0)
-    # displayDecision(manager, decision_textbox, decision_buttons, current_decision)
+    current_decision.ready()
 
-    image = pygame.image.load (loader.filepath("Queen's room.png"))
-    image = pygame.transform.scale(image,(1280,720))
+    bg = pygame.image.load (loader.filepath("Queen's room.png"))
+    bg = pygame.transform.scale(bg,(1280,720))
     while True:
         time_delta = clock.tick(60) / 1000
 
@@ -109,12 +106,12 @@ def main():
 
         manager.update(time_delta)
 
-        screen.fill(bgcolor)
-        screen.blit(image,(0,0))
+        screen.blit(bg,(0,0))
 
         if current_decision.display(time_delta):
             if len(event_queue) > 0:
                 current_decision = event_queue.pop(0)
+                current_decision.ready()
             else:
                 current_decision = events.NoDecision()
                 print("no more decisions")

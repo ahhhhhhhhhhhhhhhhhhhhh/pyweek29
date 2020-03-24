@@ -34,11 +34,12 @@ class Newspaper:
         self.image = newspaper
         self.location = pygame.Vector2(200, 300)
 
+    def ready(self):
         self.rotation = 0
         self.rotating = True
         self.finished = False
 
-        self.manager = pygame_gui.UIManager((1280, 720))
+        self.manager = pygame_gui.UIManager((1280, 720))      
 
     def display(self, time_delta):
         screen = pygame.display.get_surface()

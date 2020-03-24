@@ -1,3 +1,5 @@
 /game/__pycache__/*
 __pycache__/*
 /build/*
+.DS_store
+**/.DS_store
