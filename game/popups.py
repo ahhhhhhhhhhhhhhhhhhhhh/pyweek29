@@ -32,7 +32,7 @@ class Newspaper:
             newspaper.blit(rendered, (x, 8 + i * 19))
 
         self.image = newspaper
-        self.location = pygame.Vector2(640, 360)
+        self.location = pygame.Vector2(200, 300)
 
         self.rotation = 0
         self.rotating = True
@@ -50,7 +50,7 @@ class Newspaper:
             self.rotation = 0
             self.rotating = False
             self.next_button = pygame_gui.elements.UIButton(
-                relative_rect=pygame.Rect(500, 510, 300, 50),
+                relative_rect=pygame.Rect(50, 450, 300, 50),
                 text="Next",
                 manager=self.manager,
             )
