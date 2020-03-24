@@ -22,8 +22,6 @@ width, height = [1280, 720]
 
 
 def main():
-    print("Hello from your game's main()")
-
     pygame.init()
     pygame.freetype.init()
 
@@ -35,7 +33,10 @@ def main():
     manager = pygame_gui.UIManager((width, height))
 
     newspaper = popups.Newspaper(
-        "Ant Colony Overruns Granary! City Officials Scramble."
+        "One Can Only Wonder Why There Would Be A Headline This Long, But Hopefully The System Can Handle It With Grace, Elegance, And Poise!",
+        "martian colonists have first child",
+        "war with catalan seems likely",
+        "local singer sings",
     )
 
     food = 50
@@ -49,13 +50,19 @@ def main():
 
     all_decisions = loadDecisions("decisions.txt")
 
-    event_queue = [all_events[0], all_events[1], all_decisions[0], newspaper, all_decisions[1]]
+    event_queue = [
+        all_events[0],
+        all_events[1],
+        all_decisions[0],
+        newspaper,
+        all_decisions[1],
+    ]
 
     current_decision = event_queue.pop(0)
     current_decision.ready()
 
     bg = pygame.image.load(loader.filepath("Queen's room.png"))
-    bg = pygame.transform.scale(bg,(1280,720))
+    bg = pygame.transform.scale(bg, (1280, 720))
 
     while True:
         time_delta = clock.tick(60) / 1000
@@ -73,7 +80,7 @@ def main():
 
         manager.update(time_delta)
 
-        screen.blit(bg,(0,0))
+        screen.blit(bg, (0, 0))
 
         if current_decision.display(time_delta):
             if len(event_queue) > 0:
@@ -87,10 +94,11 @@ def main():
 
         pygame.display.flip()
 
+
 def loadEvents(filename):
     file = loader.load(filename).readlines()
     file = [line.rstrip().decode() for line in file]
-    
+
     all_events = []
 
     i = 0
@@ -108,6 +116,7 @@ def loadEvents(filename):
         i += 1
 
     return all_events
+
 
 def loadDecisions(filename):
     file = loader.load(filename).readlines()
@@ -130,7 +139,9 @@ def loadDecisions(filename):
             for choice in range(num_choices):
                 event.options.append(file[i + 3 + choice * 3])
                 event.outcomes.append(file[i + 4 + choice * 3])
-                event.impacts.append([int(i) for i in file[i + 5 + choice * 3].split(",")])
+                event.impacts.append(
+                    [int(i) for i in file[i + 5 + choice * 3].split(",")]
+                )
 
             all_decisions.append(event)
 
@@ -139,5 +150,3 @@ def loadDecisions(filename):
         i += 1
 
     return all_decisions
-
-

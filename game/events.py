@@ -3,12 +3,13 @@ import pygame_gui
 
 from game.resources import Resources
 
+
 class Event:
     def __init__(self, name):
         self.name = name
 
         self.text = "text"
-        self.impact = [0, 0, 0] # food, population, territory
+        self.impact = [0, 0, 0]  # food, population, territory
 
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720))
