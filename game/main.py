@@ -70,9 +70,25 @@ def main():
     war_decision.impacts = [[0, -10, 5], [0, 0, -20]]
     war_decision.ready()  # builds the UI stuff
 
-    decision_queue = [theft_decision, war_decision, newspaper]
 
-    current_decision = decision_queue.pop(0)
+    #example events
+    spoiled_food_event = events.Event("spoiled food")
+    spoiled_food_event.text = (
+        "Some food in storage has spoiled!"
+    )
+    spoiled_food_event.impacts = [-5, 0, 0]
+    spoiled_food_event.ready()
+
+    new_land_event = events.Event("new land")
+    new_land_event.text = (
+        "Your scouts have found some new uninhabitaded land!"
+    )
+    new_land_event.impacts = [0, 0, 5]
+    new_land_event.ready()
+
+    event_queue = [war_decision, spoiled_food_event, newspaper, theft_decision, new_land_event]
+
+    current_decision = event_queue.pop(0)
     # displayDecision(manager, decision_textbox, decision_buttons, current_decision)
 
     while True:
@@ -94,8 +110,8 @@ def main():
         screen.fill(bgcolor)
 
         if current_decision.display(time_delta):
-            if len(decision_queue) > 0:
-                current_decision = decision_queue.pop(0)
+            if len(event_queue) > 0:
+                current_decision = event_queue.pop(0)
             else:
                 current_decision = events.NoDecision()
                 print("no more decisions")
