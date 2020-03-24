@@ -1,0 +1,11 @@
+#spoiled food
+Some food in storage has spoiled!
+-5, 0, 0
+
+#new land
+Your scouts have found some new uninhabited land!
+0, 0, 5
+
+#storm
+A particularly bad storm has flooded part of your colony, destroying homes and killing several workers
+0, -10, -5

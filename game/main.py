@@ -23,7 +23,6 @@ width, height = [1280, 720]
 
 def main():
     print("Hello from your game's main()")
-    print(loader.load("sample.txt").read())
 
     pygame.init()
     pygame.freetype.init()
@@ -46,50 +45,18 @@ def main():
     # creates the Resources object, which can be accessed from anywhere as Resources.instance
     Resources(manager, food, population, territory)
 
-    # example decisions
-    theft_decision = events.Decision("theft")
-    theft_decision.text = (
-        "An ant was found stealing from the colony's food supply! How do you respond?"
-    )
-    theft_decision.options = ["Banish the ant", "Do nothing"]
-    theft_decision.outcomes = [
-        "Angry at your decision, several of the banished ant's friends leave with them",
-        "Seeing there are no conequences, more ants begin to steal food",
-    ]
-    theft_decision.impacts = [[0, -5, 0], [-10, 0, 0]]
+    all_events = loadEvents("events.txt")
 
-    war_decision = events.Decision("war")
-    war_decision.text = "The beetles have been encroaching on your territory recently. Should we go to war to teach them a lesson?"
-    war_decision.options = ["Yes, war!", "No, peace"]
-    war_decision.outcomes = [
-        "Your soldiers attack the beetles, sucessfully pushing them back and gaining territory. You do face some losses though",
-        "The beetles continue to take your land",
-    ]
-    war_decision.impacts = [[0, -10, 5], [0, 0, -20]]
+    all_decisions = loadDecisions("decisions.txt")
 
-
-    #example events
-    spoiled_food_event = events.Event("spoiled food")
-    spoiled_food_event.text = (
-        "Some food in storage has spoiled!"
-    )
-    spoiled_food_event.impacts = [-5, 0, 0]
-    spoiled_food_event.ready()
-
-    new_land_event = events.Event("new land")
-    new_land_event.text = (
-        "Your scouts have found some new uninhabited land!"
-    )
-    new_land_event.impacts = [0, 0, 5]
-    new_land_event.ready()
-
-    event_queue = [newspaper, war_decision, new_land_event, spoiled_food_event, newspaper, theft_decision, new_land_event]
+    event_queue = [all_events[0], all_events[1], all_decisions[0], newspaper, all_decisions[1]]
 
     current_decision = event_queue.pop(0)
     current_decision.ready()
 
-    bg = pygame.image.load (loader.filepath("Queen's room.png"))
+    bg = pygame.image.load(loader.filepath("Queen's room.png"))
     bg = pygame.transform.scale(bg,(1280,720))
+
     while True:
         time_delta = clock.tick(60) / 1000
 
@@ -119,3 +86,58 @@ def main():
         manager.draw_ui(screen)
 
         pygame.display.flip()
+
+def loadEvents(filename):
+    file = loader.load(filename).readlines()
+    file = [line.rstrip().decode() for line in file]
+    
+    all_events = []
+
+    i = 0
+    while i < len(file):
+        line = file[i]
+        if len(line) > 0 and line[0] == "#":
+            event = events.Event("".join(line[1:]))
+            event.text = file[i + 1]
+            event.impacts = [int(i) for i in file[i + 2].split(",")]
+
+            all_events.append(event)
+
+            i += 2
+
+        i += 1
+
+    return all_events
+
+def loadDecisions(filename):
+    file = loader.load(filename).readlines()
+    file = [line.rstrip().decode() for line in file]
+
+    all_decisions = []
+
+    i = 0
+    while i < len(file):
+        line = file[i]
+        if len(line) > 0 and line[0] == "#":
+            event = events.Decision("".join(line[1:]))
+            event.text = file[i + 1]
+
+            event.options = []
+            event.impacts = []
+            event.outcomes = []
+
+            num_choices = int(file[i + 2])
+            for choice in range(num_choices):
+                event.options.append(file[i + 3 + choice * 3])
+                event.outcomes.append(file[i + 4 + choice * 3])
+                event.impacts.append([int(i) for i in file[i + 5 + choice * 3].split(",")])
+
+            all_decisions.append(event)
+
+            i += 2 + num_choices * 3
+
+        i += 1
+
+    return all_decisions
+
+

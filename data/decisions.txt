@@ -1,0 +1,19 @@
+#theft
+An ant was found stealing from the colony's food supply! How do you respond?
+2
+Banish the ant
+Angry at your decision, several of the banished ant's friends leave with them
+0, -5, 0
+Do nothing
+Seeing there are no conequences, more ants begin to steal food
+-10, 0, 0
+
+#war
+The beetles have been encroaching on your territory recently. Should we go to war to teach them a lesson?
+2
+Yes, war!
+Your soldiers attack the beetles, sucessfully pushing them back and gaining territory. You do face some losses though
+0, -10, 10
+No, we must avoid conflict
+The beetles continue to take your land
+0, 0, -20
