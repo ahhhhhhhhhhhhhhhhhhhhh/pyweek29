@@ -10,7 +10,7 @@ from game import loader
 
 def scale_image(image, scalar):
     return pygame.transform.scale(
-        image, (image.get_width() * scalar, image.get_height() * scalar)
+        image, (int(image.get_width() * scalar), int(image.get_height() * scalar))
     )
 
 
@@ -90,6 +90,7 @@ class Newspaper:
 
     def ready(self):
         self.rotation = 0
+        self.maxrotation = 720
         self.rotating = True
         self.finished = False
 
@@ -101,7 +102,7 @@ class Newspaper:
         if self.rotating:
             self.rotation += time_delta * 350
 
-        if self.rotation > 720:
+        if self.rotation > self.maxrotation:
             self.rotation = 0
             self.rotating = False
             self.next_button = pygame_gui.elements.UIButton(
@@ -110,7 +111,12 @@ class Newspaper:
                 manager=self.manager,
             )
 
-        im = pygame.transform.rotate(self.image, self.rotation)
+        if self.rotating:
+            im = scale_image(self.image, self.rotation / self.maxrotation)
+        else:
+            im = self.image
+            
+        im = pygame.transform.rotate(im, self.rotation)
 
         loc = self.location - find_center(im)
 
