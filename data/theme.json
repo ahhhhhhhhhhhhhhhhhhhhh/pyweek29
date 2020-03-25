@@ -50,5 +50,35 @@
       "selected_border": "#00000000",
       "active_border": "#00000000"
     }
+  },
+  "food_display": {
+    "colours": {
+      "dark_bg": "#00AA0040",
+      "normal_text": "#00FF00"
+    },
+    "font": {
+      "name": "fira_code",
+      "size": "26"
+    }
+  },
+  "population_display": {
+    "colours": {
+      "dark_bg": "#AA000040",
+      "normal_text": "#FF0000"
+    },
+    "font": {
+      "name": "fira_code",
+      "size": "26"
+    }
+  },
+  "territory_display": {
+    "colours": {
+      "dark_bg": "#0000AA40",
+      "normal_text": "#0000FF"
+    },
+    "font": {
+      "name": "fira_code",
+      "size": "26"
+    }
   }
 }
