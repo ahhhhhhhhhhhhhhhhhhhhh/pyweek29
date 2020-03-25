@@ -50,12 +50,16 @@ def main():
 
     all_decisions = loadDecisions("decisions.txt")
 
+    # dict of event names to event to easily reference events
+    find_event = {}
+    for event in all_events + all_decisions:
+        find_event[event.name] = event
+
     event_queue = [
         all_events[0],
+        find_event["plague"],
         all_events[1],
-        all_decisions[0],
-        newspaper,
-        all_decisions[1],
+        newspaper
     ]
 
     current_decision = event_queue.pop(0)
@@ -83,6 +87,11 @@ def main():
         screen.blit(bg, (0, 0))
 
         if current_decision.display(time_delta):
+            if current_decision.next_event != "_":
+                print(current_decision.next_event)
+                next_event = find_event[current_decision.next_event]
+                event_queue.append(next_event)
+
             if len(event_queue) > 0:
                 current_decision = event_queue.pop(0)
                 current_decision.ready()
@@ -134,18 +143,20 @@ def loadDecisions(filename):
             event.options = []
             event.impacts = []
             event.outcomes = []
+            event.leads_to = []
 
             num_choices = int(file[i + 2])
             for choice in range(num_choices):
-                event.options.append(file[i + 3 + choice * 3])
-                event.outcomes.append(file[i + 4 + choice * 3])
+                event.options.append(file[i + 3 + choice * 4])
+                event.outcomes.append(file[i + 4 + choice * 4])
                 event.impacts.append(
-                    [int(i) for i in file[i + 5 + choice * 3].split(",")]
+                    [int(i) for i in file[i + 5 + choice * 4].split(",")]
                 )
+                event.leads_to.append(file[i + 6 + choice * 4])
 
             all_decisions.append(event)
 
-            i += 2 + num_choices * 3
+            i += 2 + num_choices * 4
 
         i += 1
 

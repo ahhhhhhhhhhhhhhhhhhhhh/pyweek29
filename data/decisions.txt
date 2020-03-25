@@ -1,12 +1,14 @@
 #theft
-An ant was found stealing from the colony's food supply! How do you respond?
+An ant was found stealing from the colony's food supply! What do you do?
 2
 Banish the ant
 Angry at your decision, several of the banished ant's friends leave with them
 0, -5, 0
+_
 Do nothing
 Seeing there are no conequences, more ants begin to steal food
 -10, 0, 0
+_
 
 #war
 The beetles have been encroaching on your territory recently. Should we go to war to teach them a lesson?
@@ -14,6 +16,36 @@ The beetles have been encroaching on your territory recently. Should we go to wa
 Yes, war!
 Your soldiers attack the beetles, sucessfully pushing them back and gaining territory. You do face some losses though
 0, -10, 10
+_
 No, we must avoid conflict
 The beetles continue to take your land
 0, 0, -20
+_
+
+#plague
+One of your workers has fallen ill. Other ants are worried it might spread. How do you respond?
+3
+This is nothing to be worried about
+The illness spreads quickly, killing at a high rate
+0, -10, 0
+plague2
+Quarantine all ants with symptoms
+The illness spreads faster than you could have predicted, and your quarantine is ineffective. Some ants die.
+0, -5, 0
+plague2
+Lock down the whole colony until the sickness is gone
+Some productivity is lost, but the illness doesn't spread
+-5, 0, 0
+_
+
+#plague2
+The plague has continued to spread. It now infects many workers. The situation is desperate. What will you do?
+2
+Divert resources to caring for the sick and researching a cure
+More lives are lost, but you eventually get the pandemic under control
+-10, -5, 0
+_
+Expell the sick ants from your colony
+Many are unhappy with your decision, but it is effective in ridding the colony of the disease
+0, -20, 0
+_

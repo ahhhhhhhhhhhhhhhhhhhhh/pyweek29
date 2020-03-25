@@ -11,6 +11,8 @@ class Event:
         self.text = "text"
         self.impact = [0, 0, 0]  # food, population, territory
 
+        self.next_event = "_" #needed for common interface with decisions
+
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720))
 
@@ -59,6 +61,7 @@ class Decision:
             [0, 0, 0],
             [0, 0, 0],
         ]  # [food, population, territory]
+        self.leads_to = ["_", "_", "_"] # _ means no following event
 
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720))
@@ -108,6 +111,8 @@ class Decision:
                         text="Next",
                         manager=self.manager,
                     )
+
+                    self.next_event = self.leads_to[user_choice]
 
                 if event.ui_element == self.next_button:
                     self.finished = True

@@ -50,6 +50,8 @@ class Newspaper:
         self.image = newspaper
         self.location = pygame.Vector2(640, 360)
 
+        self.next_event = "_" #needed for common interface with decisions
+
     def _fit_text_to_rect(self, image, rect, text):
         # pygame.draw.rect(image, (40,200,75), rect) #shows relevant area
 
