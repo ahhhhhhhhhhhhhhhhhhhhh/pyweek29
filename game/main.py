@@ -32,7 +32,7 @@ def main():
     screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
 
-    manager = pygame_gui.UIManager((width, height))
+    manager = pygame_gui.UIManager((width, height), loader.filepath('theme.json'))
 
     newspaper = popups.Newspaper(
         "Ant Colony Overruns Granary! City Officials Scramble."
@@ -106,7 +106,7 @@ def loadEvents(filename):
             i += 2
 
         i += 1
-
+    print( "loaded " + str(len(all_events)) + " events" )
     return all_events
 
 def loadDecisions(filename):
@@ -137,7 +137,5 @@ def loadDecisions(filename):
             i += 2 + num_choices * 3
 
         i += 1
-
+    print( "loaded " + str(len(all_decisions)) + " decisions" )
     return all_decisions
-
-
