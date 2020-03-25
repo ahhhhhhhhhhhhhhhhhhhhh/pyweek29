@@ -14,12 +14,25 @@ class Images:
     )
 
 
+def impacts_to_html(outcome):
+    outcome = [str(i) for i in outcome]
+    outcome = ["+"+i if int(i) > 0 else i for i in outcome]
+    out = ""
+    if outcome[0] != "0":
+        out += f"<br><font color='#00FF00'>{outcome[0]} food</font>"
+    if outcome[1] != "0":
+        out += f"<br><font color='#FF0000'>{outcome[1]} population</font>"
+    if outcome[2] != "0":
+        out += f"<br><font color='#0000FF'>{outcome[2]} territory</font>"
+    return out
+
+
 class Event:
     def __init__(self, name):
         self.name = name
 
         self.text = "text"
-        self.impact = [0, 0, 0]  # food, population, territory
+        self.impacts = [0, 0, 0]  # food, population, territory
 
         self.next_event = "_"  # needed for common interface with decisions
 
@@ -40,7 +53,7 @@ class Event:
         self.textbox = pygame_gui.elements.ui_text_box.UITextBox(
             manager=self.manager,
             relative_rect=pygame.Rect(50, 200, 300, 200),
-            html_text=self.text,
+            html_text=self.text + impacts_to_html(self.impacts),
         )
 
         self.next_button = pygame_gui.elements.UIButton(
@@ -48,6 +61,10 @@ class Event:
             text="Next",
             manager=self.manager,
         )
+
+        Resources.instance.food += self.impacts[0]
+        Resources.instance.population += self.impacts[1]
+        Resources.instance.territory += self.impacts[2]
 
         self.finished = False
 
@@ -64,10 +81,6 @@ class Event:
             if event.user_type == "ui_button_pressed":
                 if event.ui_element == self.next_button:
                     self.finished = True
-
-                    Resources.instance.food += self.impacts[0]
-                    Resources.instance.population += self.impacts[1]
-                    Resources.instance.territory += self.impacts[2]
 
 
 class Decision:
@@ -137,6 +150,7 @@ class Decision:
                     user_choice = self.decision_buttons.index(event.ui_element)
 
                     self.textbox.html_text = self.outcomes[user_choice]
+                    self.textbox.html_text += impacts_to_html(self.impacts[user_choice])
                     self.textbox.rebuild()
 
                     self._update_resources(user_choice)
