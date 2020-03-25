@@ -68,6 +68,10 @@ def main():
 
     bg = pygame.image.load(loader.filepath("Queen's room.png"))
     bg = pygame.transform.scale(bg, (1280, 720))
+    bg = bg.convert_alpha()
+
+    town_im = pygame.Surface((320, 184)) # placeholder for now
+    town_im.fill((230, 30, 70))
 
     while True:
         time_delta = clock.tick(60) / 1000
@@ -85,6 +89,7 @@ def main():
 
         manager.update(time_delta)
 
+        screen.blit(town_im, (788, 8)) 
         screen.blit(bg, (0, 0))
 
         if current_decision.display(time_delta):
