@@ -22,6 +22,51 @@ The beetles continue to take your land
 0, 0, -20
 _
 
+#protestor
+An ant is speaking out against your rule. What do you do?
+3
+Respond publicly
+The ants supporters are turned by your insightful speech, and the protestor is scorned
+0, 0, 0
+_
+Banishment
+The ants supporters riot in the streets, killing many innocent ants
+0, -10, 0
+_
+Nothing
+The ant slowly loses public support, but he still has a group of tight followers.
+0, 0, 0
+protestor2
+
+#protestor2
+The protestor ant is back, this time with an army! He demands a section of territory or he will destroy the colony. What do you do?
+3
+Agree to his terms
+He takes a large part of your territory
+0, 0, -20
+_
+Fight against him
+He fights back, and many casualties are suffered, but in the end you get him under control
+0, -10, 0
+_
+Trick him into losing his army
+You try to trick him, but he sees through you, and his army escapes, rampaging through the colony, killing ants and destroying territory
+0, -20, -20
+_
+
+
+#grasshopper
+Your scouts find an injured grasshopper in your territory. Do you help heal it or kill it?
+2
+Heal it
+The grasshopper gives you a gift of 20 food
+20, 0, 0
+_
+Kill it
+The grasshopper escapes from your ants and attacks the colony, killing many.
+0, -20, 0
+_
+
 #plague
 One of your workers has fallen ill. Other ants are worried it might spread. How do you respond?
 3

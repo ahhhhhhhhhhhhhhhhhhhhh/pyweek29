@@ -5,7 +5,7 @@ from game.resources import Resources
 import game.loader as loader
 
 class Images:
-    scroll_image = pygame.transform.scale(pygame.image.load(loader.filepath("scroll.png")),(300,200))
+    scroll_image = pygame.transform.scale(pygame.image.load(loader.filepath("scroll.png")),(400,300))
     button_scroll_image = pygame.transform.scale(pygame.image.load(loader.filepath("button.png")),(300,300))
 
 
@@ -28,13 +28,13 @@ class Event:
         )
         self.background_image = pygame_gui.elements.ui_image.UIImage(
             manager=self.manager,
-            relative_rect=pygame.Rect(50, 200, 300, 200),
+            relative_rect=pygame.Rect(0, 150, 400, 300),
             image_surface=Images.scroll_image,
         )
         
         self.textbox = pygame_gui.elements.ui_text_box.UITextBox(
             manager=self.manager,
-            relative_rect=pygame.Rect(80, 215, 250, 170),
+            relative_rect=pygame.Rect(50, 200, 300, 200),
             html_text=self.text,
         )
 
@@ -89,12 +89,12 @@ class Decision:
         )
         self.background_image = pygame_gui.elements.ui_image.UIImage(
             manager=self.manager,
-            relative_rect=pygame.Rect(50, 200, 300, 200),
+            relative_rect=pygame.Rect(0, 150, 400, 300),
             image_surface=Images.scroll_image,
         )
         self.textbox = pygame_gui.elements.ui_text_box.UITextBox(
             manager=self.manager,
-            relative_rect=pygame.Rect(80, 215, 250, 170),
+            relative_rect=pygame.Rect(50, 200, 300, 200),
             html_text=self.text,
         )
         # self.textbox.background_surf = self.image_surface
@@ -109,7 +109,7 @@ class Decision:
         self.decision_buttons = []
         for i, option in enumerate(self.options):
             button = pygame_gui.elements.UIButton(
-                relative_rect=pygame.Rect(100, 400 + 50 * i, 200, 50),
+                relative_rect=pygame.Rect(50, 400 + 50 * i, 300, 50),
                 text=option,
                 manager=self.manager,
             )

@@ -59,6 +59,7 @@ def main():
         all_events[0],
         find_event["plague"],
         all_events[1],
+        find_event["protestor"],
         newspaper
     ]
 
