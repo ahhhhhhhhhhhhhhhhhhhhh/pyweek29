@@ -4,9 +4,14 @@ import pygame_gui
 from game.resources import Resources
 import game.loader as loader
 
+
 class Images:
-    scroll_image = pygame.transform.scale(pygame.image.load(loader.filepath("scroll.png")),(400,300))
-    button_scroll_image = pygame.transform.scale(pygame.image.load(loader.filepath("button.png")),(300,300))
+    scroll_image = pygame.transform.scale(
+        pygame.image.load(loader.filepath("scroll.png")), (400, 300)
+    )
+    button_scroll_image = pygame.transform.scale(
+        pygame.image.load(loader.filepath("button.png")), (300, 300)
+    )
 
 
 class Event:
@@ -16,22 +21,22 @@ class Event:
         self.text = "text"
         self.impact = [0, 0, 0]  # food, population, territory
 
-        self.next_event = "_" #needed for common interface with decisions
+        self.next_event = "_"  # needed for common interface with decisions
 
     def ready(self):
-        self.manager = pygame_gui.UIManager((1280, 720), loader.filepath('theme.json'))
-        
+        self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
+
         self.back_buttons = pygame_gui.elements.ui_image.UIImage(
             manager=self.manager,
-            relative_rect = pygame.Rect(50, 200, 300, 300),
-            image_surface = Images.button_scroll_image,
+            relative_rect=pygame.Rect(50, 200, 300, 300),
+            image_surface=Images.button_scroll_image,
         )
         self.background_image = pygame_gui.elements.ui_image.UIImage(
             manager=self.manager,
             relative_rect=pygame.Rect(0, 150, 400, 300),
             image_surface=Images.scroll_image,
         )
-        
+
         self.textbox = pygame_gui.elements.ui_text_box.UITextBox(
             manager=self.manager,
             relative_rect=pygame.Rect(50, 200, 300, 200),
@@ -66,7 +71,6 @@ class Event:
 
 
 class Decision:
-    
     def __init__(self, name):
         self.name = name
 
@@ -78,14 +82,14 @@ class Decision:
             [0, 0, 0],
             [0, 0, 0],
         ]  # [food, population, territory]
-        self.leads_to = ["_", "_", "_"] # _ means no following event
+        self.leads_to = ["_", "_", "_"]  # _ means no following event
 
     def ready(self):
-        self.manager = pygame_gui.UIManager((1280, 720), loader.filepath('theme.json'))
+        self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
         self.back_buttons = pygame_gui.elements.ui_image.UIImage(
             manager=self.manager,
-            relative_rect = pygame.Rect(50, 150+len(self.options)*50, 300, 300),
-            image_surface = Images.button_scroll_image,
+            relative_rect=pygame.Rect(50, 150 + len(self.options) * 50, 300, 300),
+            image_surface=Images.button_scroll_image,
         )
         self.background_image = pygame_gui.elements.ui_image.UIImage(
             manager=self.manager,
@@ -105,7 +109,7 @@ class Decision:
         # print ('\n'.join([str(i)+':'+str(j) for i,j in self.textbox.__dict__.items()]))
         # print (self.textbox.__dict__['formatted_text_block'].__dict__)
         # print (dir(self.textbox.__dict__['formatted_text_block']))
-        
+
         self.decision_buttons = []
         for i, option in enumerate(self.options):
             button = pygame_gui.elements.UIButton(
@@ -139,9 +143,11 @@ class Decision:
 
                     for button in self.decision_buttons:
                         button.kill()
-                    
-                    self.back_buttons.set_relative_position(pygame.Rect(50,200,300,300))
-                    
+
+                    self.back_buttons.set_relative_position(
+                        pygame.Rect(50, 200, 300, 300)
+                    )
+
                     self.next_button = pygame_gui.elements.UIButton(
                         relative_rect=pygame.Rect(50, 400, 300, 50),
                         text="Next",

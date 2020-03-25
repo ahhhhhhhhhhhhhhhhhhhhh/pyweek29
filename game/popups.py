@@ -6,6 +6,7 @@ import random
 import pygame_gui
 
 from game import loader
+from game import events
 
 
 def scale_image(image, scalar):
@@ -50,7 +51,7 @@ class Newspaper:
         self.image = newspaper
         self.location = pygame.Vector2(640, 360)
 
-        self.next_event = "_" #needed for common interface with decisions
+        self.next_event = "_"  # needed for common interface with decisions
 
     def _fit_text_to_rect(self, image, rect, text):
         # pygame.draw.rect(image, (40,200,75), rect) #shows relevant area
@@ -94,9 +95,12 @@ class Newspaper:
         self.rotating = True
         self.finished = False
 
-        self.manager = pygame_gui.UIManager((1280, 720))
+        self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
 
     def display(self, time_delta):
+        self.manager.update(time_delta)
+        self.manager.draw_ui(pygame.display.get_surface())
+
         screen = pygame.display.get_surface()
 
         if self.rotating:
@@ -105,8 +109,13 @@ class Newspaper:
         if self.rotation > self.maxrotation:
             self.rotation = 0
             self.rotating = False
+            button_background = pygame_gui.elements.ui_image.UIImage(
+                manager=self.manager,
+                relative_rect=pygame.Rect(490, 430, 300, 300),
+                image_surface=events.Images.button_scroll_image,
+            )
             self.next_button = pygame_gui.elements.UIButton(
-                relative_rect=pygame.Rect(490, 600, 300, 50),
+                relative_rect=pygame.Rect(490, 630, 300, 50),
                 text="Next",
                 manager=self.manager,
             )
@@ -115,15 +124,12 @@ class Newspaper:
             im = scale_image(self.image, self.rotation / self.maxrotation)
         else:
             im = self.image
-            
+
         im = pygame.transform.rotate(im, self.rotation)
 
         loc = self.location - find_center(im)
 
         screen.blit(im, loc)
-
-        self.manager.update(time_delta)
-        self.manager.draw_ui(pygame.display.get_surface())
 
         return self.finished
 

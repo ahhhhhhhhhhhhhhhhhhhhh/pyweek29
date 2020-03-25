@@ -30,7 +30,7 @@ def main():
     screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
 
-    manager = pygame_gui.UIManager((width, height), loader.filepath('theme.json'))
+    manager = pygame_gui.UIManager((width, height), loader.filepath("theme.json"))
 
     newspaper = popups.Newspaper(
         "One Can Only Wonder Why There Would Be A Headline This Long, But Hopefully The System Can Handle It With Grace, Elegance, And Poise!",
@@ -60,7 +60,7 @@ def main():
         find_event["plague"],
         all_events[1],
         find_event["protestor"],
-        newspaper
+        newspaper,
     ]
 
     current_decision = event_queue.pop(0)
@@ -70,7 +70,7 @@ def main():
     bg = pygame.transform.scale(bg, (1280, 720))
     bg = bg.convert_alpha()
 
-    town_im = pygame.Surface((320, 184)) # placeholder for now
+    town_im = pygame.Surface((320, 184))  # placeholder for now
     town_im.fill((230, 30, 70))
 
     while True:
@@ -89,7 +89,7 @@ def main():
 
         manager.update(time_delta)
 
-        screen.blit(town_im, (788, 8)) 
+        screen.blit(town_im, (788, 8))
         screen.blit(bg, (0, 0))
 
         if current_decision.display(time_delta):
@@ -129,7 +129,7 @@ def loadEvents(filename):
             i += 2
 
         i += 1
-    print( "loaded " + str(len(all_events)) + " events" )
+    print("loaded " + str(len(all_events)) + " events")
     return all_events
 
 
@@ -165,5 +165,5 @@ def loadDecisions(filename):
             i += 2 + num_choices * 4
 
         i += 1
-    print( "loaded " + str(len(all_decisions)) + " decisions" )
+    print("loaded " + str(len(all_decisions)) + " decisions")
     return all_decisions
