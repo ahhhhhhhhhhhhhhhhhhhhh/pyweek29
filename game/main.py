@@ -15,6 +15,7 @@ import pygame_gui
 from game import loader
 from game import events
 from game import popups
+from game import Sound
 from game.resources import Resources
 
 
@@ -73,9 +74,21 @@ def main():
     town_im = pygame.Surface((320, 184))  # placeholder for now
     town_im.fill((230, 30, 70))
 
+    sounds = Sound.Sound(manager, width, height)
+    sounds.displayVolumeButton()
+    sounds.playMusic()
+
     while True:
         time_delta = clock.tick(60) / 1000
 
+        if sounds.slidesDisplayed == False and sounds.volumeButton.check_pressed():
+            sounds.displayVolumeSlides()
+        if sounds.slidesDisplayed and sounds.volumeButton.check_pressed():
+            sounds.killVolumeSlides()
+            sounds.displayVolumeButton()
+        if sounds.slidesDisplayed == True:
+            sounds.updateVolume()
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -85,7 +98,7 @@ def main():
                 pass
 
             manager.process_events(event)
-            current_decision.process_events(event)
+            current_decision.process_events(event, sounds)
 
         manager.update(time_delta)
 

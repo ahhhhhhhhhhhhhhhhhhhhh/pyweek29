@@ -133,10 +133,15 @@ class Newspaper:
 
         return self.finished
 
-    def process_events(self, event):
+    def process_events(self, event, sounds):
         self.manager.process_events(event)
+
+        if self.playSound == False:
+            sounds.playNewspaperSound()
+            self.playSound = True
 
         if event.type == pygame.USEREVENT:
             if event.user_type == "ui_button_pressed":
                 if event.ui_element == self.next_button:
+                    sounds.playButtonSound()
                     self.finished = True
