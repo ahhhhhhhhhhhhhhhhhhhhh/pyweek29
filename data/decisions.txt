@@ -70,7 +70,7 @@ _
 #plague
 One of your workers has fallen ill. Other ants are worried it might spread. How do you respond?
 3
-This is nothing to be worried about
+This is nothing to be worried about. The flu kills 900 million people per year.
 The illness spreads quickly, killing at a high rate
 0, -10, 0
 plague2

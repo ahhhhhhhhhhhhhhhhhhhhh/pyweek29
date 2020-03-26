@@ -3,6 +3,7 @@ import pygame_gui
 
 from game.resources import Resources
 import game.loader as loader
+from game import more_elements
 
 
 class Images:
@@ -39,7 +40,7 @@ class Event:
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
 
-        self.back_buttons = pygame_gui.elements.ui_image.UIImage(
+        self.button_background = pygame_gui.elements.ui_image.UIImage(
             manager=self.manager,
             relative_rect=pygame.Rect(50, 200, 300, 300),
             image_surface=Images.button_scroll_image,
@@ -74,12 +75,13 @@ class Event:
 
         return self.finished
 
-    def process_events(self, event):
+    def process_events(self, event, sounds):
         self.manager.process_events(event)
 
         if event.type == pygame.USEREVENT:
             if event.user_type == "ui_button_pressed":
                 if event.ui_element == self.next_button:
+                    sounds.playButtonSound()
                     self.finished = True
 
 
@@ -99,7 +101,8 @@ class Decision:
 
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
-        self.back_buttons = pygame_gui.elements.ui_image.UIImage(
+        
+        self.button_background = pygame_gui.elements.ui_image.UIImage(
             manager=self.manager,
             relative_rect=pygame.Rect(50, 150 + len(self.options) * 50, 300, 300),
             image_surface=Images.button_scroll_image,
@@ -114,23 +117,19 @@ class Decision:
             relative_rect=pygame.Rect(50, 200, 300, 200),
             html_text=self.text,
         )
-        # self.textbox.background_surf = self.image_surface
-        # self.textbox.background_color = (255,0,0,255)
-        # self.textbox.formatted_text_block.indexed_styles[0].bg_color = pygame.Color(0,0,0,0)
-        # self.textbox.formatted_text_block.redraw_from_chunks(None)
-        # self.textbox.full_redraw()
-        # print ('\n'.join([str(i)+':'+str(j) for i,j in self.textbox.__dict__.items()]))
-        # print (self.textbox.__dict__['formatted_text_block'].__dict__)
-        # print (dir(self.textbox.__dict__['formatted_text_block']))
 
         self.decision_buttons = []
+        cumulative_height = 400
         for i, option in enumerate(self.options):
-            button = pygame_gui.elements.UIButton(
-                relative_rect=pygame.Rect(50, 400 + 50 * i, 300, 50),
+            button = more_elements.TextButton(
+                relative_rect=pygame.Rect(50, cumulative_height, 300, 20),
                 text=option,
                 manager=self.manager,
             )
+            cumulative_height += button.relative_rect.height + 10
             self.decision_buttons.append(button)
+
+        self.button_background.set_position(pygame.Rect(50, cumulative_height - 250, 300, 300))
 
         self.finished = False
 
@@ -141,12 +140,13 @@ class Decision:
         self.manager.draw_ui(pygame.display.get_surface())
         return self.finished
 
-    def process_events(self, event):
+    def process_events(self, event, sounds):
         self.manager.process_events(event)
 
         if event.type == pygame.USEREVENT:
             if event.user_type == "ui_button_pressed":
                 if event.ui_element in self.decision_buttons:
+                    sounds.playButtonSound()
                     user_choice = self.decision_buttons.index(event.ui_element)
 
                     self.textbox.html_text = self.outcomes[user_choice]
@@ -158,7 +158,7 @@ class Decision:
                     for button in self.decision_buttons:
                         button.kill()
 
-                    self.back_buttons.set_relative_position(
+                    self.button_background.set_relative_position(
                         pygame.Rect(50, 200, 300, 300)
                     )
 
@@ -171,6 +171,7 @@ class Decision:
                     self.next_event = self.leads_to[user_choice]
 
                 if event.ui_element == self.next_button:
+                    sounds.playButtonSound()
                     self.finished = True
 
     def _update_resources(self, user_choice):
@@ -184,5 +185,5 @@ class NoDecision:
     def display(self, _):
         pass
 
-    def process_events(self, _):
+    def process_events(self, _, sounds):
         pass

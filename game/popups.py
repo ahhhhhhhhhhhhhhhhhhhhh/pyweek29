@@ -21,6 +21,7 @@ def find_center(image):
 
 class Newspaper:
     def __init__(self, message, *args):
+        self.playSound = False
         newspaper = pygame.image.load(loader.filepath("newspaper.png"))
         newspaper = scale_image(newspaper, 4)
         newspaper = newspaper.convert_alpha()
@@ -133,10 +134,15 @@ class Newspaper:
 
         return self.finished
 
-    def process_events(self, event):
+    def process_events(self, event, sounds):
         self.manager.process_events(event)
+
+        if self.playSound == False:
+            sounds.playNewspaperSound()
+            self.playSound = True
 
         if event.type == pygame.USEREVENT:
             if event.user_type == "ui_button_pressed":
                 if event.ui_element == self.next_button:
+                    sounds.playButtonSound()
                     self.finished = True
