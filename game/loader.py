@@ -1,21 +1,12 @@
-"""Simple data loader module.
-
-Loads data files from the "data" directory shipped with a game.
-
-Enhancing this to handle caching etc. is left as an exercise for the reader.
-"""
-
 import os
 
 data_py = os.path.abspath(os.path.dirname(__file__))
 data_dir = os.path.normpath(os.path.join(data_py, "..", "data"))
 
-
 def filepath(filename):
     """Determine the path to a file in the data directory.
     """
     return os.path.join(data_dir, filename)
-
 
 def load(filename, mode="rb"):
     """Open a file in the data directory.
@@ -24,7 +15,7 @@ def load(filename, mode="rb"):
     """
     return open(os.path.join(data_dir, filename), mode)
 
-from game import events
+from game import events #so that Images class can use loader.filepath()
 
 def loadEvents(filename):
     file = load(filename).readlines()
@@ -48,7 +39,6 @@ def loadEvents(filename):
     print("loaded " + str(len(all_events)) + " events")
     return all_events
 
-
 def loadDecisions(filename):
     file = load(filename).readlines()
     file = [line.rstrip().decode() for line in file]
@@ -68,7 +58,6 @@ def loadDecisions(filename):
         i += 1
     print("loaded " + str(len(all_decisions)) + " decisions")
     return all_decisions
-
 
 def loadDecision(file, i):
     line = file[i]

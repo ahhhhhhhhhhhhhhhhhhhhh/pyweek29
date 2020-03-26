@@ -25,3 +25,15 @@ A local crow has picked off several ants from your colony
 #baby boom
 Recent months have seen a small baby boom, with many more larvae than usual
 0, 10, 0
+
+#not bad
+Sometimes things just don't go wrong
+8, 9, 2
+
+#new tunnels
+Our workers rediscovered an old part of our colony. Turns out we had more space than we thought. It still had snacks!
+3, 0, 6
+
+#drones work
+The drones have been hard at work.
+-5, 8, 0

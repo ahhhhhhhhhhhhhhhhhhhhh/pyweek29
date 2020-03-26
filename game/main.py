@@ -1,11 +1,3 @@
-"""Game main module.
-
-Contains the entry point used by the run_game.py script.
-
-Feel free to put all your game code here, or in other modules in this "game"
-package.
-"""
-
 import pygame
 import pygame.freetype
 import os
@@ -19,9 +11,7 @@ from game import popups
 from game import Sound
 from game.resources import Resources
 
-
 width, height = [1280, 720]
-
 
 def main():
     pygame.init()
