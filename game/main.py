@@ -9,6 +9,7 @@ package.
 import pygame
 import pygame.freetype
 import os
+import random
 
 import pygame_gui
 
@@ -34,40 +35,6 @@ def main():
 
     manager = pygame_gui.UIManager((width, height), loader.filepath("theme.json"))
 
-    newspaper = popups.Newspaper(
-        "One Can Only Wonder Why There Would Be A Headline This Long, But Hopefully The System Can Handle It With Grace, Elegance, And Poise!",
-        "martian colonists have first child",
-        "war with catalan seems likely",
-        "local singer sings",
-    )
-
-    food = 50
-    population = 50
-    territory = 50
-
-    # creates the Resources object, which can be accessed from anywhere as Resources.instance
-    Resources(manager, food, population, territory)
-
-    all_events = loadEvents("events.txt")
-
-    all_decisions = loadDecisions("decisions.txt")
-
-    # dict of event names to event to easily reference events
-    find_event = {}
-    for event in all_events + all_decisions:
-        find_event[event.name] = event
-
-    event_queue = [
-        all_events[0],
-        find_event["plague"],
-        all_events[1],
-        find_event["protestor"],
-        newspaper,
-    ]
-
-    current_decision = event_queue.pop(0)
-    current_decision.ready()
-
     bg = pygame.image.load(loader.filepath("Queen's room.png"))
     bg = pygame.transform.scale(bg, (1280, 720))
     bg = bg.convert_alpha()
@@ -78,6 +45,57 @@ def main():
     sounds = Sound.Sound(manager, width, height)
     sounds.displayVolumeButton()
     sounds.playMusic()
+
+    normal_headlines = loader.loadHeadlines("headlines.txt")
+    headlines_queue = [] # list of tuples: (string of newspaper line, boolean is headline)
+    newspaper = popups.Newspaper(
+        getRandHeadline(normal_headlines),
+        getRandHeadline(normal_headlines),
+        getRandHeadline(normal_headlines),
+        getRandHeadline(normal_headlines)
+    )
+
+    food = 50
+    population = 50
+    territory = 50
+
+    # creates the Resources object, which can be accessed from anywhere as Resources.instance
+    Resources(manager, food, population, territory)
+
+    all_events = loader.loadEvents("events.txt")
+
+    all_decisions = loader.loadDecisions("decisions.txt")
+
+    decision_hooks = [decision for decision in all_decisions if decision.hook]
+
+    all_quests = loader.loadQuests("quests.txt")
+
+    quest_hooks = [quest for quest in all_quests if quest.decision.hook]
+
+    # dict of event names to event to easily reference events
+    find_event = {}
+    for event in all_events + all_decisions + all_quests:
+        find_event[event.name] = event
+
+    #manually inputting newspaper headlines
+    find_event["explore2"].newspaper_lines = [
+        "local grain silo infested with ants",
+        "local grain silo infested with ants", "_"
+    ]
+
+
+
+    event_queue = [
+        getRandDecision(all_decisions, decision_hooks),
+        getRandDecision(all_decisions, decision_hooks),
+        getRandElement(all_events),
+        getRandElement(quest_hooks),
+        getRandElement(all_events),
+        newspaper
+    ]
+
+    current_decision = event_queue.pop(0)
+    current_decision.ready()
 
     while True:
         time_delta = clock.tick(60) / 1000
@@ -107,77 +125,75 @@ def main():
         screen.blit(bg, (0, 0))
 
         if current_decision.display(time_delta):
+            if isinstance(current_decision, events.Quest):
+                print(current_decision.name)
+                if current_decision.chosen_line != "_":
+                    headlines_queue.append((current_decision.chosen_line, current_decision.is_headline))
+
             if current_decision.next_event != "_":
-                print(current_decision.next_event)
                 next_event = find_event[current_decision.next_event]
                 event_queue.append(next_event)
 
-            if len(event_queue) > 0:
-                current_decision = event_queue.pop(0)
+            current_decision = event_queue.pop(0)
+            current_decision.ready()
+
+            if isinstance(current_decision, popups.Newspaper):
+                while len(event_queue) < 5:
+                    rand = random.randrange(100)
+                    if rand < 60:
+                        event_queue.append(getRandDecision(all_decisions, decision_hooks))
+                    else:
+                        event_queue.append(getRandElement(all_events))
+
+                #event_queue.append(getRandElement(quest_hooks))
+
+                current_decision = generateNewspaper(headlines_queue, normal_headlines)
                 current_decision.ready()
-            else:
-                current_decision = events.NoDecision()
-                print("no more decisions")
+
+                event_queue.append(newspaper)
+                        
 
         manager.draw_ui(screen)
 
         pygame.display.flip()
 
+def getRandElement(lst):
+    return lst[random.randrange(0, len(lst))]
 
-def loadEvents(filename):
-    file = loader.load(filename).readlines()
-    file = [line.rstrip().decode() for line in file]
+# make sure all decisions get cycled through before repeats
+def getRandDecision(all_decisions, decision_hooks):
+    if len(decision_hooks) == 0:
+        decision_hooks = [decision for decision in all_decisions if decision.hook]
+    return decision_hooks.pop(random.randrange(0, len(decision_hooks)))
 
-    all_events = []
+def getRandHeadline(normal_headlines):
+    if len(normal_headlines) == 0:
+        normal_headlines = loader.loadHeadlines("headlines.txt")
+    return normal_headlines.pop(random.randrange(len(normal_headlines)))
 
-    i = 0
-    while i < len(file):
-        line = file[i]
-        if len(line) > 0 and line[0] == "#":
-            event = events.Event("".join(line[1:]))
-            event.text = file[i + 1]
-            event.impacts = [int(i) for i in file[i + 2].split(",")]
+def generateNewspaper(headlines_queue, normal_headlines):
+    if len(headlines_queue) > 0:
+        data = headlines_queue.pop(0)
+        if data[1]: # means queue fills headline
+            newspaper = popups.Newspaper(
+                data[0],
+                getRandHeadline(normal_headlines),
+                getRandHeadline(normal_headlines),
+                getRandHeadline(normal_headlines)
+            )
+        else:
+            newspaper = popups.Newspaper(
+                getRandHeadline(normal_headlines),
+                data[0],
+                getRandHeadline(normal_headlines),
+                getRandHeadline(normal_headlines)
+            )
+    else:
+       newspaper = popups.Newspaper(
+            getRandHeadline(normal_headlines),
+            getRandHeadline(normal_headlines),
+            getRandHeadline(normal_headlines),
+            getRandHeadline(normal_headlines)
+        )
 
-            all_events.append(event)
-
-            i += 2
-
-        i += 1
-    print("loaded " + str(len(all_events)) + " events")
-    return all_events
-
-
-def loadDecisions(filename):
-    file = loader.load(filename).readlines()
-    file = [line.rstrip().decode() for line in file]
-
-    all_decisions = []
-
-    i = 0
-    while i < len(file):
-        line = file[i]
-        if len(line) > 0 and line[0] == "#":
-            event = events.Decision("".join(line[1:]))
-            event.text = file[i + 1]
-
-            event.options = []
-            event.impacts = []
-            event.outcomes = []
-            event.leads_to = []
-
-            num_choices = int(file[i + 2])
-            for choice in range(num_choices):
-                event.options.append(file[i + 3 + choice * 4])
-                event.outcomes.append(file[i + 4 + choice * 4])
-                event.impacts.append(
-                    [int(i) for i in file[i + 5 + choice * 4].split(",")]
-                )
-                event.leads_to.append(file[i + 6 + choice * 4])
-
-            all_decisions.append(event)
-
-            i += 2 + num_choices * 4
-
-        i += 1
-    print("loaded " + str(len(all_decisions)) + " decisions")
-    return all_decisions
+    return newspaper
