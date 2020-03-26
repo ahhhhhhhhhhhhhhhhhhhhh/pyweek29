@@ -1,24 +1,27 @@
 import pygame
-
 import pygame_gui
+import game.loader as loader
 
 class Sound:
     def __init__(self, manager, width, height):
         self.manager = manager
         self.width = width
         self.height = height
-        self.sounds = [pygame.mixer.Sound("data/ButtonSound.wav"), pygame.mixer.Sound("data/NewsPaperMusic.wav")]
-        pygame.mixer.music.load("data/RepeatMusic.mp3")
-        pygame.mixer.music.set_volume(.5)
+        self.sounds = [pygame.mixer.Sound(loader.load("sound files/ButtonSound.wav")),
+                       pygame.mixer.Sound(loader.load("sound files/NewsPaperMusic.wav"))]
+        pygame.mixer.music.load(loader.filepath("sound files/RepeatMusic.mp3"))
         self.slidesDisplayed = False
+        self.musicVolume= .5
+        self.masterVolume = 1
+        pygame.mixer.music.set_volume(self.musicVolume)
         
     def displayVolumeSlides(self):
         self.musicSlide = pygame_gui.elements.ui_horizontal_slider.UIHorizontalSlider(
             pygame.Rect(self.width - 150, self.height - 20, 140, 15),
-            .5, [0,.5], self.manager, None, None, None)
+            self.musicVolume, [0,.5], self.manager, None, None, None)
         self.masterSoundSlide = pygame_gui.elements.ui_horizontal_slider.UIHorizontalSlider(
             pygame.Rect(self.width - 150, self.height - 80, 140, 15),
-            1, [0,1], self.manager, None, None, None)
+            self.masterVolume, [0,1], self.manager, None, None, None)
         self.musicSlideText = pygame_gui.elements.ui_text_box.UITextBox(
             manager=self.manager,
             relative_rect=pygame.Rect(self.width - 150, self.height - 60, 140, 40),
@@ -53,11 +56,11 @@ class Sound:
         pygame.mixer.music.play(-1)
 
     def updateVolume(self):
-        musicVolume = self.masterSoundSlide.get_current_value()*self.musicSlide.get_current_value()
-        pygame.mixer.music.set_volume(musicVolume)
-        masterVolume = self.masterSoundSlide.get_current_value()
+        self.musicVolume = self.masterSoundSlide.get_current_value()*self.musicSlide.get_current_value()
+        pygame.mixer.music.set_volume(self.musicVolume)
+        self.masterVolume = self.masterSoundSlide.get_current_value()
         for i in self.sounds:
-            pygame.mixer.Sound.set_volume(i, masterVolume)
+            pygame.mixer.Sound.set_volume(i, self.masterVolume)
 
     def playButtonSound(self):
         pygame.mixer.Sound.play(self.sounds[0])
