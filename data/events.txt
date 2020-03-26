@@ -35,5 +35,5 @@ Your workers rediscovered an old part of our colony. Turns out we had more space
 3, 0, 6
 
 #drones work
-The drones have been hard at work.
+The drones have been hard at work
 -5, 8, 0

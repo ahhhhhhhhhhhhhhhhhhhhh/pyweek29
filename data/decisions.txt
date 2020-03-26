@@ -114,3 +114,41 @@ Some of the new arrivals need to be nursed back to health, but all are eventuall
 -5, 10, 0
 _
 
+#religion-start
+true
+One of your workers starts preaching about an all powerful entity watching over us all
+3
+The only all powerful being around here is me
+Disappointing the newly pious, you begin suppressing this upstart ideology. They go on hunger strike
+9, 0, 0
+religion-suppressed1
+Let them have their beliefs
+I'm a Queen dammit, not the thought police. I couldn't care less what my employees do in their free time.
+0, 0, 0
+_
+Tell me more about these exciting ideas
+You convert the colony to Ant-imism. The new sense of unity between the worker ants raises productivity, although you do spend some food on ceremonies.
+-3, 5, 5
+_
+
+#religion-suppressed1
+false
+The new religious ants plead with you again to be able to practice freely. Will you let them?
+2
+Yes
+As a benevolent leader you concede. The happy ants have higher productivity
+2, 2, 2
+_
+No
+Seeing that this colony won't work for them, the religious ants leave
+-5, 0, 0
+religion-suppressed2
+
+#religion-suppressed2
+false
+The religious ants who left your colony steal some food on its way here
+1
+I suppose there is nothing we can do.
+This reverses the food gains from their hunger strike
+-9, 0, 0
+_
