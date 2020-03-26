@@ -9,3 +9,19 @@ Your scouts have found some new uninhabited land!
 #storm
 A particularly bad storm has flooded part of your colony, destroying homes and killing several workers
 0, -10, -5
+
+#mean child
+A bored child has started to hunt down your workers with a magnifying glass
+0, -3, 0
+
+#better farming
+A particularly bright worker has discovered a new way to farm more effeciently!
+10, 0, 0
+
+#crow
+A local crow has picked off several ants from your colony
+0, -4, 0
+
+#baby boom
+Recent months have seen a small baby boom, with many more larvae than usual
+0, 10, 0

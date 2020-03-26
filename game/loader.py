@@ -23,3 +23,102 @@ def load(filename, mode="rb"):
     "mode" is passed as the second arg to open().
     """
     return open(os.path.join(data_dir, filename), mode)
+
+from game import events
+
+def loadEvents(filename):
+    file = load(filename).readlines()
+    file = [line.rstrip().decode() for line in file]
+
+    all_events = []
+
+    i = 0
+    while i < len(file):
+        line = file[i]
+        if len(line) > 0 and line[0] == "#":
+            event = events.Event("".join(line[1:]))
+            event.text = file[i + 1]
+            event.impacts = [int(i) for i in file[i + 2].split(",")]
+
+            all_events.append(event)
+
+            i += 2
+
+        i += 1
+    print("loaded " + str(len(all_events)) + " events")
+    return all_events
+
+
+def loadDecisions(filename):
+    file = load(filename).readlines()
+    file = [line.rstrip().decode() for line in file]
+
+    all_decisions = []
+
+    i = 0
+    while i < len(file):
+        line = file[i]
+        if len(line) > 0 and line[0] == "#":
+            event = loadDecision(file, i)
+
+            all_decisions.append(event)
+
+            i += 3 + len(event.options) * 4
+
+        i += 1
+    print("loaded " + str(len(all_decisions)) + " decisions")
+    return all_decisions
+
+
+def loadDecision(file, i):
+    line = file[i]
+
+    event = events.Decision("".join(line[1:]))
+
+    event.hook = file[i + 1].lower() == "true"
+    
+    event.text = file[i + 2]
+
+    event.options = []
+    event.impacts = []
+    event.outcomes = []
+    event.leads_to = []
+
+    num_choices = int(file[i + 3])
+    for choice in range(num_choices):
+        event.options.append(file[i + 4 + choice * 4])
+        event.outcomes.append(file[i + 5 + choice * 4])
+        event.impacts.append(
+            [int(i) for i in file[i + 6 + choice * 4].split(",")]
+        )
+        event.leads_to.append(file[i + 7 + choice * 4])
+
+    return event
+
+def loadQuests(filename):
+    file = load(filename).readlines()
+    file = [line.rstrip().decode() for line in file]
+
+    all_quests = []
+
+    i = 0
+    while i < len(file):
+        line = file[i]
+        if len(line) > 0 and line[0] == "#":
+            quest = events.Quest("".join(line[1:]))
+
+            quest.decision = loadDecision(file, i)
+
+            all_quests.append(quest)
+
+            i += 3 + len(quest.decision.options) * 4
+
+        i += 1
+    print("loaded " + str(len(all_quests)) + " quests")
+    return all_quests
+
+def loadHeadlines(filename):
+    file = load(filename).readlines()
+    file = [line.rstrip().decode() for line in file]
+
+    return file

@@ -2,7 +2,7 @@ import pygame
 import pygame_gui
 
 from game.resources import Resources
-import game.loader as loader
+from game import loader
 from game import more_elements
 
 
@@ -89,6 +89,8 @@ class Decision:
     def __init__(self, name):
         self.name = name
 
+        self.hook = True # if decision is the beginning of a series of events/decisions
+
         self.text = "text"
         self.options = ["choice 1", "choice 2", "choice 3"]
         self.outcomes = ["this happened", "that happened", "something else"]
@@ -98,6 +100,7 @@ class Decision:
             [0, 0, 0],
         ]  # [food, population, territory]
         self.leads_to = ["_", "_", "_"]  # _ means no following event
+        self.next_event = "_"
 
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
@@ -180,10 +183,25 @@ class Decision:
         Resources.instance.territory += self.impacts[user_choice][2]
 
 
-# placeholder for when it runs out
-class NoDecision:
-    def display(self, _):
-        pass
+class Quest:
+	def __init__(self, name):
+		self.name = name
+		self.decision = Decision(name)
 
-    def process_events(self, _, sounds):
-        pass
+		self.prereqs = [0, 0, 0] # food, population, territory
+		self.newspaper_lines = ["_", "_", "_"] # line that gets put into the newspaper queue
+		self.is_headline = False # if newspaper line is meant to be headline
+
+		self.endgame_image = None
+
+	def ready(self):
+		self.decision.ready()
+
+	def display(self, time_delta):
+		return self.decision.display(time_delta)
+
+	def process_events(self, event, sounds):
+		self.decision.process_events(event, sounds)
+		self.finished = self.decision.finished
+		self.next_event = self.decision.next_event
+		self.chosen_line = self.newspaper_lines[self.decision.leads_to.index(self.decision.next_event)]

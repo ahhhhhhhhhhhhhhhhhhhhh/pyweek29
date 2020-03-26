@@ -1,0 +1,29 @@
+#explore
+true
+Your advisors think it would be a good idea to send out several ants as explorers, looking for new sources of food
+3
+That's a great idea! Send out as many explorers as possible!
+Several bold young workers leave the colony to explore
+0, -10, 0
+explore2
+Send out a few explorers, but keep most workers home
+Several bold young workers leave the colony to explore
+0, -3, 0
+explore2
+Not right now
+Your advisors are frustrated, but accept your decision
+0, 0, 0
+_
+
+#explore2
+false
+One of your explorers claims to have found a massive treasure trove of free food. Do you send more workers to retrive it?
+2
+Yes
+The explorer wasn't lying. Your workers bring back a seemingly endless supply of food. They say it was just sitting there, free to take in a giant metal tower
+40, 0, 0
+_
+No
+The explorer, as well as your advisors are quite perxplexed you don't take advantage of this opportunity
+0, 0, 0
+_
