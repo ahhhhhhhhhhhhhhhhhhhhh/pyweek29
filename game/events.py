@@ -16,6 +16,7 @@ class Images:
     button_ext_image = pygame.transform.scale(
         pygame.image.load(loader.filepath("ui_images/button_ext.png")), (300, 300)
     )
+    alone_button_image = pygame.transform.scale(pygame.image.load(loader.filepath('ui_images/alone-button.png')), (300, 100))
 
 
 def impacts_to_html(outcome):

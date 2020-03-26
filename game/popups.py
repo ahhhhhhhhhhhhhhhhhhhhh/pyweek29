@@ -112,11 +112,11 @@ class Newspaper:
             self.rotating = False
             button_background = pygame_gui.elements.ui_image.UIImage(
                 manager=self.manager,
-                relative_rect=pygame.Rect(490, 430, 300, 300),
-                image_surface=events.Images.button_scroll_image,
+                relative_rect=pygame.Rect(490, 640, 300, 300),
+                image_surface=events.Images.alone_button_image,
             )
             self.next_button = pygame_gui.elements.UIButton(
-                relative_rect=pygame.Rect(490, 630, 300, 50),
+                relative_rect=pygame.Rect(490, 650, 300, 50),
                 text="Next",
                 manager=self.manager,
             )
