@@ -15,7 +15,7 @@ A bored child has started to hunt down your workers with a magnifying glass
 0, -3, 0
 
 #better farming
-A particularly bright worker has discovered a new way to farm more effeciently!
+A particularly bright worker has discovered a new way to farm more efficiently!
 10, 0, 0
 
 #crow

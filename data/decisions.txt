@@ -103,7 +103,7 @@ _
 
 #refugees
 true
-A nearby ant hill was destroyed, and several dishevled survivors have made their way towards your colony. Do you accept them in?
+A nearby ant hill was destroyed, and several disheveled survivors have made their way towards your colony. Do you accept them in?
 2
 No, turn them away
 The refugee ants are disappointed, and wander away to continue searching for a new home

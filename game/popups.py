@@ -26,7 +26,8 @@ class Newspaper:
         newspaper = scale_image(newspaper, 4)
         newspaper = newspaper.convert_alpha()
 
-        messages = [mes.title() for mes in [message, *args]]
+        messages = [message, *args]
+        messages = [mes.title() if "'" not in mes else mes for mes in messages]
 
         self.font = pygame.freetype.Font(loader.filepath("lora/Lora-Bold.ttf"))
 
@@ -62,7 +63,7 @@ class Newspaper:
         for i in range(10, 50):
             t = textwrap.wrap(text, i)
             maxlen = max([len(line) for line in t])
-            font_size = 1.9 * (rect.width / maxlen)
+            font_size = 1.75 * (rect.width / maxlen)
             # print(f"{len(t)} lines at {font_size}")
             if font_size * 1.1 * len(t) > rect.height:
                 pass
