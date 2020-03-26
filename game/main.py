@@ -25,6 +25,7 @@ width, height = [1280, 720]
 def main():
     pygame.init()
     pygame.freetype.init()
+    pygame.mixer.init(buffer = 512)
 
     pygame.display.set_caption("Amazing Game 10/10")  # changes name of pygame window
 
