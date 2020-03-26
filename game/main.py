@@ -72,6 +72,13 @@ def main():
         "local grain silo infested with ants",
         "local grain silo infested with ants", "_"
     ]
+    find_event["explore3"].newspaper_lines = [
+        "farmers report a state-wide grain shortage, blame ants",
+        "farmers report a state-wide grain shortage, blame ants"
+    ]
+    find_event["explore4"].newspaper_lines = [
+        "experts say grain shortage key cause in lagging war effort"
+    ]
 
 
 
@@ -130,7 +137,7 @@ def main():
             if isinstance(current_decision, popups.Newspaper):
                 while len(event_queue) < 5:
                     rand = random.randrange(100)
-                    if rand < 60:
+                    if rand < 65:
                         event_queue.append(getRandDecision(all_decisions, decision_hooks))
                     else:
                         event_queue.append(getRandElement(all_events))

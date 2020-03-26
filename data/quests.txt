@@ -21,9 +21,31 @@ One of your explorers claims to have found a massive treasure trove of free food
 2
 Yes
 The explorer wasn't lying. Your workers bring back a seemingly endless supply of food. They say it was just sitting there, free to take in a giant metal tower
-40, 0, 0
-_
+30, 0, 0
+explore3
 No
 The explorer, as well as your advisors are quite perplexed you don't take advantage of this opportunity
 0, 0, 0
+_
+
+#explore3
+false
+Your advisors have suggested searching for more metal towers of food. It seems to good an opportunity to pass up.
+2
+Yes, we should transfer most of our workers from farming to exploring and moving this grain back to our colony
+Your ants fan out accross the countryside, bringing back as much grain as your colony can consume
+40, 0, 0
+explore4
+Continue exploring and shuttling back grain, but keep most of our workers farming at home
+The metal towers continue to supply a seemingly infinite supply of food for your colony
+20, 0, 0
+explore4
+
+#explore4
+false
+Your explorers continue to find more grain towers, and your workers bring back a steady surplus of food
+1
+Excellent
+Your colony is extremely well fed
+20, 0, 0
 _

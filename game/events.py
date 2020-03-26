@@ -220,4 +220,6 @@ class Quest:
 		self.decision.process_events(event, sounds)
 		self.finished = self.decision.finished
 		self.next_event = self.decision.next_event
-		self.chosen_line = self.newspaper_lines[self.decision.leads_to.index(self.decision.next_event)]
+
+		if self.next_event in self.decision.leads_to: # prevents an error when all of a quest's options leads to another event
+			self.chosen_line = self.newspaper_lines[self.decision.leads_to.index(self.next_event)]

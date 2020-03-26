@@ -64,11 +64,11 @@ Your scouts find an injured grasshopper in your territory. Do you help heal it o
 2
 Heal it
 The grasshopper gives you a gift of 20 food
-20, 0, 0
+10, 0, 0
 _
 Kill it
 The grasshopper escapes from your ants and attacks the colony, killing many.
-0, -20, 0
+0, -15, 0
 _
 
 #plague
@@ -129,7 +129,7 @@ _
 Tell me more about these exciting ideas
 You convert the colony to Ant-imism. The new sense of unity between the worker ants raises productivity, although you do spend some food on ceremonies.
 -3, 5, 5
-_
+religion-adopted1
 
 #religion-suppressed1
 false
@@ -137,18 +137,52 @@ The new religious ants plead with you again to be able to practice freely. Will 
 2
 Yes
 As a benevolent leader you concede. The happy ants have higher productivity
-2, 2, 2
+4, 0, 2
 _
 No
 Seeing that this colony won't work for them, the religious ants leave
--5, 0, 0
+0, -5, 0
 religion-suppressed2
 
 #religion-suppressed2
 false
-The religious ants who left your colony steal some food on its way here
-1
-I suppose there is nothing we can do.
-This reverses the food gains from their hunger strike
--9, 0, 0
+You have discovered that the religious ants who left your colony recently are camping out on the edge of your territory. What should we do?
+3
+Demand that they leave the area
+The religious group seem to leave, but they stay in the area, launching a guerrilla war campaign against you. They attack at random, stealing food and destroying homes
+-10, 0, -4
+_
+Attack them as an example to all other ants considering disloyalty
+You succeed in destroying the small religious band, but the fight was fierce and many lives were lost.
+0, -8, 0
+_
+Leave them alone
+The small religious group only stay in your territory for a short time before leaving to find a permanent home
+0, 0, 0
+_
+
+#religion-adopted1
+false
+The new head priest of Ant-imism comes to you, requesting that all workers be given time off to celebrate religious holidays, such as Ant-oween
+2
+Yes, fine
+Workers are happy to have a break, and colony morale is high
+-4, 6, 0
+religion-adopted2
+No, that would kill productivity
+The head priest stages a strike on Ant-oween, and fights break out all over the colony
+-7, -3, 0
+religion-adopted2
+
+#religion-adopted2
+false
+The head priest of Ant-imism has become more and more popular recently, and some are saying his authority rivals your own. What should you do?
+2
+Expell the head priest and his most loyal followers from the colony
+Many of your workers chose to leave with the priest, and the remaining ants are unhappy
+-4, -25, 0
+_
+Give the head priest an official role
+The head priest is pleased by your symbolic action, and you work together to make the colony happier and more productive
+12, 7, 9
 _
