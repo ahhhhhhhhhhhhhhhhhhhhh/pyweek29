@@ -187,5 +187,5 @@ class NoDecision:
     def display(self, _):
         pass
 
-    def process_events(self, _):
+    def process_events(self, _, sounds):
         pass
