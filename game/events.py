@@ -13,6 +13,9 @@ class Images:
     button_scroll_image = pygame.transform.scale(
         pygame.image.load(loader.filepath("button.png")), (300, 300)
     )
+    button_ext_image = pygame.transform.scale(
+        pygame.image.load(loader.filepath("button_ext.png")), (300, 300)
+    )
 
 
 def impacts_to_html(outcome):
@@ -39,7 +42,12 @@ class Event:
 
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
-
+        
+        self.button_ext_background = pygame_gui.elements.ui_image.UIImage(
+            manager=self.manager,
+            relative_rect=pygame.Rect(50, 150, 300, 300),
+            image_surface=Images.button_ext_image,
+        )
         self.button_background = pygame_gui.elements.ui_image.UIImage(
             manager=self.manager,
             relative_rect=pygame.Rect(50, 200, 300, 300),
@@ -47,7 +55,7 @@ class Event:
         )
         self.background_image = pygame_gui.elements.ui_image.UIImage(
             manager=self.manager,
-            relative_rect=pygame.Rect(0, 150, 400, 300),
+            relative_rect=pygame.Rect(15, 150, 400, 300),
             image_surface=Images.scroll_image,
         )
 
@@ -102,6 +110,11 @@ class Decision:
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
         
+        self.button_ext_background = pygame_gui.elements.ui_image.UIImage(
+            manager=self.manager,
+            relative_rect=pygame.Rect(50, 150, 300, 300),
+            image_surface=Images.button_ext_image,
+        )
         self.button_background = pygame_gui.elements.ui_image.UIImage(
             manager=self.manager,
             relative_rect=pygame.Rect(50, 150 + len(self.options) * 50, 300, 300),
@@ -109,7 +122,7 @@ class Decision:
         )
         self.background_image = pygame_gui.elements.ui_image.UIImage(
             manager=self.manager,
-            relative_rect=pygame.Rect(0, 150, 400, 300),
+            relative_rect=pygame.Rect(15, 150, 400, 300),
             image_surface=Images.scroll_image,
         )
         self.textbox = pygame_gui.elements.ui_text_box.UITextBox(
