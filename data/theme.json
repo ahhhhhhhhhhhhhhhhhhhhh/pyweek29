@@ -53,8 +53,8 @@
   },
   "food_display": {
     "colours": {
-      "dark_bg": "#00AA0040",
-      "normal_text": "#00FF00"
+      "dark_bg": "#AAAA0040",
+      "normal_text": "#FFFF00"
     },
     "font": {
       "name": "fira_code",
@@ -63,8 +63,8 @@
   },
   "population_display": {
     "colours": {
-      "dark_bg": "#AA000040",
-      "normal_text": "#FF0000"
+      "dark_bg": "#AA00AA40",
+      "normal_text": "#FF00FF"
     },
     "font": {
       "name": "fira_code",
@@ -73,8 +73,8 @@
   },
   "territory_display": {
     "colours": {
-      "dark_bg": "#0000AA40",
-      "normal_text": "#0000FF"
+      "dark_bg": "#00AAAA40",
+      "normal_text": "#00FFFF"
     },
     "font": {
       "name": "fira_code",

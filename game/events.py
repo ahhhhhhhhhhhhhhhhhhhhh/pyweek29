@@ -20,15 +20,17 @@ class Images:
 
 
 def impacts_to_html(outcome):
+    orig_outcome = outcome
     outcome = [str(i) for i in outcome]
     outcome = ["+"+i if int(i) > 0 else i for i in outcome]
+    outcome = [f"<font color='#FF0000'>{i}</font>" if int(i) < 0 else f"<font color='#00FF00'>{i}</font>" for i in outcome]
     out = ""
-    if outcome[0] != "0":
-        out += f"<br><font color='#00FF00'>{outcome[0]} food</font>"
-    if outcome[1] != "0":
-        out += f"<br><font color='#FF0000'>{outcome[1]} population</font>"
-    if outcome[2] != "0":
-        out += f"<br><font color='#0000FF'>{outcome[2]} territory</font>"
+    if orig_outcome[0] != 0:
+        out += f"<br>{outcome[0]} <font color='#FFFF00'>food</font>"
+    if orig_outcome[1] != 0:
+        out += f"<br>{outcome[1]} <font color='#FF00FF'>population</font>"
+    if orig_outcome[2] != 0:
+        out += f"<br>{outcome[2]} <font color='#00FFFF'>territory</font>"
     return out
 
 
