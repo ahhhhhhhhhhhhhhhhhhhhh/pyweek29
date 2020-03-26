@@ -11,7 +11,7 @@ A particularly bad storm has flooded part of your colony, destroying homes and k
 0, -10, -5
 
 #mean child
-A bored child has started to hunt down your workers with a magnifying glass
+A bored human child has started to hunt down your workers with a magnifying glass
 0, -3, 0
 
 #better farming
@@ -31,7 +31,7 @@ Sometimes things just don't go wrong
 8, 9, 2
 
 #new tunnels
-Our workers rediscovered an old part of our colony. Turns out we had more space than we thought. It still had snacks!
+Your workers rediscovered an old part of our colony. Turns out we had more space than we thought. It still had snacks!
 3, 0, 6
 
 #drones work

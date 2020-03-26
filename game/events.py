@@ -69,7 +69,7 @@ class Event:
         )
 
         self.next_button = pygame_gui.elements.UIButton(
-            relative_rect=pygame.Rect(50, 400, 300, 50),
+            relative_rect=pygame.Rect(50, 400, 300, 40),
             text="Next",
             manager=self.manager,
         )
@@ -182,7 +182,7 @@ class Decision:
                     )
 
                     self.next_button = pygame_gui.elements.UIButton(
-                        relative_rect=pygame.Rect(50, 400, 300, 50),
+                        relative_rect=pygame.Rect(50, 400, 300, 40),
                         text="Next",
                         manager=self.manager,
                     )

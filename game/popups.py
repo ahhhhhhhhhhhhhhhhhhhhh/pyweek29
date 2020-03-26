@@ -117,7 +117,7 @@ class Newspaper:
                 image_surface=events.Images.alone_button_image,
             )
             self.next_button = pygame_gui.elements.UIButton(
-                relative_rect=pygame.Rect(490, 650, 300, 50),
+                relative_rect=pygame.Rect(490, 656, 300, 40),
                 text="Next",
                 manager=self.manager,
             )
