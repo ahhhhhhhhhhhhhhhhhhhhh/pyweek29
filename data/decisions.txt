@@ -63,12 +63,47 @@ true
 Your scouts find an injured grasshopper in your territory. Do you help heal it or kill it?
 2
 Heal it
-The grasshopper gives you a gift of 20 food
+The grasshopper gives you a gift of food
 10, 0, 0
 _
 Kill it
 The grasshopper escapes from your ants and attacks the colony, killing many.
 0, -15, 0
+_
+
+#grasshopper variation2
+true
+Your scouts find an injured grasshopper in your territory. Do you help heal it or kill it?
+2
+Heal it
+The ungrateful grasshopper hops off without so much as a thanks after you nurse it back to health
+-5, 0, 0
+_
+Kill it
+The grasshopper doesn't put up much of a fight in its current condition.
+10, 0, 0
+_
+
+#grasshopper variation3
+true
+Your scouts find an injured grasshopper in your territory. Do you help heal it or kill it?
+2
+Heal it
+The grasshopper gives you a gift of food
+10, 0, 0
+grasshopper variation3end
+Kill it
+The grasshopper escapes from your ants and rampages through the colony, killing many and destroying supplies.
+-10, -15, 0
+_
+
+#grasshopper grateful-var3
+false
+The grasshopper you healed earlier spots some old ant tunnels that you can use
+1
+Great!
+The grasshopper shows you where they are
+0, 0, 10
 _
 
 #plague
