@@ -8,13 +8,13 @@ from game import more_elements
 
 class Images:
     scroll_image = pygame.transform.scale(
-        pygame.image.load(loader.filepath("scroll.png")), (400, 300)
+        pygame.image.load(loader.filepath("ui_images/scroll.png")), (400, 300)
     )
     button_scroll_image = pygame.transform.scale(
-        pygame.image.load(loader.filepath("button.png")), (300, 300)
+        pygame.image.load(loader.filepath("ui_images/button.png")), (300, 300)
     )
     button_ext_image = pygame.transform.scale(
-        pygame.image.load(loader.filepath("button_ext.png")), (300, 300)
+        pygame.image.load(loader.filepath("ui_images/button_ext.png")), (300, 300)
     )
 
 
