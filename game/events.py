@@ -8,7 +8,7 @@ from game import more_elements
 
 class Images:
     scroll_image = pygame.transform.scale(
-        pygame.image.load(loader.filepath("ui_images/scroll.png")), (400, 300)
+        pygame.image.load(loader.filepath("ui_images/scroll004.png")), (400, 300)
     )
     button_scroll_image = pygame.transform.scale(
         pygame.image.load(loader.filepath("ui_images/button.png")), (300, 300)
@@ -81,14 +81,14 @@ class Event:
         self.textbox = pygame_gui.elements.ui_text_box.UITextBox(
             manager=self.manager,
             relative_rect=pygame.Rect(50, 175, 300, 200),
-            html_text=self.text,
+            html_text=self.text + html,
         )
         
-        self.effect_textbox = pygame_gui.elements.ui_text_box.UITextBox(
-            manager=self.manager,
-            relative_rect=pygame.Rect(50, 275, 300, 200),
-            html_text=html,
-        )
+        # self.effect_textbox = pygame_gui.elements.ui_text_box.UITextBox(
+        #     manager=self.manager,
+        #     relative_rect=pygame.Rect(50, 275, 300, 200),
+        #     html_text=html,
+        # )
          
 
         self.next_button = pygame_gui.elements.UIButton(
