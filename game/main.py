@@ -50,7 +50,7 @@ def main():
     territory = 50
 
     # creates the Resources object, which can be accessed from anywhere as Resources.instance
-    Resources(manager, food, population, territory)
+    Resources(food, population, territory)
 
     all_events = loader.loadEvents("events.txt")
 
@@ -92,6 +92,7 @@ def main():
     ]
 
     current_decision = event_queue.pop(0)
+    #current_decision = popups.EndScreen() #Uncomment start of line to test endgame object
     current_decision.ready()
 
     event_num = 0 # number of events processed
@@ -116,12 +117,16 @@ def main():
                 pass
 
             manager.process_events(event)
+            Resources.instance.manager.process_events(event)
             current_decision.process_events(event, sounds)
 
         manager.update(time_delta)
+        Resources.instance.manager.update(time_delta)
 
         screen.blit(town_im, (788, 8))
         screen.blit(bg, (0, 0))
+
+        Resources.instance.manager.draw_ui(screen)
 
         if current_decision.display(time_delta):
             event_num += 1
