@@ -4,6 +4,7 @@ import pygame_gui
 from game.resources import Resources
 from game import loader
 from game import more_elements
+from game.popups import scale_image
 
 
 class Images:
@@ -28,6 +29,19 @@ class Images:
     territory_icon = pygame.transform.scale(
         pygame.image.load(loader.filepath("territory_icon.png")), (40, 40)
     )
+
+
+class Icons:
+    names = ["advisor", "bee", "beetle", "cockroach", "explorer", "worker", "soldier"]
+    images = {}
+
+    for name in names:
+        images[name] = scale_image(pygame.image.load(loader.filepath(f"advisors/{name}.png")), 4)
+
+    @staticmethod
+    def get_image(name):
+        return Icons.images[name]
+    
 
 
 def impacts_to_html(outcome):
@@ -62,6 +76,7 @@ class Event:
         self.impacts = [0, 0, 0]  # food, population, territory
 
         self.next_event = "_"  # needed for common interface with decisions
+        self.advisor_name = "advisor"
 
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
@@ -81,6 +96,11 @@ class Event:
             manager=self.manager,
             relative_rect=pygame.Rect(15, 150, 400, 300),
             image_surface=Images.scroll_image,
+        )
+        self.advisor_image = pygame_gui.elements.UIImage(
+            manager=self.manager,
+            relative_rect = pygame.Rect(180, 145, 40, 40),
+            image_surface=Icons.get_image(self.advisor_name),
         )
 
         self._ready()

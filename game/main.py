@@ -87,6 +87,23 @@ def main():
         "experts say grain shortage key cause in lagging war effort"
     ]
 
+    # manually inputting advisor icons
+    # decisions
+    find_event["war"].advisor_name = "soldier"
+    find_event["new land"].advisor_name = "explorer"
+    find_event["storm"].advisor_name = "worker"
+    find_event["refugees"].advisor_name = "explorer"
+    find_event["grasshopper"].advisor_name = "explorer"
+    find_event["grasshopper variation2"].advisor_name = "explorer"
+    find_event["grasshopper variation3"].advisor_name = "explorer"
+    # events
+    find_event["new tunnels"].advisor_name = "worker"
+    # quests
+    find_event["explore"].advisor_name = "explorer"
+    find_event["explore2"].advisor_name = "explorer"
+    find_event["explore3"].advisor_name = "explorer"
+    find_event["explore4"].advisor_name = "explorer"
+
     event_queue = [
         getRandDecision(all_decisions, decision_hooks),
         getRandDecision(all_decisions, decision_hooks),
