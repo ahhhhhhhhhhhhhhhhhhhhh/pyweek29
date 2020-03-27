@@ -72,7 +72,8 @@ def main():
     find_event = {}
     for event in all_events + all_decisions + all_quests:
         find_event[event.name] = event
-
+    
+    
     # manually inputting newspaper headlines
     find_event["explore2"].newspaper_lines = [
         "local grain silo infested with ants",
@@ -86,6 +87,28 @@ def main():
     find_event["explore4"].newspaper_lines = [
         "experts say grain shortage key cause in lagging war effort"
     ]
+    
+    find_event["radioactive-explore"].newspaper_lines = [
+        "nuclear power plant infested with ants",
+        "scientists worry about enviromental impact of local nuclear plant",
+    ]
+    find_event["radioactive-ant"].newspaper_lines = [
+        "reports of abnormally large ants scare residents",
+        "_"
+    ]
+    find_event["democracy3"].newspaper_lines = [
+        "_",
+        "_",
+        "scientist discovers ant colony with democratic society",
+    ]
+    find_event["democracy4"].newspaper_lines = [
+        "_",
+        "_",
+        "'even ants can do it', a book written by steven herald, the discoverer of ant democracy",
+    ]
+    
+    
+    
 
     # manually inputting advisor icons
     # decisions
@@ -95,7 +118,6 @@ def main():
     find_event["refugees"].advisor_name = "explorer"
     find_event["grasshopper"].advisor_name = "explorer"
     find_event["grasshopper variation2"].advisor_name = "explorer"
-    find_event["grasshopper variation3"].advisor_name = "explorer"
     # events
     find_event["new tunnels"].advisor_name = "worker"
     # quests
@@ -103,7 +125,13 @@ def main():
     find_event["explore2"].advisor_name = "explorer"
     find_event["explore3"].advisor_name = "explorer"
     find_event["explore4"].advisor_name = "explorer"
-
+    
+    find_event["radioactive-discover"].advisor_name = "explorer"
+    find_event["radioactive-wait"].advisor_name = "explorer"
+    find_event["radioactive-explore"].advisor_name = "explorer"
+    find_event["radioactive-ant"].advisor_name = "explorer"
+    
+    
     event_queue = [
         getRandDecision(all_decisions, decision_hooks),
         getRandDecision(all_decisions, decision_hooks),
@@ -159,9 +187,14 @@ def main():
                     headlines_queue.append(
                         (current_decision.chosen_line, current_decision.is_headline)
                     )
-
-            if current_decision.next_event != "_":
-                next_event = find_event[current_decision.next_event]
+            
+            next_event_name = current_decision.next_event
+            if current_decision.next_event.count(',') > 0:
+                next_event_name = random.choice(current_decision.next_event.split(','))
+            print (next_event_name)
+            if next_event_name != "_":
+                next_event = find_event[next_event_name]
+                print(next_event.name)
                 event_queue.append(next_event)
 
             if (
