@@ -18,18 +18,26 @@ def main():
     pygame.freetype.init()
     pygame.mixer.init(buffer = 512)
 
-    pygame.display.set_caption("Amazing Game 10/10")  # changes name of pygame window
+    pygame.display.set_caption("Queen of the Hill")  # changes name of pygame window
 
     screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
 
     manager = pygame_gui.UIManager((width, height), loader.filepath("theme.json"))
 
-    bg = pygame.image.load(loader.filepath("Queen's room.png"))
-    bg = pygame.transform.scale(bg, (1280, 720))
-    bg = bg.convert_alpha()
+    backgrounds = []
+    for i in range(1, 18):
+        im = pygame.image.load(loader.filepath(f"queen_animation/QR{i}.png"))
+        im = pygame.transform.scale(im, (1280, 720))
+        im.set_colorkey((167, 255, 255))
+        im = im.convert_alpha()
+        backgrounds.append(im)
 
-    town_im = pygame.Surface((320, 184))  # placeholder for now
+    bg_flip_time = 0.1
+    bg_pos = 0
+    bg_current_time = 0
+
+    town_im = pygame.Surface((260, 172))  # placeholder for now
     town_im.fill((230, 30, 70))
 
     sounds = Sound.Sound(manager, width, height)
@@ -123,8 +131,15 @@ def main():
         manager.update(time_delta)
         Resources.instance.manager.update(time_delta)
 
-        screen.blit(town_im, (788, 8))
-        screen.blit(bg, (0, 0))
+        screen.blit(town_im, (928, 52))
+        
+        bg_current_time += time_delta
+        if bg_current_time > bg_flip_time:
+            bg_current_time = 0
+            bg_pos += 1
+            bg_pos %= len(backgrounds)
+
+        screen.blit(backgrounds[bg_pos], (0, 0))
 
         Resources.instance.manager.draw_ui(screen)
 
