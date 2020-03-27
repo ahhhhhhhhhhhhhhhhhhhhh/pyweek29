@@ -17,6 +17,16 @@ class Images:
         pygame.image.load(loader.filepath("ui_images/button_ext.png")), (300, 300)
     )
     alone_button_image = pygame.transform.scale(pygame.image.load(loader.filepath('ui_images/alone-button.png')), (300, 100))
+    food_icon = pygame.transform.scale(
+        pygame.image.load(loader.filepath("food_icon.png")), (40, 40)
+    )
+    pop_icon = pygame.transform.scale(
+        pygame.image.load(loader.filepath("pop_icon.png")), (40, 40)
+    )
+    territory_icon = pygame.transform.scale(
+        pygame.image.load(loader.filepath("territory_icon.png")), (40, 40)
+    )
+    
 
 
 def impacts_to_html(outcome):
@@ -25,13 +35,17 @@ def impacts_to_html(outcome):
     outcome = ["+"+i if int(i) > 0 else i for i in outcome]
     outcome = [f"<font color='#FF0000'>{i}</font>" if int(i) < 0 else f"<font color='#00FF00'>{i}</font>" for i in outcome]
     out = ""
+    icons = []
     if orig_outcome[0] != 0:
         out += f"<br>{outcome[0]} <font color='#FFFF00'>food</font>"
+        icons.append(Images.food_icon)
     if orig_outcome[1] != 0:
         out += f"<br>{outcome[1]} <font color='#FF00FF'>population</font>"
+        icons.append(Images.pop_icon)
     if orig_outcome[2] != 0:
         out += f"<br>{outcome[2]} <font color='#00FFFF'>territory</font>"
-    return out
+        icons.append(Images.territory_icon)
+    return out, icons
 
 
 class Event:
@@ -45,6 +59,8 @@ class Event:
 
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
+        
+        html, icons = impacts_to_html(self.impacts)
         
         self.button_ext_background = pygame_gui.elements.ui_image.UIImage(
             manager=self.manager,
@@ -64,9 +80,16 @@ class Event:
 
         self.textbox = pygame_gui.elements.ui_text_box.UITextBox(
             manager=self.manager,
-            relative_rect=pygame.Rect(50, 200, 300, 200),
-            html_text=self.text + impacts_to_html(self.impacts),
+            relative_rect=pygame.Rect(50, 175, 300, 200),
+            html_text=self.text,
         )
+        
+        self.effect_textbox = pygame_gui.elements.ui_text_box.UITextBox(
+            manager=self.manager,
+            relative_rect=pygame.Rect(50, 275, 300, 200),
+            html_text=html,
+        )
+         
 
         self.next_button = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect(50, 400, 300, 40),
@@ -133,7 +156,7 @@ class Decision:
         )
         self.textbox = pygame_gui.elements.ui_text_box.UITextBox(
             manager=self.manager,
-            relative_rect=pygame.Rect(50, 200, 300, 200),
+            relative_rect=pygame.Rect(50, 175, 300, 200),
             html_text=self.text,
         )
 
@@ -169,7 +192,8 @@ class Decision:
                     user_choice = self.decision_buttons.index(event.ui_element)
 
                     self.textbox.html_text = self.outcomes[user_choice]
-                    self.textbox.html_text += impacts_to_html(self.impacts[user_choice])
+                    html, icons = impacts_to_html(self.impacts[user_choice])
+                    self.textbox.html_text += html
                     self.textbox.rebuild()
 
                     self._update_resources(user_choice)
