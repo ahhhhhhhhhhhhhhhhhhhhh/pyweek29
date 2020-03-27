@@ -37,3 +37,7 @@ Your workers rediscovered an old part of our colony. Turns out we had more space
 #drones work
 The drones have been hard at work
 -5, 8, 0
+
+#sandwich
+A glutinous mass between two slices of bread has landed outside our colony. Dig in!
+12, 0, 0

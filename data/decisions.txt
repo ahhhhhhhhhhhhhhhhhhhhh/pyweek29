@@ -68,7 +68,7 @@ The grasshopper gives you a gift of food
 _
 Kill it
 The grasshopper escapes from your ants and attacks the colony, killing many.
-0, -15, 0
+5, -15, 0
 _
 
 #grasshopper variation2
@@ -94,7 +94,7 @@ The grasshopper gives you a gift of food
 grasshopper grateful-var3
 Kill it
 The grasshopper escapes from your ants and rampages through the colony, killing many and destroying supplies.
--10, -15, 0
+-5, -15, 0
 _
 
 #grasshopper grateful-var3
@@ -120,7 +120,7 @@ The illness spreads faster than you could have predicted, and your quarantine is
 plague2
 Lock down the whole colony until the sickness is gone
 Some productivity is lost, but the illness doesn't spread
--5, 0, 0
+-5, -1, 0
 _
 
 #plague2
@@ -222,9 +222,35 @@ The head priest is pleased by your symbolic gesture, and you work together to ma
 12, 7, 9
 _
 
+#bee merchant
+true
+A bee merchant has come to your colony to hawk their wares. What shall you do?
+4
+Buy the location of some prime territory for 5 food.
+From the air, this bee found some good spots for ants.
+0,0,13
+_
+Lend some workers to the bee's home colony to help with remodeling in return for a food reward.
+The bee departs with some workers, promising to be back later with 20 food.
+0,-5,0
+bee merchant returns
+We're not interested in any trades today.
+The bee moves on.
+0,0,0
+_
+Kill it.
+The bee was pretty easy to take down, and it had lots of supplies.
+17,-1,0
+_
 
-
-
+#bee merchant returns
+false
+The bee merchant you lent some workers to is back with your workers and your reward.
+1
+Excellent
+The bee hands them over.
+20,5,0
+_
 
 
 ----------------RESOURCE CONTROL DECISIONS----------------

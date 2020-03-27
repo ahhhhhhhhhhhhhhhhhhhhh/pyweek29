@@ -178,6 +178,9 @@ class Decision(Event):
         self.button_background.set_position(
             pygame.Rect(50, cumulative_height - 250, 300, 300)
         )
+        self.button_ext_background.set_position(
+            pygame.Rect(50, max(cumulative_height - 550, 150), 300, 300)
+        )
 
         self.next_button = None
 

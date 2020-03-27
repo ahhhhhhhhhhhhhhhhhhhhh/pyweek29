@@ -96,6 +96,8 @@ def main():
     find_event["grasshopper"].advisor_name = "explorer"
     find_event["grasshopper variation2"].advisor_name = "explorer"
     find_event["grasshopper variation3"].advisor_name = "explorer"
+    find_event["bee merchant"].advisor_name = "bee"
+    find_event["bee merchant returns"].advisor_name = "bee"
     # events
     find_event["new tunnels"].advisor_name = "worker"
     # quests
