@@ -114,13 +114,12 @@ class Event:
 
         return self.finished
 
-    def process_events(self, event, sounds):
+    def process_events(self, event):
         self.manager.process_events(event)
 
         if event.type == pygame.USEREVENT:
             if event.user_type == "ui_button_pressed":
                 if event.ui_element == self.next_button:
-                    sounds.playButtonSound()
                     self.finished = True
 
 
@@ -189,13 +188,12 @@ class Decision:
         self.manager.draw_ui(pygame.display.get_surface())
         return self.finished
 
-    def process_events(self, event, sounds):
+    def process_events(self, event):
         self.manager.process_events(event)
 
         if event.type == pygame.USEREVENT:
             if event.user_type == "ui_button_pressed":
                 if event.ui_element in self.decision_buttons:
-                    sounds.playButtonSound()
                     user_choice = self.decision_buttons.index(event.ui_element)
 
                     self.textbox.html_text = self.outcomes[user_choice]
@@ -221,7 +219,6 @@ class Decision:
                     self.next_event = self.leads_to[user_choice]
 
                 if event.ui_element == self.next_button:
-                    sounds.playButtonSound()
                     self.finished = True
 
     def _update_resources(self, user_choice):
@@ -251,8 +248,8 @@ class Quest:
     def display(self, time_delta):
         return self.decision.display(time_delta)
 
-    def process_events(self, event, sounds):
-        self.decision.process_events(event, sounds)
+    def process_events(self, event):
+        self.decision.process_events(event)
         self.finished = self.decision.finished
         self.next_event = self.decision.next_event
 

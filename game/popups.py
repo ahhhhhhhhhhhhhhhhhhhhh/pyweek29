@@ -7,6 +7,7 @@ import pygame_gui
 
 from game import loader
 from game import events
+from game.sound import SoundManager
 
 
 def scale_image(image, scalar):
@@ -136,17 +137,16 @@ class Newspaper:
 
         return self.finished
 
-    def process_events(self, event, sounds):
+    def process_events(self, event):
         self.manager.process_events(event)
 
         if self.playSound == False:
-            sounds.playNewspaperSound()
+            SoundManager.instance.playNewspaperSound()
             self.playSound = True
 
         if event.type == pygame.USEREVENT:
             if event.user_type == "ui_button_pressed":
                 if event.ui_element == self.next_button:
-                    sounds.playButtonSound()
                     self.finished = True
 
 
@@ -199,7 +199,7 @@ class EndScreen:
         self.manager.update(time_delta)
         self.manager.draw_ui(pygame.display.get_surface())
 
-    def process_events(self, event, sounds):
+    def process_events(self, event):
         self.manager.process_events(event)
 
         if event.type == pygame.USEREVENT:

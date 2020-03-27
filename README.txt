@@ -1,4 +1,4 @@
-Pending Game Title
+Queen of the Hill
 ===============
 
 Entry in PyWeek #29 <http://www.pyweek.org/29/>
