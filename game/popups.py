@@ -154,20 +154,19 @@ class EndScreen:
     def __init__(self):
         self.overlay_surf = pygame.Surface((1280, 720))
         self.overlay_surf.convert_alpha()
-        self.overlay_surf.fill((255,255,255))
+        self.overlay_surf.fill((255, 255, 255))
         self.overlay_surf.set_alpha(0)
 
         self.elapsed_time = 0
         self.ui_created = False
         self.end_button = None
 
-        self.message = "" #set by code that calls this
+        self.message = ""  # set by code that calls this
         # "Thanks to the efforts of a humble ant colony: history is altered"
-      
+
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
 
-        
     def display(self, time_delta):
         screen = pygame.display.get_surface()
 
@@ -181,7 +180,7 @@ class EndScreen:
                 manager=self.manager,
                 relative_rect=pygame.Rect(440, 90, 400, 100),
                 text="You did it!",
-                object_id="endgame_large"
+                object_id="endgame_large",
             )
             pygame_gui.elements.UITextBox(
                 manager=self.manager,
@@ -191,16 +190,15 @@ class EndScreen:
             self.end_button = pygame_gui.elements.UIButton(
                 manager=self.manager,
                 relative_rect=pygame.Rect(490, 500, 300, 40),
-                text="End Game"
+                text="End Game",
             )
             self.ui_created = True
-            
-        
-        screen.blit(self.overlay_surf, (0,0))
+
+        screen.blit(self.overlay_surf, (0, 0))
 
         self.manager.update(time_delta)
         self.manager.draw_ui(pygame.display.get_surface())
-        
+
     def process_events(self, event, sounds):
         self.manager.process_events(event)
 
@@ -210,6 +208,3 @@ class EndScreen:
                     sounds.playButtonSound()
                     pygame.quit()
                     raise SystemExit
-        
-     
-    

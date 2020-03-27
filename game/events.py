@@ -16,7 +16,9 @@ class Images:
     button_ext_image = pygame.transform.scale(
         pygame.image.load(loader.filepath("ui_images/button_ext.png")), (300, 300)
     )
-    alone_button_image = pygame.transform.scale(pygame.image.load(loader.filepath('ui_images/alone-button.png')), (300, 100))
+    alone_button_image = pygame.transform.scale(
+        pygame.image.load(loader.filepath("ui_images/alone-button.png")), (300, 100)
+    )
     food_icon = pygame.transform.scale(
         pygame.image.load(loader.filepath("food_icon.png")), (40, 40)
     )
@@ -26,14 +28,18 @@ class Images:
     territory_icon = pygame.transform.scale(
         pygame.image.load(loader.filepath("territory_icon.png")), (40, 40)
     )
-    
 
 
 def impacts_to_html(outcome):
     orig_outcome = outcome
     outcome = [str(i) for i in outcome]
-    outcome = ["+"+i if int(i) > 0 else i for i in outcome]
-    outcome = [f"<font color='#FF0000'>{i}</font>" if int(i) < 0 else f"<font color='#00FF00'>{i}</font>" for i in outcome]
+    outcome = ["+" + i if int(i) > 0 else i for i in outcome]
+    outcome = [
+        f"<font color='#FF0000'>{i}</font>"
+        if int(i) < 0
+        else f"<font color='#00FF00'>{i}</font>"
+        for i in outcome
+    ]
     out = ""
     icons = []
     if orig_outcome[0] != 0:
@@ -59,9 +65,9 @@ class Event:
 
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
-        
+
         html, icons = impacts_to_html(self.impacts)
-        
+
         self.button_ext_background = pygame_gui.elements.ui_image.UIImage(
             manager=self.manager,
             relative_rect=pygame.Rect(50, 150, 300, 300),
@@ -83,13 +89,12 @@ class Event:
             relative_rect=pygame.Rect(50, 175, 300, 200),
             html_text=self.text + html,
         )
-        
+
         # self.effect_textbox = pygame_gui.elements.ui_text_box.UITextBox(
         #     manager=self.manager,
         #     relative_rect=pygame.Rect(50, 275, 300, 200),
         #     html_text=html,
         # )
-         
 
         self.next_button = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect(50, 400, 300, 40),
@@ -123,7 +128,7 @@ class Decision:
     def __init__(self, name):
         self.name = name
 
-        self.hook = True # if decision is the beginning of a series of events/decisions
+        self.hook = True  # if decision is the beginning of a series of events/decisions
 
         self.text = "text"
         self.options = ["choice 1", "choice 2", "choice 3"]
@@ -138,7 +143,7 @@ class Decision:
 
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
-        
+
         self.button_ext_background = pygame_gui.elements.ui_image.UIImage(
             manager=self.manager,
             relative_rect=pygame.Rect(50, 150, 300, 300),
@@ -171,7 +176,9 @@ class Decision:
             cumulative_height += button.relative_rect.height + 10
             self.decision_buttons.append(button)
 
-        self.button_background.set_position(pygame.Rect(50, cumulative_height - 250, 300, 300))
+        self.button_background.set_position(
+            pygame.Rect(50, cumulative_height - 250, 300, 300)
+        )
 
         self.finished = False
 
@@ -224,26 +231,33 @@ class Decision:
 
 
 class Quest:
-	def __init__(self, name):
-		self.name = name
-		self.decision = Decision(name)
+    def __init__(self, name):
+        self.name = name
+        self.decision = Decision(name)
 
-		self.prereqs = [0, 0, 0] # food, population, territory
-		self.newspaper_lines = ["_", "_", "_"] # line that gets put into the newspaper queue
-		self.is_headline = False # if newspaper line is meant to be headline
+        self.prereqs = [0, 0, 0]  # food, population, territory
+        self.newspaper_lines = [
+            "_",
+            "_",
+            "_",
+        ]  # line that gets put into the newspaper queue
+        self.is_headline = False  # if newspaper line is meant to be headline
 
-		self.endgame_image = None
+        self.endgame_image = None
 
-	def ready(self):
-		self.decision.ready()
+    def ready(self):
+        self.decision.ready()
 
-	def display(self, time_delta):
-		return self.decision.display(time_delta)
+    def display(self, time_delta):
+        return self.decision.display(time_delta)
 
-	def process_events(self, event, sounds):
-		self.decision.process_events(event, sounds)
-		self.finished = self.decision.finished
-		self.next_event = self.decision.next_event
+    def process_events(self, event, sounds):
+        self.decision.process_events(event, sounds)
+        self.finished = self.decision.finished
+        self.next_event = self.decision.next_event
 
-		if self.next_event in self.decision.leads_to: # prevents an error when all of a quest's options leads to another event
-			self.chosen_line = self.newspaper_lines[self.decision.leads_to.index(self.next_event)]
+        # prevents an error when all of a quest's options leads to another event
+        if self.next_event in self.decision.leads_to:
+            self.chosen_line = self.newspaper_lines[
+                self.decision.leads_to.index(self.next_event)
+            ]

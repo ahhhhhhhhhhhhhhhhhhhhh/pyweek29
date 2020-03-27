@@ -13,10 +13,11 @@ from game.resources import Resources
 
 width, height = [1280, 720]
 
+
 def main():
     pygame.init()
     pygame.freetype.init()
-    pygame.mixer.init(buffer = 512)
+    pygame.mixer.init(buffer=512)
 
     pygame.display.set_caption("Queen of the Hill")  # changes name of pygame window
 
@@ -45,12 +46,14 @@ def main():
     sounds.playMusic()
 
     normal_headlines = loader.loadHeadlines("headlines.txt")
-    headlines_queue = [] # list of tuples: (string of newspaper line, boolean is headline)
+    headlines_queue = (
+        []
+    )  # list of tuples: (string of newspaper line, boolean is headline)
     newspaper = popups.Newspaper(
         getRandHeadline(normal_headlines),
         getRandHeadline(normal_headlines),
         getRandHeadline(normal_headlines),
-        getRandHeadline(normal_headlines)
+        getRandHeadline(normal_headlines),
     )
 
     food = 50
@@ -75,20 +78,19 @@ def main():
     for event in all_events + all_decisions + all_quests:
         find_event[event.name] = event
 
-    #manually inputting newspaper headlines
+    # manually inputting newspaper headlines
     find_event["explore2"].newspaper_lines = [
         "local grain silo infested with ants",
-        "local grain silo infested with ants", "_"
+        "local grain silo infested with ants",
+        "_",
     ]
     find_event["explore3"].newspaper_lines = [
         "farmers report a state-wide grain shortage, blame ants",
-        "farmers report a state-wide grain shortage, blame ants"
+        "farmers report a state-wide grain shortage, blame ants",
     ]
     find_event["explore4"].newspaper_lines = [
         "experts say grain shortage key cause in lagging war effort"
     ]
-
-
 
     event_queue = [
         getRandDecision(all_decisions, decision_hooks),
@@ -96,14 +98,14 @@ def main():
         getRandElement(all_events),
         getRandElement(quest_hooks),
         getRandElement(all_events),
-        newspaper
+        newspaper,
     ]
 
     current_decision = event_queue.pop(0)
-    #current_decision = popups.EndScreen() #Uncomment start of line to test endgame object
+    # current_decision = popups.EndScreen() #Uncomment start of line to test endgame object
     current_decision.ready()
 
-    event_num = 0 # number of events processed
+    event_num = 0  # number of events processed
 
     while True:
         time_delta = clock.tick(60) / 1000
@@ -115,7 +117,7 @@ def main():
             sounds.displayVolumeButton()
         if sounds.slidesDisplayed == True:
             sounds.updateVolume()
-        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -132,7 +134,7 @@ def main():
         Resources.instance.manager.update(time_delta)
 
         screen.blit(town_im, (928, 52))
-        
+
         bg_current_time += time_delta
         if bg_current_time > bg_flip_time:
             bg_current_time = 0
@@ -149,23 +151,28 @@ def main():
             if isinstance(current_decision, events.Quest):
                 print("quest:", current_decision.name)
                 if current_decision.chosen_line != "_":
-                    headlines_queue.append((current_decision.chosen_line, current_decision.is_headline))
+                    headlines_queue.append(
+                        (current_decision.chosen_line, current_decision.is_headline)
+                    )
 
             if current_decision.next_event != "_":
                 next_event = find_event[current_decision.next_event]
                 event_queue.append(next_event)
 
-            if event_num % 3 == 0: # so that resource control events don't happen for a bunch of turns in a row
+            if (
+                event_num % 3 == 0
+            ):  # so that resource control events don't happen for a bunch of turns in a row
                 if Resources.instance.population < 20:
                     event_queue.insert(0, find_event["low population"])
-                elif Resources.instance.territory < Resources.instance.population - 10:  # elif statements so multiple resource control events don't happen at once
+                elif (
+                    Resources.instance.territory < Resources.instance.population - 10
+                ):  # elif statements so multiple resource control events don't happen at once
                     event_queue.insert(0, find_event["low territory"])
-                elif Resources.instance.food > Resources.instance.population + 20: 
+                elif Resources.instance.food > Resources.instance.population + 20:
                     if Resources.instance.population < Resources.instance.territory:
                         event_queue.insert(0, find_event["food surplus population"])
                     else:
                         event_queue.insert(0, find_event["food surplus territory"])
-
 
             current_decision = event_queue.pop(0)
             current_decision.ready()
@@ -174,24 +181,27 @@ def main():
                 while len(event_queue) < 5:
                     rand = random.randrange(100)
                     if rand < 65:
-                        event_queue.append(getRandDecision(all_decisions, decision_hooks))
+                        event_queue.append(
+                            getRandDecision(all_decisions, decision_hooks)
+                        )
                     else:
                         event_queue.append(getRandElement(all_events))
 
-                #event_queue.append(getRandElement(quest_hooks))
+                # event_queue.append(getRandElement(quest_hooks))
 
                 current_decision = generateNewspaper(headlines_queue, normal_headlines)
                 current_decision.ready()
 
                 event_queue.append(newspaper)
-                        
 
         manager.draw_ui(screen)
 
         pygame.display.flip()
 
+
 def getRandElement(lst):
     return lst[random.randrange(0, len(lst))]
+
 
 # make sure all decisions get cycled through before repeats
 def getRandDecision(all_decisions, decision_hooks):
@@ -199,35 +209,37 @@ def getRandDecision(all_decisions, decision_hooks):
         decision_hooks = [decision for decision in all_decisions if decision.hook]
     return decision_hooks.pop(random.randrange(0, len(decision_hooks)))
 
+
 # headlines also get cycled through
 def getRandHeadline(normal_headlines):
     if len(normal_headlines) == 0:
         normal_headlines = loader.loadHeadlines("headlines.txt")
     return normal_headlines.pop(random.randrange(len(normal_headlines)))
 
+
 def generateNewspaper(headlines_queue, normal_headlines):
     if len(headlines_queue) > 0:
         data = headlines_queue.pop(0)
-        if data[1]: # means queue fills headline
+        if data[1]:  # means queue fills headline
             newspaper = popups.Newspaper(
                 data[0],
                 getRandHeadline(normal_headlines),
                 getRandHeadline(normal_headlines),
-                getRandHeadline(normal_headlines)
+                getRandHeadline(normal_headlines),
             )
         else:
             newspaper = popups.Newspaper(
                 getRandHeadline(normal_headlines),
                 data[0],
                 getRandHeadline(normal_headlines),
-                getRandHeadline(normal_headlines)
+                getRandHeadline(normal_headlines),
             )
     else:
-       newspaper = popups.Newspaper(
+        newspaper = popups.Newspaper(
             getRandHeadline(normal_headlines),
             getRandHeadline(normal_headlines),
             getRandHeadline(normal_headlines),
-            getRandHeadline(normal_headlines)
+            getRandHeadline(normal_headlines),
         )
 
     return newspaper
