@@ -62,13 +62,10 @@ def main():
     Resources(food, population, territory)
 
     all_events = loader.loadEvents("events.txt")
-
     all_decisions = loader.loadDecisions("decisions.txt")
-
-    decision_hooks = [decision for decision in all_decisions if decision.hook]
-
     all_quests = loader.loadQuests("quests.txt")
 
+    decision_hooks = [decision for decision in all_decisions if decision.hook]
     quest_hooks = [quest for quest in all_quests if quest.decision.hook]
 
     # dict of event names to event to easily reference events

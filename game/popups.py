@@ -113,7 +113,7 @@ class Newspaper:
         if self.rotation > self.maxrotation:
             self.rotation = 0
             self.rotating = False
-            button_background = pygame_gui.elements.ui_image.UIImage(
+            button_background = pygame_gui.elements.UIImage(
                 manager=self.manager,
                 relative_rect=pygame.Rect(490, 640, 300, 300),
                 image_surface=events.Images.alone_button_image,

@@ -68,33 +68,27 @@ class Event:
 
         html, icons = impacts_to_html(self.impacts)
 
-        self.button_ext_background = pygame_gui.elements.ui_image.UIImage(
+        self.button_ext_background = pygame_gui.elements.UIImage(
             manager=self.manager,
             relative_rect=pygame.Rect(50, 150, 300, 300),
             image_surface=Images.button_ext_image,
         )
-        self.button_background = pygame_gui.elements.ui_image.UIImage(
+        self.button_background = pygame_gui.elements.UIImage(
             manager=self.manager,
             relative_rect=pygame.Rect(50, 200, 300, 300),
             image_surface=Images.button_scroll_image,
         )
-        self.background_image = pygame_gui.elements.ui_image.UIImage(
+        self.background_image = pygame_gui.elements.UIImage(
             manager=self.manager,
             relative_rect=pygame.Rect(15, 150, 400, 300),
             image_surface=Images.scroll_image,
         )
 
-        self.textbox = pygame_gui.elements.ui_text_box.UITextBox(
+        self.textbox = pygame_gui.elements.UITextBox(
             manager=self.manager,
             relative_rect=pygame.Rect(50, 175, 300, 200),
             html_text=self.text + html,
         )
-
-        # self.effect_textbox = pygame_gui.elements.ui_text_box.UITextBox(
-        #     manager=self.manager,
-        #     relative_rect=pygame.Rect(50, 275, 300, 200),
-        #     html_text=html,
-        # )
 
         self.next_button = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect(50, 400, 300, 40),
@@ -143,22 +137,22 @@ class Decision:
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
 
-        self.button_ext_background = pygame_gui.elements.ui_image.UIImage(
+        self.button_ext_background = pygame_gui.elements.UIImage(
             manager=self.manager,
             relative_rect=pygame.Rect(50, 150, 300, 300),
             image_surface=Images.button_ext_image,
         )
-        self.button_background = pygame_gui.elements.ui_image.UIImage(
+        self.button_background = pygame_gui.elements.UIImage(
             manager=self.manager,
             relative_rect=pygame.Rect(50, 150 + len(self.options) * 50, 300, 300),
             image_surface=Images.button_scroll_image,
         )
-        self.background_image = pygame_gui.elements.ui_image.UIImage(
+        self.background_image = pygame_gui.elements.UIImage(
             manager=self.manager,
             relative_rect=pygame.Rect(15, 150, 400, 300),
             image_surface=Images.scroll_image,
         )
-        self.textbox = pygame_gui.elements.ui_text_box.UITextBox(
+        self.textbox = pygame_gui.elements.UITextBox(
             manager=self.manager,
             relative_rect=pygame.Rect(50, 175, 300, 200),
             html_text=self.text,
