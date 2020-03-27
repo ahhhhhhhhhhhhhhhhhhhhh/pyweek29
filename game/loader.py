@@ -95,13 +95,13 @@ def loadQuests(filename):
     while i < len(file):
         line = file[i]
         if len(line) > 0 and line[0] == "#":
-            quest = events.Quest("".join(line[1:]))
-
-            quest.decision = loadDecision(file, i)
+            quest = loadDecision(file, i)
+            quest.__class__ = events.Quest
+            quest._quest_init()
 
             all_quests.append(quest)
 
-            i += 3 + len(quest.decision.options) * 4
+            i += 3 + len(quest.options) * 4
 
         i += 1
     print("loaded " + str(len(all_quests)) + " quests")

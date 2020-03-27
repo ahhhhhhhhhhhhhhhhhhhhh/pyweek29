@@ -66,7 +66,7 @@ def main():
     all_quests = loader.loadQuests("quests.txt")
 
     decision_hooks = [decision for decision in all_decisions if decision.hook]
-    quest_hooks = [quest for quest in all_quests if quest.decision.hook]
+    quest_hooks = [quest for quest in all_quests if quest.hook]
 
     # dict of event names to event to easily reference events
     find_event = {}
