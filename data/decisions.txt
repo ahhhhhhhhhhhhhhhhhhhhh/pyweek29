@@ -91,7 +91,7 @@ Your scouts find an injured grasshopper in your territory. Do you help heal it o
 Heal it
 The grasshopper gives you a gift of food
 10, 0, 0
-grasshopper variation3end
+grasshopper grateful-var3
 Kill it
 The grasshopper escapes from your ants and rampages through the colony, killing many and destroying supplies.
 -10, -15, 0
