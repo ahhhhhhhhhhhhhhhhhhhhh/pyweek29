@@ -55,9 +55,9 @@ class Sound:
         pygame.mixer.music.play(-1)
 
     def updateVolume(self):
-        self.musicVolume = self.masterSoundSlide.get_current_value()*self.musicSlide.get_current_value()
-        pygame.mixer.music.set_volume(self.musicVolume)
+        self.musicVolume = self.musicSlide.get_current_value()
         self.masterVolume = self.masterSoundSlide.get_current_value()
+        pygame.mixer.music.set_volume(self.musicVolume*self.masterVolume)
         for i in self.sounds:
             pygame.mixer.Sound.set_volume(i, self.masterVolume)
 

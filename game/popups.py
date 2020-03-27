@@ -22,6 +22,7 @@ def find_center(image):
 class Newspaper:
     def __init__(self, message, *args):
         self.playSound = False
+        self.next_button = None
         newspaper = pygame.image.load(loader.filepath("newspaper.png"))
         newspaper = scale_image(newspaper, 4)
         newspaper = newspaper.convert_alpha()
