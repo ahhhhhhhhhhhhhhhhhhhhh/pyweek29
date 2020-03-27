@@ -218,6 +218,69 @@ Many of your workers chose to leave with the priest, and the remaining ants are 
 -4, -25, 0
 _
 Give the head priest an official role
-The head priest is pleased by your symbolic action, and you work together to make the colony happier and more productive
+The head priest is pleased by your symbolic gesture, and you work together to make the colony happier and more productive
 12, 7, 9
+_
+
+
+
+
+
+
+----------------RESOURCE CONTROL DECISIONS----------------
+
+#food surplus territory
+false
+We have a surplus of food! Should we divert resources from farming to expanding our land?
+3
+Yes, fully focus on expanding our territory
+You divert effort from farming to expanding territory
+-25, 0, 10
+_
+Yes, divert a few workers from farming to expanding territory
+You divert some effort from farming to expanding territory
+-10, 0, 5
+_
+No
+You do nothing
+0, 0, 0
+_
+
+#food surplus population
+false
+We have a surplus of food! Should we divert resources from farming to producing more larvae?
+2
+Yes, we need more workers
+Your effort is successful, and your population grows
+-20, 10, 0
+_
+No, keep our surplus
+You do nothing
+0, 0, 0
+_
+
+#low population
+false
+Our population is desperately low! What should we do?
+2
+Attempt to lure ants from nearby ants to our colony
+By promising extra food, you are able to convince ants from other colonys to join
+-10, 8, 0
+_
+Withdraw workers from all other jobs to focus on producing larvae
+You manage to bolster your larvae, but sections of your territory fall into disrepair
+0, 10, -12
+_
+
+#low territory
+false
+We don't have enough space to give all of our workers a home. What should we do?
+2
+Divert workers from farming to expanding territory
+Your workers expand out into uninhabated nearby land and expand your colony
+-12, 0, 8
+_
+Crowd workers together
+Many workers are unhappy, and some leave to find other colonies.
+0, -6, 0
 _

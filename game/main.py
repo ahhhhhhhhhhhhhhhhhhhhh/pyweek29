@@ -94,6 +94,8 @@ def main():
     current_decision = event_queue.pop(0)
     current_decision.ready()
 
+    event_num = 0 # number of events processed
+
     while True:
         time_delta = clock.tick(60) / 1000
 
@@ -122,14 +124,28 @@ def main():
         screen.blit(bg, (0, 0))
 
         if current_decision.display(time_delta):
+            event_num += 1
+
             if isinstance(current_decision, events.Quest):
-                print(current_decision.name)
+                print("quest:", current_decision.name)
                 if current_decision.chosen_line != "_":
                     headlines_queue.append((current_decision.chosen_line, current_decision.is_headline))
 
             if current_decision.next_event != "_":
                 next_event = find_event[current_decision.next_event]
                 event_queue.append(next_event)
+
+            if event_num % 3 == 0: # so that resource control events don't happen for a bunch of turns in a row
+                if Resources.instance.population < 20:
+                    event_queue.insert(0, find_event["low population"])
+                elif Resources.instance.territory < Resources.instance.population - 10:  # elif statements so multiple resource control events don't happen at once
+                    event_queue.insert(0, find_event["low territory"])
+                elif Resources.instance.food > Resources.instance.population + 20: 
+                    if Resources.instance.population < Resources.instance.territory:
+                        event_queue.insert(0, find_event["food surplus population"])
+                    else:
+                        event_queue.insert(0, find_event["food surplus territory"])
+
 
             current_decision = event_queue.pop(0)
             current_decision.ready()
@@ -163,6 +179,7 @@ def getRandDecision(all_decisions, decision_hooks):
         decision_hooks = [decision for decision in all_decisions if decision.hook]
     return decision_hooks.pop(random.randrange(0, len(decision_hooks)))
 
+# headlines also get cycled through
 def getRandHeadline(normal_headlines):
     if len(normal_headlines) == 0:
         normal_headlines = loader.loadHeadlines("headlines.txt")
