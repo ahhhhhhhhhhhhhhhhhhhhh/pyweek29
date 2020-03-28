@@ -165,7 +165,7 @@ We should attack unexpectedly with a massive force of ants and bees together to 
 While many brave soliders die, the humans ultimately flee from the onslaught. You quickly build new colonys in the massive amount of free land
 20, -50, 100
 bees8
-Some researchs claim they have developed a new venom that will be extra effective against humans. Time for a real wold test!
+Some researchs claim they have developed a new venom that will be extra effective against humans. Time for a real world test!
 The venom is very effective, and the humans flee quickly without much of a fight. You quickly build new colonys in the massive amount of free land
 20, -10, 100
 bees8
@@ -309,10 +309,11 @@ _
 #radioactive-colony
 false
 Your medical team have suddenly started showing symptoms similar to the sick ants. Ants are in a panic about this new disease, What do you do?
-2
+3
 Nothing
 Many ants panic anyway, and some barricade themselves in their homes
 -5, 0, 0
+_
 Quarantine all ants with symptoms
 The medical workers are now quarentined with the sick ants, and their fate looks grim.
 0, 0, 0
