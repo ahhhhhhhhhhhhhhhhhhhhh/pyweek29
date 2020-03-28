@@ -38,6 +38,10 @@ def main():
     bg_pos = 0
     bg_current_time = 0
 
+    eyes = pygame.image.load(loader.filepath(f"eyes.png"))
+    eyes = pygame.transform.scale(eyes, (40,8))
+    eyes = eyes.convert_alpha()
+
     town_im = pygame.Surface((260, 172))  # placeholder for now
     town_im.fill((230, 30, 70))
 
@@ -224,6 +228,7 @@ def main():
             bg_pos %= len(backgrounds)
 
         screen.blit(backgrounds[bg_pos], (0, 0))
+        screen.blit(eyes, (644, 248))
 
         Resources.instance.manager.draw_ui(screen)
 
