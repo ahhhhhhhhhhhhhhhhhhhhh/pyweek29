@@ -168,6 +168,7 @@ def main():
     # manually inputting endgame images to the end of quest chains
     find_event["bees8"].endgame_image = "bee"
     find_event["explore6"].endgame_image = "destroyed"
+    
 
     # manually inputting advisor icons
     # decisions
@@ -292,11 +293,11 @@ def main():
 
             if Resources.instance.population <= 0:
                 lose_screen = popups.EndScreen()
-                lose_screen.message = "Try as you might, your colony simply could not survive. Without any workers, you are forced to flee as your territory is taken over by others"
+                lose_screen.message = "Try as you might, your colony simply could not survive. Without any workers, you are forced to flee as your territory is taken over by others."
                 event_queue.insert(0, lose_screen)
             elif Resources.instance.territory <= 0:
                 lose_screen = popups.EndScreen()
-                lose_screen.message = "Try as you might, your colony simply could not survive. Without any territory you can claim on your own, you and your remaning workers are forced to flee the area"
+                lose_screen.message = "Try as you might, your colony simply could not survive. Without any territory you can claim on your own, you and your remaining workers are forced to flee the area."
                 event_queue.insert(0, lose_screen)
             elif Resources.instance.food <= 0:
                 event_queue.insert(0, find_event["starvation"])
