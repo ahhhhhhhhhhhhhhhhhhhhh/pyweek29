@@ -338,7 +338,7 @@ def main():
                 event_queue.insert(0, find_event["starvation"])
 
             current_decision = event_queue.pop(0)
-            #current_decision = popups.EndgameScreen() ###################testing purposes
+            #current_decision = popups.EndgameScreen("ja") ###################testing purposes
             current_decision.ready()
             print("now playing event:", current_decision.name)
 
