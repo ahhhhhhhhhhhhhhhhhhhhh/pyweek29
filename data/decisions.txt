@@ -591,3 +591,16 @@ Crowd workers together
 Many workers are unhappy, and some leave to find other colonies.
 0, -6, 0
 _
+
+#starvation
+false
+The colony is completely out of food. The situation is desperate. What should we do?
+2
+Trade away our territory to nearby colonys in exchange for food
+Your territory shrinks considerably, but you prevent your colony from starving
+20, 0, -10
+_
+Eat some of your own workers
+Desperate times call for desperate measures. Like cannibalism!
+20, -10, 0
+_
