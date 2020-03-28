@@ -93,11 +93,11 @@ def main():
     
     find_event["radioactive-colony4"] = popups.EndgameScreen("radioactive-colony4")
     find_event["radioactive-colony4"].town = "ant"
-    find_event["radioactive-colony4"].message = "When those lone explorers ventured into the mysterious concrete building, they were mutated into a new form of ant, one that was destined to rule the world. From this insignificant ant colony came the most sofisticated society known to earth."
+    find_event["radioactive-colony4"].message = "When those lone explorers ventured into the mysterious concrete building, that was actually a nuclear power plant, they were mutated into a new form of ant, one that was destined to rule the world. From this insignificant ant colony came the most sofisticated society known to earth."
     
-    find_event["radioactive-ant2"] = popups.EndgameScreen("radioactive-ant2")
-    find_event["radioactive-ant2"].town = "ant"
-    find_event["radioactive-ant2"].message = "Who knew that the ants that ventured into the mysterious concrete building were actually entering a nuclear power plant, and the radiation that the absorbed would later be transferred to a human, to create the next superhero, manant. now humanity is safe from threats of any kind as manant protects the race from destruction."
+    find_event["radioactive-ant3"] = popups.EndgameScreen("radioactive-ant3")
+    find_event["radioactive-ant3"].town = "ant"
+    find_event["radioactive-ant3"].message = "Who knew that the ants that ventured into the mysterious concrete building were actually entering a nuclear power plant, and the radiation that the absorbed would later be transferred to a human, to create the next superhero, manant. now humanity is safe from threats of any kind as manant protects the race from destruction."
     
     
     
@@ -246,6 +246,9 @@ def main():
         getRandElement(all_events),
         newspaper,
     ]
+    
+    print (event_queue[3].name)
+    
     quest_queue = []  # specific queue for quest events
 
     current_decision = event_queue.pop(0)

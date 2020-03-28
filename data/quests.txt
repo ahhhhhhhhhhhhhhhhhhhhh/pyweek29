@@ -295,15 +295,24 @@ radioactive-colony
 
 #radioactive-ant2
 false
-Your scouts have heard rumors about the sick ants that were banished, now living in the nearby human towns. The common ants are afraid that the sickness will spread. What do you do?
+Your scouts have heard rumors about the sick ants that were banished, now living in the nearby human towns. The common ants are afraid that the sickness has spread to other ants before they left. What do you do?
 2
 Nothing
 Many ants panic anyway, and some barricade themselves in their homes
 -5, 0, 0
-_
+radioactive-ant3
 Lock down colony
 The colony is locked down for a week, and the common ants are glad you are wary of the disease
 -10, 0, 0
+radioactive-ant3
+
+#radioactive-ant3
+false
+The scouts are talking between each other, and they want to see what happened to the banished sick ants.
+1
+Lets find out
+The scouts bring back the most amazing story, they saw a human with antenna and legs roaming the city streets at night. What or who it is, they don't know.
+0, 0, 0
 _
 
 #radioactive-colony
