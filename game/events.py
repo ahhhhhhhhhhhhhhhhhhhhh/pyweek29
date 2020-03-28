@@ -91,10 +91,6 @@ class Event:
         self.next_event = "_"  # needed for common interface with decisions
         self.advisor_name = "advisor"
 
-        self.animation_stage = 1
-        self.animation_stages = 5
-        self.animation_time = 0
-        self.animation_flip_time = 0.1
 
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
@@ -125,6 +121,11 @@ class Event:
             relative_rect=pygame.Rect(50, 175, 300, 200),
             html_text="",
         )
+
+        self.animation_stage = 1
+        self.animation_stages = 5
+        self.animation_time = 0
+        self.animation_flip_time = 0.1
 
         self._ready()
 
