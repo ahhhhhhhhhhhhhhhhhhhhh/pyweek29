@@ -64,14 +64,30 @@ def main():
     all_events = loader.loadEvents("events.txt")
     all_decisions = loader.loadDecisions("decisions.txt")
     all_quests = loader.loadQuests("quests.txt")
+    all_endgames = [] #placeholder
 
     decision_hooks = [decision for decision in all_decisions if decision.hook]
     quest_hooks = [quest for quest in all_quests if quest.hook]
 
     # dict of event names to event to easily reference events
     find_event = {}
-    for event in all_events + all_decisions + all_quests:
+    for event in all_events + all_decisions + all_quests + all_endgames:
         find_event[event.name] = event
+
+    for item in [*all_decisions, *all_quests]:
+        leads = item.leads_to
+        actual_leads = [] #needs preprocessing because of the new multi lead things
+        for next_item in leads:
+            if next_item.count(","):
+                actual_leads += next_item.split(",")
+            else:
+                actual_leads.append(next_item)
+                
+        for next_item in actual_leads:
+            if next_item != "_":
+                if next_item not in find_event:
+                    raise ValueError(f"The story item {item.name} leads to nonexistent item {next_item}")
+    print("Verified story item integrity")
     
     
     # manually inputting newspaper headlines
