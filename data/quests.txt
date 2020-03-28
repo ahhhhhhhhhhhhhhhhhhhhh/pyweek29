@@ -313,7 +313,7 @@ Your medical team have suddenly started showing symptoms similar to the sick ant
 Nothing
 Many ants panic anyway, and some barricade themselves in their homes
 -5, 0, 0
-_
+radioactive-colony2
 Quarantine all ants with symptoms
 The medical workers are now quarentined with the sick ants, and their fate looks grim.
 0, 0, 0
