@@ -220,23 +220,31 @@ They continue to argue, but eventually accept your decision.
 -5, 0, 0
 democracy3
 Give the council an actual leadership role.
-The common ants are elated now that they have representation in their government, and it looks to be the beginnings of a democratic utopia!
-5, 5, 0
+The common ants are elated now that they have representation in their government, and your colony looks to be on the way to a functioning democracy!
+10, 5, 0
 democracy4
 
 #democracy4
 false
-The citizens council has been working well with you, and although the meetings hurt productivity, the common ants are much happier. Do you want to continue with the council?
+You and the citizens council have been working well together, even if it sometimes takes longer to get things done. However, the citizens of your colony are demanding a written consitution that expands the power of citizens council. How do you respond?
 2
-Yes
-The council is happy, and an official constitution is drafted. The celebration boosts the morale of workers and you see a small surplus of food!
-5, 0, 0
-_
-No
+Yes, a consitution is a good idea
+The council is happy, and an official constitution is drafted. The celebration boosts the morale of workers and you see a surplus of food! Things are looking up.
+25, 10, 0
+democracy5
+No, I will not surrender power! Dismantle the citizens council immediately
 The council is furious, and organizes a large scale revolution. Many ants abandon the colony, and more are killed in the riots. In the end, you are left with few workers and lacking food stores.
 -20, -15, -10
 _
 
+#democracy5
+false
+The citizens council has recently passed laws protecting individual's rights. The ants in your colony are happy, and productivity is at record highs
+1
+Wonderful
+You are glad the citizen's council is doing a good job with their expanded power
+20, 10, 0
+democracy endgame
 
 -------------------------- Super Ant Ending --------------------------
 
@@ -312,7 +320,7 @@ The scouts are talking between each other, and they want to see what happened to
 Lets find out
 The scouts bring back the most amazing story, they saw a human with antenna and legs roaming the city streets at night. What or who it is, they don't know.
 0, 0, 0
-_
+superhero endgame
 
 #radioactive-colony
 false
@@ -346,12 +354,12 @@ A miracle has occurred, many of the sick ants have gotten better. Not only that,
 2
 Accept these new ants as your warriors and put them to work
 These ants can do the work of ten normal ants, and you quickly gain a surplus of food and expand your territory
-15, 0, 15
+25, 0, 25
 radioactive-colony4
 Throw them out, they are dangerous
-You really are stupid to throw these guys out. They crush your warriors and rampage through the colony, killing many.
+You really are stupid to throw these guys out. They crush your warriors and rampage through the colony, killing many. They leave to form their own colony, a new kind of super-colony to rival humanity itself
 -10, -15, 0
-_
+ant takeover endgame
 
 #radioactive-colony4
 false
@@ -360,8 +368,8 @@ Your colony is now composed of half super ants. These ants are strong enough to 
 Yes, this is the opportunity of a lifetime!
 Your ant colony expands into the city, and with the new super ants, you quickly gain control of house after house. The humans flee the town, and you become the most powerful ant colony in the country
 10, 10, 50
-_
-No, let's play it safe.
-The super ants are indignant that you would not expand into the city. They leave your colony, searching for another colony that will accept them.
+ant takeover endgame
+No, lets play it safe.
+The super ants are indignant that you would not expand into the city. They leave to form their own colony, a new kind of super-colony to rival humanity itself
 0, -20, 0
-_
+ant takeover endgame
