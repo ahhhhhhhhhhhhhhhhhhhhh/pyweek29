@@ -7,7 +7,7 @@ Angry at your decision, several of the banished ant's friends leave with them
 0, -5, 0
 _
 Do nothing
-Seeing there are no conequences, more ants begin to steal food
+Seeing there are no consequences, more ants begin to steal food
 -10, 0, 0
 _
 
@@ -16,7 +16,7 @@ true
 The beetles have been encroaching on your territory recently. Should we go to war to teach them a lesson?
 2
 Yes, war!
-Your soldiers attack the beetles, sucessfully pushing them back and gaining territory. You do face some losses though
+Your soldiers attack the beetles, successfully pushing them back and gaining territory. You do face some losses though
 0, -10, 10
 _
 No, we must avoid conflict
@@ -131,7 +131,7 @@ Divert resources to caring for the sick and researching a cure
 More lives are lost, but you eventually get the pandemic under control
 -10, -5, 0
 _
-Expell the sick ants from your colony
+Expel the sick ants from your colony
 Many are unhappy with your decision, but it is effective in ridding the colony of the disease
 0, -20, 0
 _
@@ -213,7 +213,7 @@ religion-adopted2
 false
 The head priest of Ant-imism has become more and more popular recently, and some are saying his authority rivals your own. What should you do?
 2
-Expell the head priest and his most loyal followers from the colony
+Expel the head priest and his most loyal followers from the colony
 Many of your workers chose to leave with the priest, and the remaining ants are unhappy
 -4, -25, 0
 _
@@ -237,22 +237,23 @@ _
 
 #sabotage1
 false
-One of the tunnel unnaturally caves in. Communication between you and the ants on the other side of the tunnel is lost. Should we redirect our food gathering ants to fix the tunnel?
+One of the tunnels unnaturally caves in. Communication between you and the ants on the other side of the tunnel is lost. Should we redirect our food gathering ants to fix the tunnel?
 2
 Reestablish the tunnel
-The tunnel is restored, but you find a several of the ants dead. You also find that less food is gathered
+The tunnel is restored, but you find several of the ants dead. You also find that less food is gathered
 -4, -5, 0
 sabotage2
 Forget about the tunnel
-the tunnel is never restored and life in the colony continues as normal
+The tunnel is never restored and life in the colony continues as normal
 0, -9, -4
+_
 
 #sabotage2
 false
-Food seems to be dissapearing at an alarming rate. Because of this and the fact that a tunnel unnaturally caved in earlier, suspicions that a saboteur is in our midst have been raised. How shall we capture the saboteur?
+Food seems to be disappearing at an alarming rate. Because of this and the fact that a tunnel unnaturally caved in earlier, suspicions that a saboteur is in our midst have been raised. How shall we capture the saboteur?
 2
-Interogate and search every ant
-While you investigators search and interogate one of the ants, the missing food is found. Your investigators throw this ant in chains. In the process however, you angered many ants, and a caused a few to leave.
+Interrogate and search every ant
+While you investigators search and interrogate one of the ants, the missing food is found. Your investigators throw this ant in chains. In the process however, you angered many ants, and caused a few to leave.
 0, -4, 0
 spy found variation1
 Lay a trap
@@ -265,15 +266,15 @@ false
 After failing to capture the saboteur, some of the ants start to blame you for the missing food. Dissent against your rule begins to form. How shall we proceed?
 3
 Quickly search for the saboteur
-Every ant is heavily interogated and searched. Your investigators find the missing food on an ant who turns out to be the leader of the rebellion, but many ants think you framed him. This leads to an uprising.
+Every ant is heavily interrogated and searched. Your investigators find the missing food on an ant who turns out to be the leader of the rebellion, but many ants think you framed him. This leads to an uprising.
 6, 0, 0
 sabotage3.2
-Discreetly supress those who dissent
-You send in under cover agents to join the formings of the rebellion. There, your agents kill all who are present. Turns out one of the rebellion members was the saboteur. However, the missing food is never found.
+Discreetly suppress those who dissent
+You send in undercover agents to join the formings of the rebellion. There, your agents kill all who are present. Turns out one of the rebellion members was the saboteur. However, the missing food is never found.
 0, -7, 0
 _
 give food to appease your ants
-as a sign of goodwill, you give your ants food from your colony's supply. In response, the rebellion leader urges on his members to revolt; however, he is abondoned, and your soldiers quickly quickly seize him.
+as a sign of goodwill, you give your ants food from your colony's supply. In response, the rebellion leader urges on his members to revolt; however, he is abandoned, and your soldiers quickly quickly seize him.
 -4, -1, 0
 spy found variation2
 
@@ -281,7 +282,7 @@ spy found variation2
 false
 Several ants rise up and demand that you distribute more of the colonies food supply. What do you do?
 2
-Violently supress the rebellion
+Violently suppress the rebellion
 Your soldiers bloodily massacre those who rose up against you. The saboteur is found among those who died
 0, -16, 0
 _
@@ -326,7 +327,7 @@ _
 
 #spy found variation3
 false
-You finally manage to catch the saboteur as he trys to destroy another tunnel. What do you do with him?
+You finally manage to catch the saboteur as he tries to destroy another tunnel. What do you do with him?
 3
 Imprison him
 You chain the saboteur and throw him into a dark hole.
@@ -350,7 +351,7 @@ After you release the saboteur, he runs off and never returns. This sets a bad p
 -4, 0, 0
 _
 Decline his offer
-You yell "No!" Then you order your gaurds to make sure he never escapes.
+You yell "No!" Then you order your guards to make sure he never escapes.
 0, 0, 0
 _
 
@@ -363,7 +364,7 @@ After you release the saboteur, he runs off and returns with a large amount of f
 6, 0, 0
 _
 Decline his offer
-You yell "No!" Then you order your gaurds to make sure he never escapes.
+You yell "No!" Then you order your guards to make sure he never escapes.
 0, 0, 0
 _
 
@@ -424,7 +425,7 @@ false
 The ant you invested in came back to you, asking for one more month.
 2
 Let him have another month
-He apreciates your leniency, and promises to have the food in one month.
+He appreciates your leniency, and promises to have the food in one month.
 0, 0, 0
 invest-bad
 Banish him
@@ -473,7 +474,7 @@ _
 
 #termite-bad-reveal
 false
-Your scouts saw talked to ants living near the cockroaches, and they say the termites never help them when a cockroach is attacking. Looks like the termites have been sleeping on the job! What do you do?
+Your scouts talked to ants living near the cockroaches, and they say the termites never help them when a cockroach is attacking. Looks like the termites have been sleeping on the job! What do you do?
 2
 Keep the deal
 They apologize that they didn't help last time, and promise to do better
@@ -543,3 +544,5 @@ Crowd workers together
 Many workers are unhappy, and some leave to find other colonies.
 0, -6, 0
 _
+
+

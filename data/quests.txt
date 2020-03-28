@@ -30,10 +30,10 @@ _
 
 #explore3
 false
-Your advisors have suggested searching for more metal towers of food. It seems to good an opportunity to pass up.
+Your advisors have suggested searching for more metal towers of food. It seems too good an opportunity to pass up.
 2
 Yes, we should transfer most of our workers from farming to exploring and moving this grain back to our colony
-Your ants fan out accross the countryside, bringing back as much grain as your colony can consume
+Your ants fan out across the countryside, bringing back as much grain as your colony can consume
 40, 0, 0
 explore4
 Continue exploring and shuttling back grain, but keep most of our workers farming at home
@@ -62,7 +62,7 @@ Your speech inspires some ants, but many are still doubtful of your right to lea
 0, 0, 0
 democracy2
 Ignore them
-Many ants are happy you didn't waste time on a pointless adress, but some are still convinced you are not a fit leader.
+Many ants are happy you didn't waste time on a pointless address, but some are still convinced you are not a fit leader.
 0, 0, 0
 democracy2
 
@@ -101,7 +101,7 @@ false
 The citizens council has been working well with you, and although the meetings hurt productivity, the common ants are much happier. Do you want to continue with the council?
 2
 Yes
-The council is happy, and an official contstitution is drafted. The celebration boosts the morale of workers and you see a small surplus of food!
+The council is happy, and an official constitution is drafted. The celebration boosts the morale of workers and you see a small surplus of food!
 5, 0, 0
 _
 No
@@ -134,7 +134,7 @@ Your bravest scouts go out to explore the building.
 0, -5, 0
 radioactive-explore
 No, I'm queen, I don't worry about the peasants opinion
-The scouts continue to spread rumors, but your firm will seems to convince some to reconsider.
+The scouts continue to spread rumors, but your firm will convinces some to reconsider.
 0, 0, 0
 _
 
@@ -153,10 +153,10 @@ radioactive-ant
 
 #radioactive-ant
 false
-The ants who visited the mysterious concrete building are getting sick, but it is unlike any other sickness you have seen. Some are growing antenna in unusual places or losing hair and teeth. Do you banish these ants or try to heal them?
+The ants who visited the mysterious concrete building are getting sick, but it is unlike any other sickness you have seen. Some are growing antennae in unusual places or losing hair and teeth. Do you banish these ants or try to heal them?
 2
 Banish them, it is for the good of the colony
-Many ants agree with you, but some are sympathetic of the sick ants.
+Many ants agree with you, but some are sympathetic to the sick ants.
 0, -5, 0
 _
 Try to heal them
