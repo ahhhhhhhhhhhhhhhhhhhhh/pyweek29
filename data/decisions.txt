@@ -333,7 +333,7 @@ the saboteur is finally caught. How do you want to deal with him?
 Imprison him
 You chain the saboteur and throw him into a dark hole.
 0, 0, 0
-spy's offer variation1
+spy's offer variation1,spy's offer variation2
 Execute him
 Your executioner chews off his head. This causes a few ants to leave your colony out of fear.
 0, -4, 0
@@ -350,7 +350,7 @@ The rebel leader you seized turns out to also be the saboteur. How do you want t
 Imprison him
 You chain the saboteur and throw him into a dark hole.
 0, 0, 0
-spy's offer variation2
+spy's offer variation2,spy's offer variation1
 Execute him
 Your executioner chews off his head. Out of fear and guilt, a couple ants add food to the colony's supply
 3, 0, 0
@@ -367,7 +367,7 @@ You finally manage to catch the saboteur as he tries to destroy another tunnel. 
 Imprison him
 You chain the saboteur and throw him into a dark hole.
 0, 0, 0
-spy's offer variation2
+spy's offer variation2,spy's offer variation1
 Execute him
 Your executioner chews off his head. Out of fear and guilt, members of the rebellion return the distributed food
 9, 0, 0
@@ -520,6 +520,18 @@ The termites are offended that you would accuse them of lying, and steal some fo
 -8, 0, 0
 _
 
+#merchants
+true
+Two Seasonal merchants carrying food approach your town. You depend on their trade. However, one of them is showing symptoms of a disease. Do you let them in?
+2
+Refuse their entrance
+You tell the merchants to leave. This prevents a disease outbreak, but you also fail to replenish your colony's food supply.
+-9, 0, 0
+_
+Allow their entrance
+You cannot afford to refuse these merchants, so you let them in. They add extra food your colony's supply.
+15, 0, 0
+plague
 
 
 ----------------RESOURCE CONTROL DECISIONS----------------
