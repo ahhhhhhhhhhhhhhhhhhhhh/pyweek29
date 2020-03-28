@@ -175,7 +175,8 @@ def main():
     ]
     find_event["radioactive-ant3"].is_headline = True
     find_event["radioactive-colony3"].newspaper_lines = [
-        "New 'Super Ant' Discovered In Nearby Anthill",
+        "new 'super ant' discovered in nearby anthill",
+        "_",
     ]
     find_event["radioactive-colony4"].newspaper_lines = [
         "'Super Ants' Force Residents Out Of Homes, Evacuation Of Town In Progress",
@@ -346,7 +347,7 @@ def main():
                 event_queue.insert(0, find_event["starvation"])
 
             current_decision = event_queue.pop(0)
-            #current_decision = popups.EndgameScreen("ja") ###################testing purposes
+            #current_decision = popups.EndgameScreen() ###################testing purposes
             current_decision.ready()
             print("now playing event:", current_decision.name)
 
