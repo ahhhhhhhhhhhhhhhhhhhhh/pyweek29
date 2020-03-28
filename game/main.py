@@ -204,7 +204,6 @@ def main():
 
     event_queue = [
         getRandDecision(all_decisions, decision_hooks),
-        find_event["bee endgame"],
         getRandDecision(all_decisions, decision_hooks),
         getRandElement(all_events),
         getRandDecision(all_quests, quest_hooks),
