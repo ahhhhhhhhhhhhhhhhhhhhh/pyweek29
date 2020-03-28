@@ -1,3 +1,6 @@
+
+-------------------------- Nuclear War Ending --------------------------
+
 #explore
 true
 Your advisors think it would be a good idea to send out several ants as explorers, looking for new sources of food
@@ -61,7 +64,7 @@ _
 
 
 
-
+-------------------------- Bee and Ant Civilization Ending --------------------------
 
 #bees
 true
@@ -156,6 +159,9 @@ The venom is very effective, and the humans flee quickly without much of a fight
 _
 
 
+
+-------------------------- Human Utopia Ending --------------------------
+
 #democracy1
 true
 Some of the ants have been questioning your qualifications to lead. What do you do?
@@ -213,7 +219,7 @@ The council is furious, and organizes a large scale revolution. Many ants abando
 _
 
 
-
+-------------------------- Super Ant Ending --------------------------
 
 #radioactive-discover
 true

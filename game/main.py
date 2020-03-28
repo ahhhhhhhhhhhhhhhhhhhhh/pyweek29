@@ -131,6 +131,7 @@ def main():
         "reports of abnormally large ants scare residents",
         "_"
     ]
+
     find_event["democracy3"].newspaper_lines = [
         "_",
         "_",
@@ -144,19 +145,20 @@ def main():
 
     # manually inputting advisor icons
     # decisions
-    find_event["war"].advisor_name = "soldier"
+    find_event["beetle start"].advisor_name = "beetle"
+    find_event["beetle demand"].advisor_name = "beetle"
+    find_event["beetle border skirmish"].advisor_name = "beetle"
+    find_event["beetle planning"].advisor_name = "beetle"
     find_event["new land"].advisor_name = "explorer"
     find_event["storm"].advisor_name = "worker"
     find_event["refugees"].advisor_name = "explorer"
     find_event["grasshopper"].advisor_name = "explorer"
     find_event["grasshopper variation2"].advisor_name = "explorer"
-    find_event["grasshopper variation3"].advisor_name = "explorer"
-    find_event["bee merchant"].advisor_name = "bee"
-    find_event["bee merchant returns"].advisor_name = "bee"
+    find_event["cockroach merchant"].advisor_name = "cockroach"
+    find_event["cockroach merchant returns"].advisor_name = "cockroach"
     # events
     find_event["new tunnels"].advisor_name = "worker"
     # quests
-    find_event["explore"].advisor_name = "advisor"
     find_event["explore2"].advisor_name = "explorer"
     find_event["explore3"].advisor_name = "explorer"
     find_event["explore4"].advisor_name = "explorer"

@@ -11,18 +11,66 @@ Seeing there are no consequences, more ants begin to steal food
 -10, 0, 0
 _
 
-#war
+#beetle start
 true
-The beetles have been encroaching on your territory recently. Should we go to war to teach them a lesson?
+A colony of beetles near our border has been acting aggressively and encroaching on our territory. How should we respond?
+3
+Send a diplomat to talk things over
+The diplomat will take several days to reach the beetle colony. Hopefully they can resolve the situation
+0, 0, 0
+beetle demand
+Station troops at the border, attack any beetles who cross into your territory
+You hope this show of force will make the beetles back down
+0, 0, 0
+_
+Do nothing
+The beetles continue to steal your land
+0, 0, -8
+beetle demand
+
+#beetle demand
+false
+The nearby beetle colony demands a tribute of food, or else they will invade!
 2
-Yes, war!
-Your soldiers attack the beetles, successfully pushing them back and gaining territory. You do face some losses though
-0, -10, 10
+Fine, give them the food
+The beetles seem placated for now. Hopefully they will leave you alone from now on.
+-15, 0, 0
 _
-No, we must avoid conflict
-The beetles continue to take your land
-0, 0, -20
+This will not stand! We must make plans to invade the beetle colony
+You arrange a meeting with your top generals
+0, 0, 0
+beetle planning
+
+#beetle border skirmish
+false
+The troops you stationed at the border have gotten into a skirmish, and several troops have died. The beetle colony is demanding a tribute of food and territory to make up for the death of their soldiers
+2
+Fine, give them what they want
+The beetles seem placated for now. Hopefully they will leave you alone from now on.
+-12, 0, -9
 _
+This will not stand! We must make plans to invade the beetle colony
+You arrange a meeting with your top generals
+0, 0, 0
+beetle planning
+
+#beetle planning
+false
+You meet with you generals to plan your inavsion of the beetle colony. How do you want to attack?
+3
+Attack head-on with an overwhelming force
+You win the fight, but at heavy cost. You quickly loot the beetle colony for food, and move into the territory
+15, -14, 25
+_
+Sneak attack under the cover of darkness
+The beetles were ready for your attack, and your force is crushed. A humiliating defeat
+0, -10, -5
+_
+A pincer formation to attack both sides of the colony at once
+The beetle forces are routed, and you win an overwhelming victory. You quickly loot the beetle colony for food, and move into the territory
+15, 0, 25
+_
+
 
 #protestor
 true
@@ -67,8 +115,8 @@ The grasshopper gives you a gift of food
 10, 0, 0
 _,grasshopper grateful
 Kill it
-The grasshopper escapes from your ants and attacks the colony, killing many.
-5, -15, 0
+The grasshopper escapes from your ants and attacks the colony, killing many and destroying supplies.
+-5, -15, 0
 _
 
 #grasshopper variation2
@@ -82,19 +130,6 @@ _
 Kill it
 The grasshopper doesn't put up much of a fight in its current condition.
 10, 0, 0
-_
-
-#grasshopper variation3
-true
-Your scouts find an injured grasshopper in your territory. Do you help heal it or kill it?
-2
-Heal it
-The grasshopper gives you a gift of food
-10, 0, 0
-grasshopper grateful
-Kill it
-The grasshopper escapes from your ants and rampages through the colony, killing many and destroying supplies.
--5, -15, 0
 _
 
 #grasshopper grateful
@@ -368,33 +403,33 @@ You yell "No!" Then you order your guards to make sure he never escapes.
 0, 0, 0
 _
 
-#bee merchant
+#cockroach merchant
 true
-A bee merchant has come to your colony to hawk their wares. What shall you do?
+A cockroach merchant has come to your colony to hawk their wares. What shall you do?
 4
-Buy the location of some prime territory for 5 food.
-From the air, this bee found some good spots for ants.
-0,0,13
+Buy the location of some prime territory
+This cockroach knew some very good spots for ants.
+-5,0,13
 _
-Lend some workers to the bee's home colony to help with remodeling in return for a food reward.
-The bee departs with some workers, promising to be back later with 20 food.
+Lend some workers to the cockroach's home nest to help with remodeling in return for a food reward.
+The cockroach departs with some workers, promising to be back later with 20 food.
 0,-5,0
-bee merchant returns
+cockroach merchant returns
 We're not interested in any trades today.
-The bee moves on.
+The cockroach moves on.
 0,0,0
 _
 Kill it.
-The bee was pretty easy to take down, and it had lots of supplies.
+The cockroach was pretty easy to take down, and it had lots of supplies.
 17,-1,0
 _
 
-#bee merchant returns
+#cockroach merchant returns
 false
-The bee merchant you lent some workers to is back with your workers and your reward.
+The cockroach merchant you lent some workers to is back with your workers and your reward.
 1
 Excellent
-The bee hands them over.
+The cockroach hands them over.
 20,5,0
 _
 
@@ -427,7 +462,7 @@ The ant you invested in came back to you, asking for one more month.
 Let him have another month
 He appreciates your leniency, and promises to have the food in one month.
 0, 0, 0
-invest-bad
+invest-good,invest-bad
 Banish him
 He protests, and your guards have to forcibly remove him, hurting nearby ants
 0, -2, 0
