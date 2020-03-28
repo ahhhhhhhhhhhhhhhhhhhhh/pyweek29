@@ -222,6 +222,149 @@ The head priest is pleased by your symbolic gesture, and you work together to ma
 12, 7, 9
 _
 
+#incoming migration
+true
+Ants from war-torn colonies have heard of your glorious colony and several decide to migrate to your colony. Unfortunately there is a rumor that one, maybe more, of these ants is a spy for a rival colony. Should we allow these ants in?
+2
+Yes, let them in
+These migrating ants thank you for allowing them refuge into your colony
+0, 25, 0
+sabotage1
+No, refuse them refuge
+Although you prevent any spy from entering your colony, you lose out on a chance for a larger work force
+0, 0, 0
+_
+
+#sabotage1
+false
+One of the tunnel unnaturally caves in. Communication between you and the ants on the other side of the tunnel is lost. Should we redirect our food gathering ants to fix the tunnel?
+2
+Reestablish the tunnel
+The tunnel is restored, but you find a several of the ants dead. You also find that less food is gathered
+-4, -5, 0
+sabotage2
+Forget about the tunnel
+the tunnel is never restored and life in the colony continues as normal
+0, -9, -4
+
+#sabotage2
+false
+Food seems to be dissapearing at an alarming rate. Because of this and the fact that a tunnel caved in, suspicions that a saboteur is in our midst have been raised. How shall we capture the saboteur?
+2
+Interogate and search every ant
+While you investigators search and interogate one of the ants, the missing food is found. Your investigators throw this ant in chains. In the process however, you angered many ants, and a caused a few to leave.
+0, -4, 0
+spy found variation1
+Lay a trap
+Your investigators lay a trap in the food storage room and wait. No one comes and the missing food is not found.
+-6, 0, 0
+sabotage3.1
+
+#sabotage3.1
+false
+After failing to capture the saboteur, some of the ants start to blame you for the missing food. Dissent against your rule begins to form. How shall we proceed?
+3
+Quickly search for the saboteur
+Every ant is heavily interogated and searched. Your investigators find the missing food on an ant who turns out to be the leader of the rebellion, but many ants think you framed him. This leads to an uprising.
+6, 0, 0
+sabotage3.2
+Discreetly supress those who dissent
+You send in under cover agents to join the formings of the rebellion. There, your agents kill all who are present. Turns out one of the rebellion members was the saboteur. However, the missing food is never found.
+0, -7, 0
+_
+give food to appease your ants
+as a sign of goodwill, you give your ants food from your colony's supply. In response, the rebellion leader urges on his members to revolt; however, he is abondoned, and your soldiers quickly quickly seize him.
+-4, -1, 0
+spy found variation2
+
+#sabotage3.2
+false
+Several ants rise up and demand that you distribute more of the colonies food supply. What do you do?
+2
+Violently supress the rebellion
+Your soldiers bloodily massacre those who rose up against you. The saboteur is found among those who died
+0, -16, 0
+_
+Accept the rebellion's demand
+You manage to avoid conflict, but the saboteur, who started all this, still manages to elude you.
+-9, 0, 0
+spy found variation3
+
+#spy found variation1
+the saboteur is finally caught. How do you want to deal with him?
+3
+Imprison him
+You chain the saboteur and throw him into a dark hole.
+0, 0, 0
+spy's offer variation1
+Execute him
+Your executioner chews off his head. This causes a few ants to leave your colony out of fear.
+0, -4, 0
+_
+Banish him
+Out of mercy, you decree the saboteur's banishment. He thanks you and you never see him again.
+0, 0, 0
+_
+
+#spy found variation2
+The rebel leader you seized turns out to also be the saboteur. How do you want to deal with him?
+3
+Imprison him
+You chain the saboteur and throw him into a dark hole.
+0, 0, 0
+spy's offer variation2
+Execute him
+Your executioner chews off his head. Out of fear and guilt, a couple ants add food to the colony's supply
+3, 0, 0
+_
+Banish him
+Out of mercy, you decree the saboteur's banishment. Thanks to your kindness, the saboteur returns all that is left of the stolen food.
+4, 0, 0
+_
+
+#spy found variation3
+You finally manage to catch the saboteur as he trys to destroy another tunnel. What do you do with him?
+3
+Imprison him
+You chain the saboteur and throw him into a dark hole.
+0, 0, 0
+spy's offer variation2
+Execute him
+Your executioner chews off his head. Out of fear and guilt, members of the rebellion return the distributed food
+9, 0, 0
+_
+Banish him
+Out of mercy, you decree the saboteur's banishment. Thanks to your kindness, the saboteur returns all that is left of the stolen food.
+2, 0, 0
+_
+
+#spy's offer variation1
+While in prison, the saboteur offers his service in return for freedom. He promises to steal food from the colony which sent him and bring the food to our colony.
+2
+Accept his offer
+After you release the saboteur, he runs off and never returns. Since a bad example was set, an ant decides to steal, but is caught.
+0, 0, 0
+theft
+Decline his offer
+You yell "No!" Then you order your gaurds to make sure he never escapes.
+0, 0, 0
+_
+
+#spy's offer variation2
+While in prison, the saboteur offers his service in return for freedom. He promises to steal food from the colony which sent him and bring the food to our colony.
+2
+Accept his offer
+After you release the saboteur, he runs off and returns with a large amount of food. You grants his freedom and never see him again
+6, 0, 0
+_
+Decline his offer
+You yell "No!" Then you order your gaurds to make sure he never escapes.
+0, 0, 0
+_
+
+
+
+
 
 
 
