@@ -60,8 +60,20 @@ Your explorers are having to search futher and further for grain towers, but the
 Good
 Hopefully this food supply doesn't run out
 20, 0, 0
-_
+explore6
 
+#explore6
+false
+As your explorers spread out through more and more human areas, they find more and more craters and exploded wreckage. Some of your explorers are disapearing, while others report barely escaping from human battlefields. There is little grain left to take.
+2
+Pull back all explorers
+You confine your workers to the colony to protect them, but you are concerned the human fighting may soon reach your territory
+-10, -3, 0
+explore endgame
+Continue searching for food
+Even if a few explorers die, the free grain is too valuable for your colony. You just hope the human fighting doesn't reach your territory
+10, -12, 0
+explore endgame
 
 
 -------------------------- Bee and Ant Civilization Ending --------------------------
@@ -152,12 +164,20 @@ As more and more new colonys are built, you have brushed up against the edge of 
 We should attack unexpectedly with a massive force of ants and bees together to scare the humans away
 While many brave soliders die, the humans ultimately flee from the onslaught. You quickly build new colonys in the massive amount of free land
 20, -50, 100
-bee endgame
+bees8
 Some researchs claim they have developed a new venom that will be extra effective against humans. Time for a real wold test!
 The venom is very effective, and the humans flee quickly without much of a fight. You quickly build new colonys in the massive amount of free land
 20, -10, 100
-bee endgame
+bees8
 
+#bees8
+false
+Embolden by your recent victory against the humans, the bee leaders want to launch more attacks against the humans, and continue to research ever more effective venoms. They dream of a world without humans, where bees and ants can rule together
+1
+You couldn't stop them if you tried
+The bee leaders excitedly continue their war on humans.
+0, 0, 0
+bee endgame
 
 
 -------------------------- Human Utopia Ending --------------------------

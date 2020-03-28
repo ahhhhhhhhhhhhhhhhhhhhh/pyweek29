@@ -2,6 +2,13 @@
 
 block_cipher = None
 
+import platform
+
+if platform.system() == 'Darwin':
+	icon_path = 'data/icon.icns'
+else:
+	icon_path = 'data/icon.ico'
+
 a = Analysis(['run_game.pyw'],
              pathex=['C:\\Users\\Starbuck\\Desktop\\pyweek29'],
              binaries=[],
@@ -29,6 +36,7 @@ exe = EXE(pyz,
           a.datas,
           [],
           name='QueenOfTheHill',
+          icon=icon_path,
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
