@@ -308,7 +308,7 @@ _
 #radioactive-colony
 false
 Your medical team has suddenly started showing symptoms similar to the sick ants. Ants are in a panic about this new disease, What do you do?
-2
+3
 Nothing
 Many ants panic anyway, and some barricade themselves in their homes
 -5, 0, 0
