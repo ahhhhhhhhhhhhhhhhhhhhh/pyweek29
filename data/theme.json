@@ -51,6 +51,21 @@
       "active_border": "#00000000"
     }
   },
+  "label": {
+    "colours": {
+      "dark_bg": "#00000000",
+      "normal_text": "#000000",
+      "hovered_text": "#000000",
+      "selected_text": "#000000",
+      "disabled_text": "#000000"
+    }  
+  },
+  "endgame_large": {
+    "font": {
+      "name": "fira_code",
+      "size": "48"
+    }
+  },
   "food_display": {
     "colours": {
       "dark_bg": "#AAAA0040",

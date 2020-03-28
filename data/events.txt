@@ -42,3 +42,6 @@ The drones have been hard at work
 A rival ant colony persuaded members of your colony to leave and migrate to their colony
 0, -6, 0
 
+#sandwich
+A glutinous mass between two slices of bread has landed outside our colony. Dig in!
+12, 0, 0

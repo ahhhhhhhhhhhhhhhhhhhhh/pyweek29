@@ -49,3 +49,117 @@ Excellent
 Your colony is extremely well fed
 20, 0, 0
 _
+
+
+
+
+#democracy1
+true
+Some of the ants have been questioning your qualifications to lead. What do you do?
+2
+Hold a public address
+Your speech inspires some ants, but many are still doubtful of your right to lead
+0, 0, 0
+democracy2
+Ignore them
+Many ants are happy you didn't waste time on a pointless adress, but some are still convinced you are not a fit leader.
+0, 0, 0
+democracy2
+
+#democracy2
+false
+The ants questioning your rule have created a citizens council that will review all the decisions you do, and express the feelings of the common ants. What do you do?
+2
+Banish them all
+Serves them right. How dare they question your rule.
+0, -7, 0
+_
+Allow them to stay
+Might as well let them stay. It's not like they have any real power
+0, 0, 0
+democracy3
+
+#democracy3
+false
+The citizens council protests the last decision you made! Hours of arguing leads to a loss of productivity. What do you do?
+3
+Abolish the council
+The council members are furious and stage protests, hurting productivity even more.
+-10, 0, 0
+_
+Continue on
+They continue to argue, but eventually accept your decision.
+-5, 0, 0
+democracy3
+Give the council an actual leadership role.
+The common ants are elated now that they have representation in their government, and it looks to be the beginnings of a democratic utopia!
+5, 5, 0
+democracy4
+
+#democracy4
+false
+The citizens council has been working well with you, and although the meetings hurt productivity, the common ants are much happier. Do you want to continue with the council?
+2
+Yes
+The council is happy, and an official contstitution is drafted. The celebration boosts the morale of workers and you see a small surplus of food!
+5, 0, 0
+_
+No
+The council is furious, and organizes a large scale revolution. Many ants abandon the colony, and more are killed in the riots. In the end, you are left with few workers and lacking food stores.
+-20, -15, -10
+_
+
+
+
+
+#radioactive-discover
+true
+Your scouts have found a large concrete building on the edge of your territory. Do you want to send some scouts to explore it?
+2
+Go for it!
+A few ants leave to explore the mysterious building.
+0, -5, 0
+radioactive-explore
+Not now...
+You keep your ants at home
+0, 0, 0
+radioactive-wait
+
+#radioactive-wait
+false
+Your scouts have been gossiping about the large concrete building that you refused to explore. It seems they think you are trying to hide something. Do you disprove their rumors and explore it?
+2
+Yes, these scouts need something to do anyway
+Your bravest scouts go out to explore the building.
+0, -5, 0
+radioactive-explore
+No, I'm queen, I don't worry about the peasants opinion
+The scouts continue to spread rumors, but your firm will seems to convince some to reconsider.
+0, 0, 0
+_
+
+#radioactive-explore
+false
+Your scouts sent to the concrete building come back with grim news, the concrete building holds no food, only complex machinery and vats of an inedible green liquid.
+2
+Go back and look for more!
+The same scouts go back to explore every nook and cranny
+0, 0, 0
+radioactive-explore
+No, focus on farming
+The scouts are put to work on the farms, and you get a surplus of food.
+5, 5, 0
+radioactive-ant
+
+#radioactive-ant
+false
+The ants who visited the mysterious concrete building are getting sick, but it is unlike any other sickness you have seen. Some are growing antenna in unusual places or losing hair and teeth. Do you banish these ants or try to heal them?
+2
+Banish them, it is for the good of the colony
+Many ants agree with you, but some are sympathetic of the sick ants.
+0, -5, 0
+_
+Try to heal them
+You put your best medical ants on the case, but they are skeptical they can help them.
+-3, 0, 0
+_

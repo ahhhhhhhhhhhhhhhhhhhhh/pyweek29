@@ -7,6 +7,7 @@ import pygame_gui
 
 from game import loader
 from game import events
+from game.sound import SoundManager
 
 
 def scale_image(image, scalar):
@@ -112,7 +113,7 @@ class Newspaper:
         if self.rotation > self.maxrotation:
             self.rotation = 0
             self.rotating = False
-            button_background = pygame_gui.elements.ui_image.UIImage(
+            button_background = pygame_gui.elements.UIImage(
                 manager=self.manager,
                 relative_rect=pygame.Rect(490, 640, 300, 300),
                 image_surface=events.Images.alone_button_image,
@@ -136,15 +137,74 @@ class Newspaper:
 
         return self.finished
 
-    def process_events(self, event, sounds):
+    def process_events(self, event):
         self.manager.process_events(event)
 
         if self.playSound == False:
-            sounds.playNewspaperSound()
+            SoundManager.instance.playNewspaperSound()
             self.playSound = True
 
         if event.type == pygame.USEREVENT:
             if event.user_type == "ui_button_pressed":
                 if event.ui_element == self.next_button:
-                    sounds.playButtonSound()
                     self.finished = True
+
+
+class EndScreen:
+    def __init__(self):
+        self.overlay_surf = pygame.Surface((1280, 720))
+        self.overlay_surf.convert_alpha()
+        self.overlay_surf.fill((255, 255, 255))
+        self.overlay_surf.set_alpha(0)
+
+        self.elapsed_time = 0
+        self.ui_created = False
+        self.end_button = None
+
+        self.message = ""  # set by code that calls this
+        # "Thanks to the efforts of a humble ant colony: history is altered"
+
+    def ready(self):
+        self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
+
+    def display(self, time_delta):
+        screen = pygame.display.get_surface()
+
+        self.elapsed_time += time_delta
+        target_alpha = min(20 * self.elapsed_time, 100)
+        if target_alpha != self.overlay_surf.get_alpha():
+            self.overlay_surf.set_alpha(target_alpha)
+
+        if self.elapsed_time > 3 and not self.ui_created:
+            pygame_gui.elements.UILabel(
+                manager=self.manager,
+                relative_rect=pygame.Rect(440, 90, 400, 100),
+                text="You did it!",
+                object_id="endgame_large",
+            )
+            pygame_gui.elements.UITextBox(
+                manager=self.manager,
+                relative_rect=pygame.Rect(440, 390, 400, 100),
+                html_text="message",
+            )
+            self.end_button = pygame_gui.elements.UIButton(
+                manager=self.manager,
+                relative_rect=pygame.Rect(490, 500, 300, 40),
+                text="End Game",
+            )
+            self.ui_created = True
+
+        screen.blit(self.overlay_surf, (0, 0))
+
+        self.manager.update(time_delta)
+        self.manager.draw_ui(pygame.display.get_surface())
+
+    def process_events(self, event):
+        self.manager.process_events(event)
+
+        if event.type == pygame.USEREVENT:
+            if event.user_type == "ui_button_pressed":
+                if event.ui_element == self.end_button:
+                    sounds.playButtonSound()
+                    pygame.quit()
+                    raise SystemExit
