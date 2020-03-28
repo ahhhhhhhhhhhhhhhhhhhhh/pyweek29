@@ -170,6 +170,10 @@ def main():
         "have radioactive ants created the next superhero? exclusive interview with ManAnt",
     ]
     find_event["radioactive-ant2"].is_headline = True
+    find_event["radioactive-ant3"].newspaper_lines = [
+        "experts say nation-wide drop in crime due to ManAnt",
+    ]
+    find_event["radioactive-ant3"].is_headline = True
     find_event["radioactive-colony3"].newspaper_lines = [
         "New 'Super Ant' Discovered In Nearby Anthill",
     ]
@@ -185,7 +189,7 @@ def main():
         "scientist discovers ant colony with democratic society",
     ]
     find_event["democracy4"].newspaper_lines = [
-        "'even ants can do it', a book written by steven herald, the discoverer of ant democracy",
+        "'Even Ants Can Do It', A Book Written By Steven Herald, The Discoverer Of Ant Democracy",
         "_"
     ]
     find_event["democracy5"].newspaper_lines = [
