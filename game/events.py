@@ -4,6 +4,7 @@ import pygame_gui
 from game.resources import Resources
 from game import loader
 from game import more_elements
+from game import popups
 from game.popups import scale_image
 
 
@@ -272,3 +273,11 @@ class Quest(Decision):
             self.chosen_line = self.newspaper_lines[
                 self.leads_to.index(self.next_event)
             ]
+
+    def display(self, time_delta):
+        var = super().display(time_delta)
+
+        if var and self.endgame_image:
+            popups.Towns.current_town = popups.Towns.get_image(self.endgame_image)
+
+        return var

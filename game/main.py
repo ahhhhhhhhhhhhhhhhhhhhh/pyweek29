@@ -165,6 +165,10 @@ def main():
         "'even ants can do it', a book written by steven herald, the discoverer of ant democracy",
     ]
 
+    # manually inputting endgame images to the end of quest chains
+    find_event["bees8"].endgame_image = "bee"
+    find_event["explore6"].endgame_image = "destroyed"
+
     # manually inputting advisor icons
     # decisions
     find_event["beetle start"].advisor_name = "beetle"
@@ -237,7 +241,7 @@ def main():
         manager.update(time_delta)
         Resources.instance.manager.update(time_delta)
 
-        screen.blit(town_im, (898, 48))
+        screen.blit(popups.Towns.current_town, (898, 48))
 
         bg_current_time += time_delta
         if bg_current_time > bg_flip_time:
