@@ -14,6 +14,18 @@ from game.resources import Resources
 width, height = [1280, 720]
 
 
+class Towns():
+    names = ["ant", "bee", "default", "destroyed", "future", "pretty", "superhero"]
+    images = {}
+
+    for name in names:
+        images[name] = popups.scale_image(pygame.image.load(loader.filepath(f"towns/{name}.png")), 2)
+
+    @staticmethod
+    def get_image(name):
+        return Towns.images[name]    
+
+
 def main():
     pygame.init()
     pygame.freetype.init()
@@ -42,8 +54,7 @@ def main():
     eyes = pygame.transform.scale(eyes, (40,8))
     eyes = eyes.convert_alpha()
 
-    town_im = pygame.Surface((260, 172))  # placeholder for now
-    town_im.fill((230, 30, 70))
+    town_im = Towns.get_image("default")
 
     SoundManager(manager, width, height)
 
