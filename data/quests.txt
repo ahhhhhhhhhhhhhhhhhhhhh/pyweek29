@@ -1,3 +1,6 @@
+
+-------------------------- Nuclear War Ending --------------------------
+
 #explore
 true
 Your advisors think it would be a good idea to send out several ants as explorers, looking for new sources of food
@@ -48,10 +51,116 @@ Your explorers continue to find more grain towers, and your workers bring back a
 Excellent
 Your colony is extremely well fed
 20, 0, 0
+explore5
+
+#explore5
+false
+Your explorers are having to search futher and further for grain towers, but they continue to bring back food
+1
+Good
+Hopefully this food supply doesn't run out
+20, 0, 0
 _
 
 
 
+-------------------------- Bee and Ant Civilization Ending --------------------------
+
+#bees
+true
+An envoy from a nearby bee hive has arrived. Do you welcome him into your court?
+2
+Yes, I am interested in what the bee has to say
+The bee ambassador is pleased, and gives you a gift of honey
+5, 0, 0
+bees2
+No, I hate the bees. Send him away!
+The bee ambassador is deeply offended. You have likely ruined any chance of a diplomatic connection
+0, 0, 0
+_
+
+#bees2
+false
+The bee ambassador believes that your colony and his hive could have a closer, mutually beneficial relationship. He wants to establish a trade route.
+3
+Sounds like a fantastic idea. We should invest in making this trade route as good as possible!
+You send a group of workers with supplies to begin building paths and trade posts between your colony and the hive
+-10, -6, 0
+bees3 a
+A trade route sounds nice, but the bees should do most of the work
+You send a minimal amount of workers and supplies to help constuct the trade route
+-4, -2, 0
+bees3 b
+No, our colony stands alone
+The bee ambassador leaves your court, frustrated by your refusal
+0, 0, 0
+_
+
+#bees3 a
+false
+The trade route has been constructed, and your colony has become a hub of commercial activity 
+1
+Excellent
+You hope your friendly relationship with the bees can continue
+20, 10, 0
+bees4
+
+#bees3 b
+false
+The bees have finished building the trade route, and your colony now has access to more food and luxury items. Morale in your colony is high
+1
+Excellent
+You hope your friendly relationship with the bees can continue
+10, 5, 0
+bees4
+
+#bees4
+false
+The bee ambassador hopes your two nations can become even more closely intertwined. He proposes forming a joint colony of bees and ants nearby
+2
+Sounds like a wonderful idea
+Construction is quick, and the new colony seems to be doing very well, with bees and ants happily living alongside each other
+10, 20, 20
+bees5
+Bees and ants living together? Ridiculous!
+The bee ambassador is frustrated, but drops the idea
+0, 0, 0
+_
+
+#bees5
+false
+The joint colony of bees and ants has been thriving. The bee ambassador excitedly informs you that many more joint colonys are springing up around the outskirts of your territory
+1
+This will expand our territory a great deal. Wonderful!
+Your close relationship with the bees is quickly becoming a dominant empire in the area
+25, 40, 40
+bees6
+
+#bees6
+false
+Many of the joint colonys have created research teams. The combination of bee and ant knowledge has led to an unprecendented number of discoveries, improving your farming, housing, and military
+1
+We should invest more into these research labs!
+We can only hope the scientific breakthroughs continue at this rapid pace
+50, 50, 50
+bees7
+
+#bees7
+false
+As more and more new colonys are built, you have brushed up against the edge of some human towns. Some have suggested attacking the humans to expel them from the area and create more room for ants and bees
+2
+We should attack unexpectedly with a massive force of ants and bees together to scare the humans away
+While many brave soliders die, the humans ultimately flee from the onslaught. You quickly build new colonys in the massive amount of free land
+20, -50, 100
+_
+Some researchs claim they have developed a new venom that will be extra effective against humans. Time for a real wold test!
+The venom is very effective, and the humans flee quickly without much of a fight. You quickly build new colonys in the massive amount of free land
+20, -10, 100
+_
+
+
+
+-------------------------- Human Utopia Ending --------------------------
 
 #democracy1
 true
@@ -110,7 +219,7 @@ The council is furious, and organizes a large scale revolution. Many ants abando
 _
 
 
-
+-------------------------- Super Ant Ending --------------------------
 
 #radioactive-discover
 true
