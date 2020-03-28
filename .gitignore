@@ -3,3 +3,4 @@ __pycache__/*
 /build/*
 .DS_store
 **/.DS_store
+data/persistence.json

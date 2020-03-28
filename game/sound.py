@@ -1,7 +1,10 @@
+import json
+
 import pygame
 import pygame_gui
+
 from game import loader
-import json
+
 
 class SoundManager:
     instance = None
@@ -95,14 +98,14 @@ class SoundManager:
         data = {
             "Volume": {
                 "masterVolume": self.masterVolume,
-                "musicVolume": self.musicVolume
+                "musicVolume": self.musicVolume,
             }
         }
-        with open(loader.filepath("sound_files/soundVolume.json"), "w") as write_file:
+        with open(loader.filepath("persistence.json"), "w") as write_file:
             json.dump(data, write_file)
 
     def loadVolume(self):
-        with open(loader.filepath("sound_files/soundVolume.json"), "r") as read_file:
+        with open(loader.filepath("persistence.json"), "r") as read_file:
             data = json.load(read_file)
             self.masterVolume = data["Volume"]["masterVolume"]
             self.musicVolume = data["Volume"]["musicVolume"]

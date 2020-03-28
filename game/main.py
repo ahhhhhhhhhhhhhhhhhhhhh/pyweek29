@@ -1,8 +1,8 @@
-import pygame
-import pygame.freetype
 import os
 import random
 
+import pygame
+import pygame.freetype
 import pygame_gui
 
 from game import loader
@@ -14,16 +14,18 @@ from game.resources import Resources
 width, height = [1280, 720]
 
 
-class Towns():
+class Towns:
     names = ["ant", "bee", "default", "destroyed", "future", "pretty", "superhero"]
     images = {}
 
     for name in names:
-        images[name] = popups.scale_image(pygame.image.load(loader.filepath(f"towns/{name}.png")), 2)
+        images[name] = popups.scale_image(
+            pygame.image.load(loader.filepath(f"towns/{name}.png")), 2
+        )
 
     @staticmethod
     def get_image(name):
-        return Towns.images[name]    
+        return Towns.images[name]
 
 
 def main():
@@ -51,7 +53,7 @@ def main():
     bg_current_time = 0
 
     eyes = pygame.image.load(loader.filepath(f"eyes.png"))
-    eyes = pygame.transform.scale(eyes, (40,8))
+    eyes = pygame.transform.scale(eyes, (40, 8))
     eyes = eyes.convert_alpha()
 
     town_im = Towns.get_image("default")
