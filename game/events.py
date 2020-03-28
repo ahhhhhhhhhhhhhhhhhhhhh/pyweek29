@@ -86,6 +86,7 @@ class Event:
         self.name = name
 
         self.text = "text"
+        self.text_impacted = False
         self.impacts = [0, 0, 0]  # food, population, territory
 
         self.next_event = "_"  # needed for common interface with decisions
@@ -131,8 +132,10 @@ class Event:
 
     def _ready(self):
         self.apply_impact(self.impacts)
-        html, icons = impacts_to_html(self.impacts)
-        self.text += html
+        if not self.text_impacted:
+            html, icons = impacts_to_html(self.impacts)
+            self.text += html
+            self.text_impacted = True
 
         self.next_button = None
 
