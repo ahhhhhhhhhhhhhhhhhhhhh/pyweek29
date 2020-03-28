@@ -32,3 +32,26 @@ class TextButton(pygame_gui.elements.UIButton):
     def kill(self):
         super().kill()
         self.textbox.kill()
+
+
+class ImageBox:
+    def __init__(self, image, location):
+        self.image = image
+        self.location = location
+        self.visible = True
+
+    def draw(self, screen):
+        if self.visible:
+            screen.blit(self.image, self.location)
+
+    def set_position(self, new_loc):
+        self.location = new_loc.copy()
+
+
+class Group:
+    def __init__(self, *args):
+        self.elements = list(args)
+
+    def draw(self, screen):
+        for element in self.elements:
+            element.draw(screen)

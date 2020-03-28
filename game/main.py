@@ -44,7 +44,9 @@ def main():
     SoundManager(manager, width, height)
 
     normal_headlines = loader.loadHeadlines("headlines.txt")
-    headlines_queue = [] # list of tuples: (string of newspaper line, boolean is headline)
+    headlines_queue = (
+        []
+    )  # list of tuples: (string of newspaper line, boolean is headline)
     newspaper = popups.Newspaper(
         getRandHeadline(normal_headlines),
         getRandHeadline(normal_headlines),
@@ -62,7 +64,7 @@ def main():
     all_events = loader.loadEvents("events.txt")
     all_decisions = loader.loadDecisions("decisions.txt")
     all_quests = loader.loadQuests("quests.txt")
-    all_endgames = [] #placeholder
+    all_endgames = []  # placeholder
 
     decision_hooks = [decision for decision in all_decisions if decision.hook]
     quest_hooks = [quest for quest in all_quests if quest.hook]
@@ -72,24 +74,24 @@ def main():
     for event in all_events + all_decisions + all_quests + all_endgames:
         find_event[event.name] = event
 
-
     for item in [*all_decisions, *all_quests]:
         leads = item.leads_to
-        actual_leads = [] #needs preprocessing because of the new multi lead things
+        actual_leads = []  # needs preprocessing because of the new multi lead things
         for next_item in leads:
             if next_item.count(","):
                 actual_leads += next_item.split(",")
             else:
                 actual_leads.append(next_item)
-                
+
         for next_item in actual_leads:
             if next_item != "_":
                 if next_item not in find_event:
-                    raise ValueError(f"The story item {item.name} leads to nonexistent item {next_item}")
+                    raise ValueError(
+                        f"The story item {item.name} leads to nonexistent item {next_item}"
+                    )
 
     print("Verified story item integrity")
-    
-    
+
     # manually inputting newspaper headlines
     find_event["explore2"].newspaper_lines = [
         "local grain silo infested with ants",
@@ -110,13 +112,13 @@ def main():
 
     find_event["bees4"].newspaper_lines = [
         "local zoologist reports unprecedented levels of bee, ant cooperation",
-        "_"
+        "_",
     ]
     find_event["bees5"].newspaper_lines = [
-        "local zoologist finds ants and bees living together: \"completely unprecedented\""
+        'local zoologist finds ants and bees living together: "completely unprecedented"'
     ]
     find_event["bees6"].newspaper_lines = [
-        "experts report local ants, bees seem \"way, way too smart\""
+        'experts report local ants, bees seem "way, way too smart"'
     ]
     find_event["bees7"].newspaper_lines = [
         "local villagers flee after bee attack, become laughingstock of nation"
@@ -129,7 +131,7 @@ def main():
     ]
     find_event["radioactive-ant"].newspaper_lines = [
         "reports of abnormally large ants scare residents",
-        "_"
+        "_",
     ]
 
     find_event["democracy3"].newspaper_lines = [
@@ -177,7 +179,7 @@ def main():
     find_event["radioactive-wait"].advisor_name = "explorer"
     find_event["radioactive-explore"].advisor_name = "explorer"
     find_event["radioactive-ant"].advisor_name = "explorer"
-    
+
     event_queue = [
         getRandDecision(all_decisions, decision_hooks),
         getRandDecision(all_decisions, decision_hooks),
@@ -186,7 +188,7 @@ def main():
         getRandElement(all_events),
         newspaper,
     ]
-    quest_queue = [] # specific queue for quest events
+    quest_queue = []  # specific queue for quest events
 
     current_decision = event_queue.pop(0)
     # current_decision = popups.EndScreen() #Uncomment start of line to test endgame object
@@ -220,9 +222,9 @@ def main():
             bg_current_time = 0
             bg_pos += 1
             bg_pos %= len(backgrounds)
-        
+
         screen.blit(backgrounds[bg_pos], (0, 0))
-        
+
         Resources.instance.manager.draw_ui(screen)
 
         if current_decision.display(time_delta):
@@ -231,7 +233,9 @@ def main():
             if isinstance(current_decision, events.Quest):
                 print("quest:", current_decision.name)
                 if current_decision.chosen_line != "_":
-                    headlines_queue.append((current_decision.chosen_line, current_decision.is_headline))
+                    headlines_queue.append(
+                        (current_decision.chosen_line, current_decision.is_headline)
+                    )
 
                 if current_decision.next_event != "_":
                     next_quest = find_event[current_decision.next_event]
@@ -239,24 +243,29 @@ def main():
 
             else:
                 next_event_name = current_decision.next_event
-                if current_decision.next_event.count(',') > 0:
-                    next_event_name = random.choice(current_decision.next_event.split(','))
+                if current_decision.next_event.count(",") > 0:
+                    next_event_name = random.choice(
+                        current_decision.next_event.split(",")
+                    )
                 if next_event_name != "_":
                     next_event = find_event[next_event_name]
                     event_queue.append(next_event)
 
-            #resource control trigger
-            if event_num % 3 == 0:  # so that resource control events don't happen for a bunch of turns in a row
+            # resource control trigger
+            if (
+                event_num % 3 == 0
+            ):  # so that resource control events don't happen for a bunch of turns in a row
                 if Resources.instance.population < 20:
                     event_queue.insert(0, find_event["low population"])
-                elif Resources.instance.territory < Resources.instance.population - 20:  # elif statements so multiple resource control events don't happen at once
+                elif (
+                    Resources.instance.territory < Resources.instance.population - 20
+                ):  # elif statements so multiple resource control events don't happen at once
                     event_queue.insert(0, find_event["low territory"])
                 elif Resources.instance.food > Resources.instance.population + 20:
                     if Resources.instance.population < Resources.instance.territory:
                         event_queue.insert(0, find_event["food surplus population"])
                     else:
                         event_queue.insert(0, find_event["food surplus territory"])
-
 
             current_decision = event_queue.pop(0)
             current_decision.ready()
@@ -271,7 +280,7 @@ def main():
                     else:
                         event_queue.append(getRandElement(all_events))
 
-                #only adds another quest hook if there is not an ongoing quest
+                # only adds another quest hook if there is not an ongoing quest
                 if len(quest_queue) == 0:
                     event_queue.append(getRandDecision(all_quests, quest_hooks))
                 else:
@@ -296,6 +305,7 @@ def getRandDecision(all_decisions, decision_hooks):
     if len(decision_hooks) == 0:
         decision_hooks = [decision for decision in all_decisions if decision.hook]
     return decision_hooks.pop(random.randrange(0, len(decision_hooks)))
+
 
 # headlines also get cycled through
 def getRandHeadline(normal_headlines):

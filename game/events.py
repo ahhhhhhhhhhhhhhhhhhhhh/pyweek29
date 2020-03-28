@@ -11,6 +11,18 @@ class Images:
     scroll_image = pygame.transform.scale(
         pygame.image.load(loader.filepath("ui_images/scroll004.png")), (400, 300)
     )
+    scroll_image1 = pygame.transform.scale(
+        pygame.image.load(loader.filepath("ui_images/scroll001.png")), (400, 300)
+    )
+    scroll_image2 = pygame.transform.scale(
+        pygame.image.load(loader.filepath("ui_images/scroll002.png")), (400, 300)
+    )
+    scroll_image3 = pygame.transform.scale(
+        pygame.image.load(loader.filepath("ui_images/scroll003.png")), (400, 300)
+    )
+    scroll_image4 = pygame.transform.scale(
+        pygame.image.load(loader.filepath("ui_images/scroll004.png")), (400, 300)
+    )
     button_scroll_image = pygame.transform.scale(
         pygame.image.load(loader.filepath("ui_images/button.png")), (300, 300)
     )
@@ -36,12 +48,13 @@ class Icons:
     images = {}
 
     for name in names:
-        images[name] = scale_image(pygame.image.load(loader.filepath(f"advisors/{name}.png")), 4)
+        images[name] = scale_image(
+            pygame.image.load(loader.filepath(f"advisors/{name}.png")), 4
+        )
 
     @staticmethod
     def get_image(name):
         return Icons.images[name]
-    
 
 
 def impacts_to_html(outcome):
@@ -78,29 +91,39 @@ class Event:
         self.next_event = "_"  # needed for common interface with decisions
         self.advisor_name = "advisor"
 
+        self.animation_stage = 1
+        self.animation_stages = 5
+        self.animation_time = 0
+        self.animation_flip_time = 0.4
+
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
         self.finished = False
-    
-        self.button_ext_background = pygame_gui.elements.UIImage(
-            manager=self.manager,
-            relative_rect=pygame.Rect(50, 150, 300, 300),
-            image_surface=Images.button_ext_image,
+
+        self.button_ext_background = more_elements.ImageBox(
+            Images.button_ext_image, (50, 150)
         )
-        self.button_background = pygame_gui.elements.UIImage(
-            manager=self.manager,
-            relative_rect=pygame.Rect(50, 200, 300, 300),
-            image_surface=Images.button_scroll_image,
+        self.button_ext_background.visible = False
+        self.button_background = more_elements.ImageBox(
+            Images.button_scroll_image, (50, 200)
         )
-        self.background_image = pygame_gui.elements.UIImage(
-            manager=self.manager,
-            relative_rect=pygame.Rect(15, 150, 400, 300),
-            image_surface=Images.scroll_image,
+        self.button_background.visible = False
+        self.background_image = more_elements.ImageBox(Images.scroll_image1, (15, 150))
+        self.advisor_image = more_elements.ImageBox(
+            Icons.get_image(self.advisor_name), (180, 145)
         )
-        self.advisor_image = pygame_gui.elements.UIImage(
+
+        self.image_group = more_elements.Group(
+            self.button_background,
+            self.button_ext_background,
+            self.background_image,
+            self.advisor_image,
+        )
+
+        self.textbox = pygame_gui.elements.UITextBox(
             manager=self.manager,
-            relative_rect = pygame.Rect(180, 145, 40, 40),
-            image_surface=Icons.get_image(self.advisor_name),
+            relative_rect=pygame.Rect(50, 175, 300, 200),
+            html_text="",
         )
 
         self._ready()
@@ -108,21 +131,37 @@ class Event:
     def _ready(self):
         self.apply_impact(self.impacts)
         html, icons = impacts_to_html(self.impacts)
+        self.text += html
 
-        self.textbox = pygame_gui.elements.UITextBox(
-            manager=self.manager,
-            relative_rect=pygame.Rect(50, 175, 300, 200),
-            html_text=self.text + html,
-        )
+        self.next_button = None
 
+    def create_buttons(self):
         self.next_button = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect(50, 400, 300, 40),
             text="Next",
             manager=self.manager,
         )
 
-
     def display(self, time_delta):
+        self.image_group.draw(pygame.display.get_surface())
+
+        self.animation_time += time_delta
+        if self.animation_stage < self.animation_stages:
+            if self.animation_time > self.animation_flip_time:
+                self.animation_time = 0
+                self.animation_stage += 1
+                if self.animation_stage < self.animation_stages:
+                    self.background_image.image = getattr(
+                        Images, f"scroll_image{self.animation_stage}"
+                    )
+                if self.animation_stage == self.animation_stages - 1:
+                    self.textbox.html_text = self.text
+                    self.textbox.rebuild()
+                if self.animation_stage == self.animation_stages:
+                    self.button_ext_background.visible = True
+                    self.button_background.visible = True
+                    self.create_buttons()
+
         self.manager.update(time_delta)
         self.manager.draw_ui(pygame.display.get_surface())
 
@@ -156,14 +195,12 @@ class Decision(Event):
             [0, 0, 0],
         ]  # [food, population, territory]
         self.leads_to = ["_", "_", "_"]  # _ means no following event
-        
+
     def _ready(self):
-        self.textbox = pygame_gui.elements.UITextBox(
-            manager=self.manager,
-            relative_rect=pygame.Rect(50, 175, 300, 200),
-            html_text=self.text,
-        )
-        
+        self.decision_buttons = []
+        self.next_button = None
+
+    def create_buttons(self):
         self.decision_buttons = []
         cumulative_height = 400
         for i, option in enumerate(self.options):
@@ -181,8 +218,6 @@ class Decision(Event):
         self.button_ext_background.set_position(
             pygame.Rect(50, max(cumulative_height - 550, 150), 300, 300)
         )
-
-        self.next_button = None
 
     def process_events(self, event):
         super().process_events(event)
@@ -202,9 +237,7 @@ class Decision(Event):
                     for button in self.decision_buttons:
                         button.kill()
 
-                    self.button_background.set_relative_position(
-                        pygame.Rect(50, 200, 300, 300)
-                    )
+                    self.button_background.set_position(pygame.Rect(50, 200, 300, 300))
 
                     self.next_button = pygame_gui.elements.UIButton(
                         relative_rect=pygame.Rect(50, 400, 300, 40),
@@ -216,16 +249,22 @@ class Decision(Event):
 
 
 class Quest(Decision):
-    def _quest_init(self): #called special in the quest loader
+    def _quest_init(self):  # called special in the quest loader
         self.prereqs = [0, 0, 0]  # food, population, territory
-        self.newspaper_lines = ["_", "_", "_"]  # line that gets put into the newspaper queue
+        self.newspaper_lines = [
+            "_",
+            "_",
+            "_",
+        ]  # line that gets put into the newspaper queue
         self.is_headline = False  # if newspaper line is meant to be headline
 
-        self.endgame_image = None        
+        self.endgame_image = None
 
     def process_events(self, event):
         super().process_events(event)
 
         # prevents an error when all of a quest's options leads to another event
         if self.next_event in self.leads_to:
-            self.chosen_line = self.newspaper_lines[self.leads_to.index(self.next_event)]
+            self.chosen_line = self.newspaper_lines[
+                self.leads_to.index(self.next_event)
+            ]
