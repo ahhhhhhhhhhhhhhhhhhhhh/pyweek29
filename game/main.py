@@ -44,9 +44,7 @@ def main():
     SoundManager(manager, width, height)
 
     normal_headlines = loader.loadHeadlines("headlines.txt")
-    headlines_queue = (
-        []
-    )  # list of tuples: (string of newspaper line, boolean is headline)
+    headlines_queue = [] # list of tuples: (string of newspaper line, boolean is headline)
     newspaper = popups.Newspaper(
         getRandHeadline(normal_headlines),
         getRandHeadline(normal_headlines),
@@ -64,15 +62,34 @@ def main():
     all_events = loader.loadEvents("events.txt")
     all_decisions = loader.loadDecisions("decisions.txt")
     all_quests = loader.loadQuests("quests.txt")
+    all_endgames = [] #placeholder
 
     decision_hooks = [decision for decision in all_decisions if decision.hook]
     quest_hooks = [quest for quest in all_quests if quest.hook]
 
     # dict of event names to event to easily reference events
     find_event = {}
-    for event in all_events + all_decisions + all_quests:
+    for event in all_events + all_decisions + all_quests + all_endgames:
         find_event[event.name] = event
 
+
+    for item in [*all_decisions, *all_quests]:
+        leads = item.leads_to
+        actual_leads = [] #needs preprocessing because of the new multi lead things
+        for next_item in leads:
+            if next_item.count(","):
+                actual_leads += next_item.split(",")
+            else:
+                actual_leads.append(next_item)
+                
+        for next_item in actual_leads:
+            if next_item != "_":
+                if next_item not in find_event:
+                    raise ValueError(f"The story item {item.name} leads to nonexistent item {next_item}")
+
+    print("Verified story item integrity")
+    
+    
     # manually inputting newspaper headlines
     find_event["explore2"].newspaper_lines = [
         "local grain silo infested with ants",
@@ -106,6 +123,24 @@ def main():
     ]
     find_event["bees7"].is_headline = True
 
+    find_event["radioactive-explore"].newspaper_lines = [
+        "nuclear power plant infested with ants",
+        "scientists worry about enviromental impact of local nuclear plant",
+    ]
+    find_event["radioactive-ant"].newspaper_lines = [
+        "reports of abnormally large ants scare residents",
+        "_"
+    ]
+    find_event["democracy3"].newspaper_lines = [
+        "_",
+        "_",
+        "scientist discovers ant colony with democratic society",
+    ]
+    find_event["democracy4"].newspaper_lines = [
+        "_",
+        "_",
+        "'even ants can do it', a book written by steven herald, the discoverer of ant democracy",
+    ]
 
     # manually inputting advisor icons
     # decisions
@@ -116,6 +151,8 @@ def main():
     find_event["grasshopper"].advisor_name = "explorer"
     find_event["grasshopper variation2"].advisor_name = "explorer"
     find_event["grasshopper variation3"].advisor_name = "explorer"
+    find_event["bee merchant"].advisor_name = "bee"
+    find_event["bee merchant returns"].advisor_name = "bee"
     # events
     find_event["new tunnels"].advisor_name = "worker"
     # quests
@@ -124,6 +161,7 @@ def main():
     find_event["explore3"].advisor_name = "explorer"
     find_event["explore4"].advisor_name = "explorer"
     find_event["explore5"].advisor_name = "explorer"
+
     find_event["bees"].advisor_name = "bee"
     find_event["bees2"].advisor_name = "bee"
     find_event["bees3 a"].advisor_name = "bee"
@@ -133,6 +171,11 @@ def main():
     find_event["bees6"].advisor_name = "bee"
     find_event["bees7"].advisor_name = "bee"
 
+    find_event["radioactive-discover"].advisor_name = "explorer"
+    find_event["radioactive-wait"].advisor_name = "explorer"
+    find_event["radioactive-explore"].advisor_name = "explorer"
+    find_event["radioactive-ant"].advisor_name = "explorer"
+    
     event_queue = [
         getRandDecision(all_decisions, decision_hooks),
         getRandDecision(all_decisions, decision_hooks),
@@ -192,9 +235,13 @@ def main():
                     next_quest = find_event[current_decision.next_event]
                     quest_queue.append(next_quest)
 
-            elif current_decision.next_event != "_":
-                next_event = find_event[current_decision.next_event]
-                event_queue.append(next_event)
+            else:
+                next_event_name = current_decision.next_event
+                if current_decision.next_event.count(',') > 0:
+                    next_event_name = random.choice(current_decision.next_event.split(','))
+                if next_event_name != "_":
+                    next_event = find_event[next_event_name]
+                    event_queue.append(next_event)
 
             #resource control trigger
             if event_num % 3 == 0:  # so that resource control events don't happen for a bunch of turns in a row
