@@ -279,7 +279,7 @@ def main():
                     event_queue.append(next_event)
 
             # resource control trigger
-            if (event_num % 3 == 0):  # so that resource control events don't happen for a bunch of turns in a row
+            if event_num % 3 == 0:  # so that resource control events don't happen for a bunch of turns in a row
                 if Resources.instance.population < 20:
                     event_queue.insert(0, find_event["low population"])
                 elif (Resources.instance.territory < Resources.instance.population - 20):  # elif statements so multiple resource control events don't happen at once
@@ -290,6 +290,17 @@ def main():
                     else:
                         event_queue.insert(0, find_event["food surplus territory"])
 
+            if Resources.instance.population <= 0:
+                lose_screen = popups.EndScreen()
+                lose_screen.message = "Try as you might, your colony simply could not survive. Without any workers, you are forced to flee as your territory is taken over by others"
+                event_queue.insert(0, lose_screen)
+            elif Resources.instance.territory <= 0:
+                lose_screen = popups.EndScreen()
+                lose_screen.message = "Try as you might, your colony simply could not survive. Without any territory you can claim on your own, you and your remaning workers are forced to flee the area"
+                event_queue.insert(0, lose_screen)
+            elif Resources.instance.food <= 0:
+                event_queue.insert(0, find_event["starvation"])
+
             current_decision = event_queue.pop(0)
             #current_decision = popups.EndgameScreen() ###################testing purposes
             current_decision.ready()
@@ -299,9 +310,7 @@ def main():
                 while len(event_queue) < 5:
                     rand = random.randrange(100)
                     if rand < 65:
-                        event_queue.append(
-                            getRandDecision(all_decisions, decision_hooks)
-                        )
+                        event_queue.append(getRandDecision(all_decisions, decision_hooks))
                     else:
                         event_queue.append(getRandElement(all_events))
 

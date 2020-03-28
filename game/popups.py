@@ -170,9 +170,11 @@ class Newspaper:
 
 class EndScreen:
     def __init__(self):
+        self.name = "end screen"
+
         self.overlay_surf = pygame.Surface((1280, 720))
         self.overlay_surf.convert_alpha()
-        self.overlay_surf.fill((255, 255, 255))
+        self.overlay_surf.fill((255, 0, 0))
         self.overlay_surf.set_alpha(0)
 
         self.elapsed_time = 0
@@ -196,18 +198,18 @@ class EndScreen:
         if self.elapsed_time > 3 and not self.ui_created:
             pygame_gui.elements.UILabel(
                 manager=self.manager,
-                relative_rect=pygame.Rect(440, 90, 400, 100),
-                text="You did it!",
+                relative_rect=pygame.Rect(220, 90, 880, 80),
+                text="Your colony has failed!",
                 object_id="endgame_large",
             )
             pygame_gui.elements.UITextBox(
                 manager=self.manager,
-                relative_rect=pygame.Rect(440, 390, 400, 100),
-                html_text="message",
+                relative_rect=pygame.Rect(500, 450, 330, 150),
+                html_text=self.message,
             )
             self.end_button = pygame_gui.elements.UIButton(
                 manager=self.manager,
-                relative_rect=pygame.Rect(490, 500, 300, 40),
+                relative_rect=pygame.Rect(510, 600, 300, 40),
                 text="End Game",
             )
             self.ui_created = True
@@ -223,7 +225,6 @@ class EndScreen:
         if event.type == pygame.USEREVENT:
             if event.user_type == "ui_button_pressed":
                 if event.ui_element == self.end_button:
-                    sounds.playButtonSound()
                     pygame.quit()
                     raise SystemExit
 
