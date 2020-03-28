@@ -1,9 +1,7 @@
 import pygame
-
 import pygame_gui
-
 from game import loader
-
+import json
 
 class SoundManager:
     instance = None
@@ -19,8 +17,7 @@ class SoundManager:
         ]
         pygame.mixer.music.load(loader.filepath("sound_files/RepeatMusic.mp3"))
         self.slidesDisplayed = False
-        self.musicVolume = 0.5
-        self.masterVolume = 1
+        self.loadVolume()
         pygame.mixer.music.set_volume(self.musicVolume)
 
         self.displayVolumeButton()
@@ -81,6 +78,7 @@ class SoundManager:
         self.musicVolume = self.musicSlide.get_current_value()
         self.masterVolume = self.masterSoundSlide.get_current_value()
         pygame.mixer.music.set_volume(self.musicVolume * self.masterVolume)
+        self.saveVolume()
         for i in self.sounds:
             pygame.mixer.Sound.set_volume(i, self.masterVolume)
 
@@ -89,6 +87,22 @@ class SoundManager:
 
     def playNewspaperSound(self):
         pygame.mixer.Sound.play(self.sounds[1])
+
+    def saveVolume(self):
+        data = {
+            "Volume": {
+                "masterVolume": self.masterVolume,
+                "musicVolume": self.musicVolume
+            }
+        }
+        with open(loader.filepath("sound_files/soundVolume.json"), "w") as write_file:
+            json.dump(data, write_file)
+
+    def loadVolume(self):
+        with open(loader.filepath("sound_files/soundVolume.json"), "r") as read_file:
+            data = json.load(read_file)
+            self.masterVolume = data["Volume"]["masterVolume"]
+            self.musicVolume = data["Volume"]["musicVolume"]
 
     def process_events(self, event):
         if self.slidesDisplayed:
