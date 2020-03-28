@@ -215,11 +215,7 @@ class Decision(Event):
 class Quest(Decision):
     def _quest_init(self): #called special in the quest loader
         self.prereqs = [0, 0, 0]  # food, population, territory
-        self.newspaper_lines = [
-            "_",
-            "_",
-            "_",
-        ]  # line that gets put into the newspaper queue
+        self.newspaper_lines = ["_", "_", "_"]  # line that gets put into the newspaper queue
         self.is_headline = False  # if newspaper line is meant to be headline
 
         self.endgame_image = None        
@@ -229,6 +225,4 @@ class Quest(Decision):
 
         # prevents an error when all of a quest's options leads to another event
         if self.next_event in self.leads_to:
-            self.chosen_line = self.newspaper_lines[
-                self.leads_to.index(self.next_event)
-            ]
+            self.chosen_line = self.newspaper_lines[self.leads_to.index(self.next_event)]

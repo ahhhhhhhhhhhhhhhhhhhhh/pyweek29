@@ -278,7 +278,7 @@ We don't have enough space to give all of our workers a home. What should we do?
 2
 Divert workers from farming to expanding territory
 Your workers expand out into uninhabited nearby land and expand your colony
--12, 0, 8
+-8, 0, 8
 _
 Crowd workers together
 Many workers are unhappy, and some leave to find other colonies.

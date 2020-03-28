@@ -2,7 +2,7 @@ import pygame
 
 import pygame_gui
 
-import game.loader as loader
+from game import loader
 
 
 class SoundManager:
