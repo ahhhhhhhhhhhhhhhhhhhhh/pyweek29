@@ -13,6 +13,66 @@ from game.resources import Resources
 
 width, height = [1280, 720]
 
+def main_menu():
+    manager = pygame_gui.UIManager((width, height), loader.filepath("theme.json"))
+    clock = pygame.time.Clock()
+    screen = pygame.display.get_surface()
+    play_button = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect(50, 400, 300, 40),
+        text="Play",
+        manager=manager,
+    )
+    bg_flip_time = 0.1
+    bg_pos = 0
+    bg_current_time = 0
+    town_im = popups.Towns.get_image("default")
+    
+    backgrounds = []
+    for i in range(1, 18):
+        im = pygame.image.load(loader.filepath(f"queen_animation/QR{i}.png"))
+        im = pygame.transform.scale(im, (1280, 720))
+        im.set_colorkey((167, 255, 255))
+        im = im.convert_alpha()
+        backgrounds.append(im)
+    
+    while True:
+        time_delta = clock.tick(60) / 1000
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                raise SystemExit
+            if event.type == pygame.USEREVENT:
+                if event.user_type == "ui_button_pressed":
+                    if event.ui_element == play_button:
+                        return
+
+            if event.type == pygame.USEREVENT:
+                pass
+            manager.process_events(event)
+
+        manager.update(time_delta)
+
+        screen.blit(town_im, (928, 52))
+
+        bg_current_time += time_delta
+        if bg_current_time > bg_flip_time:
+            bg_current_time = 0
+            bg_pos += 1
+            #bg_pos %= len(backgrounds)
+            if bg_pos >= len(backgrounds):
+                bg_pos = -len(backgrounds)*random.randint(1,5)
+        
+        if (bg_pos >= 0):
+            screen.blit(backgrounds[bg_pos], (0, 0))
+        else:
+            screen.blit(backgrounds[0], (0, 0))
+        
+        manager.draw_ui(screen)
+    
+        pygame.display.flip()
+
+
 
 def main():
     pygame.init()
@@ -187,7 +247,9 @@ def main():
     find_event["radioactive-wait"].advisor_name = "explorer"
     find_event["radioactive-explore"].advisor_name = "explorer"
     find_event["radioactive-ant"].advisor_name = "explorer"
-
+    
+    main_menu()
+    
     event_queue = [
         getRandDecision(all_decisions, decision_hooks),
         getRandDecision(all_decisions, decision_hooks),
