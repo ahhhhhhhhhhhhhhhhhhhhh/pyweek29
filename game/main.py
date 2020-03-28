@@ -20,6 +20,7 @@ def main():
     pygame.mixer.init(buffer=512)
 
     pygame.display.set_caption("Queen of the Hill")  # changes name of pygame window
+    pygame.display.set_icon(pygame.image.load(loader.filepath("icon.png")))
 
     screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
