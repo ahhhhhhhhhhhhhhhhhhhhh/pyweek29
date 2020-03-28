@@ -1,4 +1,3 @@
-
 -------------------------- Nuclear War Ending --------------------------
 
 #explore
@@ -55,7 +54,7 @@ explore5
 
 #explore5
 false
-Your explorers are having to search futher and further for grain towers, but they continue to bring back food
+Your explorers are having to search further and further for grain towers, but they continue to bring back food
 1
 Good
 Hopefully this food supply doesn't run out
@@ -64,7 +63,7 @@ explore6
 
 #explore6
 false
-As your explorers spread out through more and more human areas, they find more and more craters and exploded wreckage. Some of your explorers are disapearing, while others report barely escaping from human battlefields. There is little grain left to take.
+As your explorers spread out through more and more human areas, they find more and more craters and exploded wreckage. Some of your explorers are disappearing, while others report barely escaping from human battlefields. There is little grain left to take.
 2
 Pull back all explorers
 You confine your workers to the colony to protect them, but you are concerned the human fighting may soon reach your territory
@@ -100,7 +99,7 @@ You send a group of workers with supplies to begin building paths and trade post
 -10, -6, 0
 bees3 a
 A trade route sounds nice, but the bees should do most of the work
-You send a minimal amount of workers and supplies to help constuct the trade route
+You send a minimal amount of workers and supplies to help construct the trade route
 -4, -2, 0
 bees3 b
 No, our colony stands alone
@@ -141,7 +140,7 @@ _
 
 #bees5
 false
-The joint colony of bees and ants has been thriving. The bee ambassador excitedly informs you that many more joint colonys are springing up around the outskirts of your territory
+The joint colony of bees and ants has been thriving. The bee ambassador excitedly informs you that many more joint colonies are springing up around the outskirts of your territory
 1
 This will expand our territory a great deal. Wonderful!
 Your close relationship with the bees is quickly becoming a dominant empire in the area
@@ -150,7 +149,7 @@ bees6
 
 #bees6
 false
-Many of the joint colonys have created research teams. The combination of bee and ant knowledge has led to an unprecendented number of discoveries, improving your farming, housing, and military
+Many of the joint colonies have created research teams. The combination of bee and ant knowledge has led to an unprecedented number of discoveries, improving your farming, housing, and military
 1
 We should invest more into these research labs!
 We can only hope the scientific breakthroughs continue at this rapid pace
@@ -159,20 +158,20 @@ bees7
 
 #bees7
 false
-As more and more new colonys are built, you have brushed up against the edge of some human towns. Some have suggested attacking the humans to expel them from the area and create more room for ants and bees
+As more and more new colonies are built, you have brushed up against the edge of some human towns. Some have suggested attacking the humans to expel them from the area and create more room for ants and bees
 2
 We should attack unexpectedly with a massive force of ants and bees together to scare the humans away
-While many brave soliders die, the humans ultimately flee from the onslaught. You quickly build new colonys in the massive amount of free land
+While many brave soldiers die, the humans ultimately flee from the onslaught. You quickly build new colonies in the massive amount of free land
 20, -50, 100
 bees8
-Some researchs claim they have developed a new venom that will be extra effective against humans. Time for a real world test!
-The venom is very effective, and the humans flee quickly without much of a fight. You quickly build new colonys in the massive amount of free land
+Some researchers claim they have developed a new venom that will be extra effective against humans. Time for a real world test!
+The venom is very effective, and the humans flee quickly without much of a fight. You quickly build new colonies in the massive amount of free land
 20, -10, 100
 bees8
 
 #bees8
 false
-Embolden by your recent victory against the humans, the bee leaders want to launch more attacks against the humans, and continue to research ever more effective venoms. They dream of a world without humans, where bees and ants can rule together
+Emboldened by your recent victory against the humans, the bee leaders want to launch more attacks against the humans, and continue to research ever more effective venoms. They dream of a world without humans, where bees and ants can rule together
 1
 You couldn't stop them if you tried
 The bee leaders excitedly continue their war on humans.
@@ -271,7 +270,7 @@ Your bravest scouts go out to explore the building.
 0, -5, 0
 radioactive-explore
 No, I'm queen, I don't worry about the peasants opinion
-The scouts continue to spread rumors, but your firm will convinces some to reconsider.
+The scouts continue to spread rumors, but your firm will convince some to reconsider.
 0, 0, 0
 _
 
@@ -303,27 +302,36 @@ radioactive-colony
 
 #radioactive-ant2
 false
-Your scouts have heard rumors about the sick ants that were banished, now living in the nearby human towns. The common ants are afraid that the sickness will spread. What do you do?
+Your scouts have heard rumors about the sick ants that were banished, now living in the nearby human towns. The common ants are afraid that the sickness has spread to other ants before they left. What do you do?
 2
 Nothing
 Many ants panic anyway, and some barricade themselves in their homes
 -5, 0, 0
-superhero endgame
+radioactive-ant3
 Lock down colony
 The colony is locked down for a week, and the common ants are glad you are wary of the disease
 -10, 0, 0
+radioactive-ant3
+
+#radioactive-ant3
+false
+The scouts are talking between each other, and they want to see what happened to the banished sick ants.
+1
+Lets find out
+The scouts bring back the most amazing story, they saw a human with antenna and legs roaming the city streets at night. What or who it is, they don't know.
+0, 0, 0
 superhero endgame
 
 #radioactive-colony
 false
-Your medical team have suddenly started showing symptoms similar to the sick ants. Ants are in a panic about this new disease, What do you do?
+Your medical team has suddenly started showing symptoms similar to the sick ants. Ants are in a panic about this new disease, What do you do?
 3
 Nothing
 Many ants panic anyway, and some barricade themselves in their homes
 -5, 0, 0
 radioactive-colony2
 Quarantine all ants with symptoms
-The medical workers are now quarentined with the sick ants, and their fate looks grim.
+The medical workers are now quarantined with the sick ants, and their fate looks grim.
 0, 0, 0
 radioactive-colony2
 Lock down the whole colony
@@ -333,7 +341,7 @@ radioactive-colony2
 
 #radioactive-colony2
 false
-The mysterious illness has spread quicker than you could have expected, all of your precautions have done nothing. Now almost half of your colony is sick. Farming is abandoned, people are rioting in the street, it loooks to be near the end of this colony.
+The mysterious illness has spread quicker than you could have expected, all of your precautions have done nothing. Now almost half of your colony is sick. Farming is abandoned, people are rioting in the street, it looks to be near the end of this colony.
 1
 Continue
 It looks like there is nothing for you to do, only hope that the disease is not fatal.
@@ -342,7 +350,7 @@ radioactive-colony3
 
 #radioactive-colony3
 false
-A miracle has occured, many of the sick ants have gotten better. Not only that, but they are stronger and faster than ever before. Some ants are twice as big as a normal ant, and can run three times as fast. What do you do?
+A miracle has occurred, many of the sick ants have gotten better. Not only that, but they are stronger and faster than ever before. Some ants are twice as big as a normal ant, and can run three times as fast. What do you do?
 2
 Accept these new ants as your warriors and put them to work
 These ants can do the work of ten normal ants, and you quickly gain a surplus of food and expand your territory
@@ -357,7 +365,7 @@ ant takeover endgame
 false
 Your colony is now composed of half super ants. These ants are strong enough to colonize the nearby human city, which was previously uninhabitable. Do you expand into the city?
 2
-Yes, this an opportunity of a lifetime!
+Yes, this is the opportunity of a lifetime!
 Your ant colony expands into the city, and with the new super ants, you quickly gain control of house after house. The humans flee the town, and you become the most powerful ant colony in the country
 10, 10, 50
 ant takeover endgame

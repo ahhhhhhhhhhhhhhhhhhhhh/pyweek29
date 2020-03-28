@@ -251,6 +251,9 @@ def main():
         getRandElement(all_events),
         newspaper,
     ]
+    
+    print (event_queue[3].name)
+    
     quest_queue = []  # specific queue for quest events
 
     current_decision = event_queue.pop(0)
@@ -329,17 +332,17 @@ def main():
 
             if Resources.instance.population <= 0:
                 lose_screen = popups.EndScreen()
-                lose_screen.message = "Try as you might, your colony simply could not survive. Without any workers, you are forced to flee as your territory is taken over by others"
+                lose_screen.message = "Try as you might, your colony simply could not survive. Without any workers, you are forced to flee as your territory is taken over by others."
                 event_queue.insert(0, lose_screen)
             elif Resources.instance.territory <= 0:
                 lose_screen = popups.EndScreen()
-                lose_screen.message = "Try as you might, your colony simply could not survive. Without any territory you can claim on your own, you and your remaning workers are forced to flee the area"
+                lose_screen.message = "Try as you might, your colony simply could not survive. Without any territory you can claim on your own, you and your remaining workers are forced to flee the area."
                 event_queue.insert(0, lose_screen)
             elif Resources.instance.food <= 0:
                 event_queue.insert(0, find_event["starvation"])
 
             current_decision = event_queue.pop(0)
-            #current_decision = popups.EndgameScreen() ###################testing purposes
+            #current_decision = popups.EndgameScreen("ja") ###################testing purposes
             current_decision.ready()
             print("now playing event:", current_decision.name)
 

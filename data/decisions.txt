@@ -56,7 +56,7 @@ beetle planning
 
 #beetle planning
 false
-You meet with you generals to plan your inavsion of the beetle colony. How do you want to attack?
+You meet with your generals to plan your invasion of the beetle colony. How do you want to attack?
 3
 Attack head-on with an overwhelming force
 You win the fight, but at heavy cost. You quickly loot the beetle colony for food, and move into the territory
@@ -309,13 +309,13 @@ You send in undercover agents to join the formings of the rebellion. There, your
 0, -7, 0
 _
 give food to appease your ants
-as a sign of goodwill, you give your ants food from your colony's supply. In response, the rebellion leader urges on his members to revolt; however, he is abandoned, and your soldiers quickly quickly seize him.
+as a sign of goodwill, you give your ants food from your colony's supply. In response, the rebellion leader urges on his members to revolt; however, he is abandoned, and your soldiers quickly seize him.
 -4, -1, 0
 spy found variation2
 
 #sabotage3.2
 false
-Several ants rise up and demand that you distribute more of the colonies food supply. What do you do?
+Several ants rise up and demand that you distribute more of the colony's food supply. What do you do?
 2
 Violently suppress the rebellion
 Your soldiers bloodily massacre those who rose up against you. The saboteur is found among those who died
@@ -442,7 +442,7 @@ He takes the food, saying your investment is very wise.
 -10, 0, 0
 invest-good,invest-bad
 No
-He says your missing out on an opportunity.
+He says you're missing out on an opportunity.
 0, 0, 0
 _
 
@@ -596,7 +596,7 @@ _
 false
 The colony is completely out of food. The situation is desperate. What should we do?
 2
-Trade away our territory to nearby colonys in exchange for food
+Trade away our territory to nearby colonies in exchange for food
 Your territory shrinks considerably, but you prevent your colony from starving
 20, 0, -10
 _

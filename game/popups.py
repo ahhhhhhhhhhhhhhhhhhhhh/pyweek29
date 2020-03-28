@@ -7,6 +7,7 @@ import pygame_gui
 
 from game import loader
 from game import events
+from game import more_elements
 from game.sound import SoundManager
 
 
@@ -233,10 +234,10 @@ class EndgameScreen:
     def __init__(self, name):
         self.name = name
 
-        self.message = ""  # set by code that calls this
+        self.message = "THIS IS AN EXAMPLE MESSAGE"  # set by code that calls this
         # "Thanks to the efforts of a humble ant colony: history is altered"
 
-        self.town = "future" #name of town to show
+        self.town = "bee" #name of town to show
 
         self.elapsed_time = 0
         self.zoom_time = 8
@@ -252,6 +253,8 @@ class EndgameScreen:
 
         screen = pygame.display.get_surface()
         self.zoom_im = screen.copy()
+
+        self.font_color = "#000000" if self.town != "future" else "#FFFFFF"
   
     def display(self, time_delta):
         screen = pygame.display.get_surface()
@@ -274,27 +277,27 @@ class EndgameScreen:
             self.x = 0
             self.y = 0
 
-            pygame_gui.elements.UILabel(
+            pygame_gui.elements.UITextBox(
                 manager=self.manager,
-                relative_rect=pygame.Rect(200, 90, 880, 80),
-                text="Congratulations",
+                relative_rect=pygame.Rect(200, 90, 880, 100),
+                html_text=f"<font color={self.font_color}>Congratulations</font>",
                 object_id="endgame_large",
             )
-            pygame_gui.elements.UILabel(
+            pygame_gui.elements.UITextBox(
                 manager=self.manager,
                 relative_rect=pygame.Rect(200, 150, 880, 100),
-                text="You have changed the course of history",
+                html_text=f"<font color={self.font_color}>You have changed the course of history</font>",
                 object_id="endgame_subtitle",
             )
             pygame_gui.elements.UITextBox(
                 manager=self.manager,
                 relative_rect=pygame.Rect(440, 290, 400, 200),
-                html_text=self.message,
+                html_text=f"<font color={self.font_color}>{self.message}</font>",
             )
-            self.end_button = pygame_gui.elements.UIButton(
+            self.end_button = more_elements.TextButton(
                 manager=self.manager,
-                relative_rect=pygame.Rect(490, 500, 300, 40),
-                text="End Game",
+                relative_rect=pygame.Rect(520, 560, 110, 40),
+                html_text=f"<font color={self.font_color}>End Game</font>",
             )
 
         if self.zooming:
