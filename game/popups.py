@@ -135,14 +135,14 @@ class Newspaper:
 
         screen.blit(im, loc)
 
+        if self.playSound == False:
+            SoundManager.instance.playNewspaperSound()
+            self.playSound = True
+
         return self.finished
 
     def process_events(self, event):
         self.manager.process_events(event)
-
-        if self.playSound == False:
-            SoundManager.instance.playNewspaperSound()
-            self.playSound = True
 
         if event.type == pygame.USEREVENT:
             if event.user_type == "ui_button_pressed":
