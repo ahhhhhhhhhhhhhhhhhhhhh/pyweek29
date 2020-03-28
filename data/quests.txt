@@ -98,7 +98,7 @@ _
 
 #bees3 a
 false
-The trade route has been constructed, and your colony has become a hub of commercial activity 
+The trade route has been constructed, and your colony has become a hub of commercial activity
 1
 Excellent
 You hope your friendly relationship with the bees can continue
@@ -267,8 +267,72 @@ The ants who visited the mysterious concrete building are getting sick, but it i
 Banish them, it is for the good of the colony
 Many ants agree with you, but some are sympathetic to the sick ants.
 0, -5, 0
-_
+radioactive-ant2
 Try to heal them
 You put your best medical ants on the case, but they are skeptical they can help them.
 -3, 0, 0
+radioactive-colony
+
+#radioactive-ant2
+false
+Your scouts have heard rumors about the sick ants that were banished, now living in the nearby human towns. The common ants are afraid that the sickness will spread. What do you do?
+2
+Nothing
+Many ants panic anyway, and some barricade themselves in their homes
+-5, 0, 0
+_
+Lock down colony
+The colony is locked down for a week, and the common ants are glad you are wary of the disease
+-10, 0, 0
+_
+
+#radioactive-colony
+false
+Your medical team have suddenly started showing symptoms similar to the sick ants. Ants are in a panic about this new disease, What do you do?
+2
+Nothing
+Many ants panic anyway, and some barricade themselves in their homes
+-5, 0, 0
+Quarantine all ants with symptoms
+The medical workers are now quarentined with the sick ants, and their fate looks grim.
+0, 0, 0
+radioactive-colony2
+Lock down the whole colony
+Many ants are glad you are taking this seriously, though productivity is lost
+-5, 0, 0
+radioactive-colony2
+
+#radioactive-colony2
+false
+The mysterious illness has spread quicker than you could have expected, all of your precautions have done nothing. Now almost half of your colony is sick. Farming is abandoned, people are rioting in the street, it loooks to be near the end of this colony.
+1
+Continue
+It looks like there is nothing for you to do, only hope that the disease is not fatal.
+-15, -15, -5
+radioactive-colony3
+
+#radioactive-colony3
+false
+A miracle has occured, many of the sick ants have gotten better. Not only that, but they are stronger and faster than ever before. Some ants are twice as big as a normal ant, and can run three times as fast. What do you do?
+2
+Accept these new ants as your warriors and put them to work
+These ants can do the work of ten normal ants, and you quickly gain a surplus of food and expand your territory
+15, 0, 15
+radioactive-colony4
+Throw them out, they are dangerous
+You really are stupid to throw these guys out. They crush your warriors and rampage through the colony, killing many.
+-10, -15, 0
+_
+
+#radioactive-colony4
+false
+Your colony is now composed of half super ants. These ants are strong enough to colonize the nearby human city, which was previously uninhabitable. Do you expand into the city?
+2
+Yes, this an opportunity of a lifetime!
+Your ant colony expands into the city, and with the new super ants, you quickly gain control of house after house. The humans flee the town, and you become the most powerful ant colony in the country
+10, 10, 50
+_
+No, lets play it safe.
+The super ants are indignant that you would not expand into the city. They leave your colony, searching for another colony that will accept them.
+0, -20, 0
 _
