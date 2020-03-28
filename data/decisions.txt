@@ -84,19 +84,6 @@ The grasshopper doesn't put up much of a fight in its current condition.
 10, 0, 0
 _
 
-#grasshopper variation3
-true
-Your scouts find an injured grasshopper in your territory. Do you help heal it or kill it?
-2
-Heal it
-The grasshopper gives you a gift of food
-10, 0, 0
-grasshopper grateful
-Kill it
-The grasshopper escapes from your ants and rampages through the colony, killing many and destroying supplies.
--5, -15, 0
-_
-
 #grasshopper grateful
 false
 The grasshopper you healed earlier spots some old ant tunnels that you can use
@@ -544,5 +531,3 @@ Crowd workers together
 Many workers are unhappy, and some leave to find other colonies.
 0, -6, 0
 _
-
-
