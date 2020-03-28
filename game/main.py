@@ -87,19 +87,17 @@ def main():
     find_event["explore endgame"].town = "destroyed"
     find_event["explore endgame"].message = "After their surrender, rouge government officials chose to launch nuclear weapons against their enemies, destroying human society as we know it. All because of a food shortage stemming from an insignificant ant colony."
     
-    find_event["explore endgame"] = popups.EndgameScreen("explore endgame")
-    find_event["explore endgame"].town = "destroyed"
-    find_event["explore endgame"].message = "After their surrender, rouge government officials chose to launch nuclear weapons against their enemies, destroying human society as we know it. All because of a food shortage stemming from an insignificant ant colony."
+    find_event["ant takeover endgame"] = popups.EndgameScreen("ant takeover endgame")
+    find_event["ant takeover endgame"].town = "ant"
+    find_event["ant takeover endgame"].message = "When those lone explorers ventured into the mysterious concrete building, they were mutated into a new form of ant, one that was destined to rule the world. From this insignificant ant colony came the most sophisticated society known to earth."
     
-    find_event["radioactive-colony4"] = popups.EndgameScreen("radioactive-colony4")
-    find_event["radioactive-colony4"].town = "ant"
-    find_event["radioactive-colony4"].message = "When those lone explorers ventured into the mysterious concrete building, they were mutated into a new form of ant, one that was destined to rule the world. From this insignificant ant colony came the most sofisticated society known to earth."
+    find_event["superhero endgame"] = popups.EndgameScreen("superhero endgame")
+    find_event["superhero endgame"].town = "superhero"
+    find_event["superhero endgame"].message = "Who knew that the ants that ventured into the mysterious concrete building were actually entering a nuclear power plant, and the radiation that the absorbed would later be transferred to a human, to create the next superhero, ManAnt. Now humanity is safe from threats of any kind as ManAnt protects the race from destruction."
     
-    find_event["radioactive-ant2"] = popups.EndgameScreen("radioactive-ant2")
-    find_event["radioactive-ant2"].town = "ant"
-    find_event["radioactive-ant2"].message = "Who knew that the ants that ventured into the mysterious concrete building were actually entering a nuclear power plant, and the radiation that the absorbed would later be transferred to a human, to create the next superhero, manant. now humanity is safe from threats of any kind as manant protects the race from destruction."
-    
-    
+    find_event["democracy endgame"] = popups.EndgameScreen("democracy endgame")
+    find_event["democracy endgame"].town = "future"
+    find_event["democracy endgame"].message = "Inspired by a book about a function democracy found in an ant colony, countries around the world opened their governments to the people, becoming more transparent, fair, and championing democratic ideals. This led to an unprecedented era of productivity, scientific breakthrough, and happiness. The Eath has truly become a utopia, all thanks to the actions of a seemengly insigificant ant colony"
     
     #checks to made sure all leads from all decisions exist
     for item in [*all_decisions, *all_quests]:
@@ -171,14 +169,15 @@ def main():
         "have radioactive ants created the next superhero? exclusive interview with ManAnt",
         "have radioactive ants created the next superhero? exclusive interview with ManAnt",
     ]
+    find_event["radioactive-ant2"].is_headline = True
     find_event["radioactive-colony3"].newspaper_lines = [
-        "new 'super ant' discovered in nearby anthill",
+        "New 'Super Ant' Discovered In Nearby Anthill",
     ]
     find_event["radioactive-colony4"].newspaper_lines = [
-        "'super ants' force residents out of homes, evacuation of town in progress",
+        "'Super Ants' Force Residents Out Of Homes, Evacuation Of Town In Progress",
         "_",
     ]
-    
+    find_event["radioactive-colony4"].is_headline = True
 
     find_event["democracy3"].newspaper_lines = [
         "_",
@@ -186,14 +185,20 @@ def main():
         "scientist discovers ant colony with democratic society",
     ]
     find_event["democracy4"].newspaper_lines = [
-        "_",
-        "_",
         "'even ants can do it', a book written by steven herald, the discoverer of ant democracy",
+        "_"
     ]
+    find_event["democracy5"].newspaper_lines = [
+        "Citizens accross the world are rallying for worldwide democracy, inspired by recent book on ants"
+    ]
+    find_event["democracy5"].is_headline = True
 
     # manually inputting endgame images to the end of quest chains
     find_event["bees8"].endgame_image = "bee"
     find_event["explore6"].endgame_image = "destroyed"
+    find_event["radioactive-colony3"].endgame_image = "ant"
+    find_event["radioactive-ant2"].endgame_image = "superhero"
+    find_event["democracy5"].endgame_image = "future"
 
     # manually inputting advisor icons
     # decisions
@@ -242,7 +247,7 @@ def main():
         getRandDecision(all_decisions, decision_hooks),
         getRandDecision(all_decisions, decision_hooks),
         getRandElement(all_events),
-        getRandDecision(all_quests, quest_hooks),
+        #getRandDecision(all_quests, quest_hooks),
         getRandElement(all_events),
         newspaper,
     ]
