@@ -219,14 +219,9 @@ def main():
         if bg_current_time > bg_flip_time:
             bg_current_time = 0
             bg_pos += 1
-            #bg_pos %= len(backgrounds)
-            if bg_pos >= len(backgrounds):
-                bg_pos = -len(backgrounds)*random.randint(1,5)
+            bg_pos %= len(backgrounds)
         
-        if (bg_pos >= 0):
-            screen.blit(backgrounds[bg_pos], (0, 0))
-        else:
-            screen.blit(backgrounds[0], (0, 0))
+        screen.blit(backgrounds[bg_pos], (0, 0))
         
         Resources.instance.manager.draw_ui(screen)
 
