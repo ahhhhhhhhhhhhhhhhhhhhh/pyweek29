@@ -94,7 +94,7 @@ class Event:
         self.animation_stage = 1
         self.animation_stages = 5
         self.animation_time = 0
-        self.animation_flip_time = 0.4
+        self.animation_flip_time = 0.1
 
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))

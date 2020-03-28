@@ -20,6 +20,20 @@ def find_center(image):
     return pygame.Vector2(image.get_width() / 2, image.get_height() / 2)
 
 
+class Towns:
+    names = ["ant", "bee", "default", "destroyed", "future", "pretty", "superhero"]
+    images = {}
+
+    for name in names:
+        images[name] = scale_image(
+            pygame.image.load(loader.filepath(f"towns/{name}.png")), 2
+        )
+
+    @staticmethod
+    def get_image(name):
+        return Towns.images[name]
+
+
 class Newspaper:
     def __init__(self, message, *args):
         self.playSound = False
@@ -56,6 +70,7 @@ class Newspaper:
         self.location = pygame.Vector2(640, 360)
 
         self.next_event = "_"  # needed for common interface with decisions
+        self.name = "newspaper"
 
     def _fit_text_to_rect(self, image, rect, text):
         # pygame.draw.rect(image, (40,200,75), rect) #shows relevant area
@@ -198,6 +213,88 @@ class EndScreen:
 
         self.manager.update(time_delta)
         self.manager.draw_ui(pygame.display.get_surface())
+
+    def process_events(self, event):
+        self.manager.process_events(event)
+
+        if event.type == pygame.USEREVENT:
+            if event.user_type == "ui_button_pressed":
+                if event.ui_element == self.end_button:
+                    sounds.playButtonSound()
+                    pygame.quit()
+                    raise SystemExit
+
+
+class EndgameScreen:
+    def __init__(self):
+        self.message = ""  # set by code that calls this
+        # "Thanks to the efforts of a humble ant colony: history is altered"
+
+        self.town = "future" #name of town to show
+
+        self.elapsed_time = 0
+        self.zoom_time = 8
+        self.zooming = True
+        self.zoom_im = None
+        self.x = 0.0
+        self.y = 0.0
+
+        self.revealed = False
+
+    def ready(self):
+        self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
+
+        screen = pygame.display.get_surface()
+        self.zoom_im = screen.copy()
+  
+    def display(self, time_delta):
+        screen = pygame.display.get_surface()
+
+        self.elapsed_time += time_delta
+
+        if self.zooming:
+            self.x = -3592 * self.elapsed_time / self.zoom_time
+            self.y = -192 * self.elapsed_time / self.zoom_time
+            
+        if self.elapsed_time > self.zoom_time and self.zooming:
+            self.zooming = False
+            self.zoom_im = scale_image(self.zoom_im, 4)
+
+        if self.elapsed_time > self.zoom_time + 2 and not self.revealed:
+            self.revealed = True
+            surf = pygame.Surface((1280, 720))
+            surf.blit(scale_image(Towns.get_image(self.town), 4), (0, 0))
+            self.zoom_im = surf
+            self.x = 0
+            self.y = 0
+
+            pygame_gui.elements.UILabel(
+                manager=self.manager,
+                relative_rect=pygame.Rect(440, 90, 400, 100),
+                text="You did it!",
+                object_id="endgame_large",
+            )
+            pygame_gui.elements.UITextBox(
+                manager=self.manager,
+                relative_rect=pygame.Rect(440, 390, 400, 100),
+                html_text="message",
+            )
+            self.end_button = pygame_gui.elements.UIButton(
+                manager=self.manager,
+                relative_rect=pygame.Rect(490, 500, 300, 40),
+                text="End Game",
+            )
+
+        if self.zooming:
+            current_zoom = scale_image(self.zoom_im, 1 + (3/self.zoom_time * self.elapsed_time))
+            screen.blit(current_zoom, (int(self.x), int(self.y)))
+        else:
+            screen.blit(self.zoom_im, (int(self.x), int(self.y)))
+
+        self.manager.update(time_delta)
+        self.manager.draw_ui(pygame.display.get_surface())
+
+        return False
 
     def process_events(self, event):
         self.manager.process_events(event)

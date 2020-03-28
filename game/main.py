@@ -14,20 +14,6 @@ from game.resources import Resources
 width, height = [1280, 720]
 
 
-class Towns:
-    names = ["ant", "bee", "default", "destroyed", "future", "pretty", "superhero"]
-    images = {}
-
-    for name in names:
-        images[name] = popups.scale_image(
-            pygame.image.load(loader.filepath(f"towns/{name}.png")), 2
-        )
-
-    @staticmethod
-    def get_image(name):
-        return Towns.images[name]
-
-
 def main():
     pygame.init()
     pygame.freetype.init()
@@ -56,7 +42,7 @@ def main():
     eyes = pygame.transform.scale(eyes, (40, 8))
     eyes = eyes.convert_alpha()
 
-    town_im = Towns.get_image("default")
+    town_im = popups.Towns.get_image("default")
 
     SoundManager(manager, width, height)
 
@@ -90,6 +76,11 @@ def main():
     find_event = {}
     for event in all_events + all_decisions + all_quests + all_endgames:
         find_event[event.name] = event
+
+    find_event["bee endgame"] = popups.EndgameScreen()
+    find_event["bee endgame"].town = "bee"
+    find_event["bee endgame"].message = "You did it! Human civilization is no longer. Thanks to a series of small decisions, compounded over time, the butterfly effect has changed the course of history"
+    
 
     for item in [*all_decisions, *all_quests]:
         leads = item.leads_to
@@ -232,7 +223,7 @@ def main():
         manager.update(time_delta)
         Resources.instance.manager.update(time_delta)
 
-        screen.blit(town_im, (928, 52))
+        screen.blit(town_im, (898, 48))
 
         bg_current_time += time_delta
         if bg_current_time > bg_flip_time:
@@ -286,7 +277,9 @@ def main():
                         event_queue.insert(0, find_event["food surplus territory"])
 
             current_decision = event_queue.pop(0)
+            #current_decision = popups.EndgameScreen() ###################testing purposes
             current_decision.ready()
+            print("now playing event:", current_decision.name)
 
             if isinstance(current_decision, popups.Newspaper):
                 while len(event_queue) < 5:
@@ -308,6 +301,7 @@ def main():
                 current_decision.ready()
 
                 event_queue.append(newspaper)
+
 
         manager.draw_ui(screen)
 
