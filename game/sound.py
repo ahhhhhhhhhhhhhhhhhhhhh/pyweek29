@@ -22,6 +22,9 @@ class SoundManager:
 
         self.displayVolumeButton()
         self.playMusic()
+        pygame.mixer.music.set_volume(self.musicVolume * self.masterVolume)
+        for i in self.sounds:
+            pygame.mixer.Sound.set_volume(i, self.masterVolume)
 
         SoundManager.instance = self
 
