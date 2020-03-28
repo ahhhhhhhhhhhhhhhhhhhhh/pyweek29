@@ -226,7 +226,9 @@ class EndScreen:
 
 
 class EndgameScreen:
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
+
         self.message = ""  # set by code that calls this
         # "Thanks to the efforts of a humble ant colony: history is altered"
 
@@ -270,14 +272,20 @@ class EndgameScreen:
 
             pygame_gui.elements.UILabel(
                 manager=self.manager,
-                relative_rect=pygame.Rect(440, 90, 400, 100),
-                text="You did it!",
+                relative_rect=pygame.Rect(200, 90, 880, 80),
+                text="Congratulations",
                 object_id="endgame_large",
+            )
+            pygame_gui.elements.UILabel(
+                manager=self.manager,
+                relative_rect=pygame.Rect(200, 150, 880, 100),
+                text="You have changed the course of history",
+                object_id="endgame_subtitle",
             )
             pygame_gui.elements.UITextBox(
                 manager=self.manager,
-                relative_rect=pygame.Rect(440, 390, 400, 100),
-                html_text="message",
+                relative_rect=pygame.Rect(440, 290, 400, 200),
+                html_text=self.message,
             )
             self.end_button = pygame_gui.elements.UIButton(
                 manager=self.manager,
@@ -302,6 +310,5 @@ class EndgameScreen:
         if event.type == pygame.USEREVENT:
             if event.user_type == "ui_button_pressed":
                 if event.ui_element == self.end_button:
-                    sounds.playButtonSound()
                     pygame.quit()
                     raise SystemExit

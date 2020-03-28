@@ -77,11 +77,16 @@ def main():
     for event in all_events + all_decisions + all_quests + all_endgames:
         find_event[event.name] = event
 
-    find_event["bee endgame"] = popups.EndgameScreen()
+    #setting up endgames
+    find_event["bee endgame"] = popups.EndgameScreen("bee endgame")
     find_event["bee endgame"].town = "bee"
-    find_event["bee endgame"].message = "You did it! Human civilization is no longer. Thanks to a series of small decisions, compounded over time, the butterfly effect has changed the course of history"
-    
+    find_event["bee endgame"].message = "You did it! Human civilization is no longer. The bees, aided by the technology created in your joint labs, spread accross the Earth, building a new kind of civilization. The era of humans has ended. All because of a small trade route, and a partnership, between a bee hive and an inisigificant ant colony."
 
+    find_event["explore endgame"] = popups.EndgameScreen("explore endgame")
+    find_event["explore endgame"].town = "destroyed"
+    find_event["explore endgame"].message = "After their surrender, rouge government officials chose to launch nuclear weapons against their enemies, destroying human society as we know it. All because of a food shortage stemming from an insignificant ant colony."
+
+    #checks to made sure all leads from all decisions exist
     for item in [*all_decisions, *all_quests]:
         leads = item.leads_to
         actual_leads = []  # needs preprocessing because of the new multi lead things
@@ -94,9 +99,7 @@ def main():
         for next_item in actual_leads:
             if next_item != "_":
                 if next_item not in find_event:
-                    raise ValueError(
-                        f"The story item {item.name} leads to nonexistent item {next_item}"
-                    )
+                    raise ValueError(f"The story item {item.name} leads to nonexistent item {next_item}")
 
     print("Verified story item integrity")
 
@@ -108,15 +111,19 @@ def main():
     ]
     find_event["explore3"].newspaper_lines = [
         "farmers report a state-wide grain shortage, blame ants",
-        "farmers report a state-wide grain shortage, blame ants",
+        "farmers report a state-wide grain shortage, blame ants"
     ]
     find_event["explore4"].newspaper_lines = [
-        "experts say grain shortage key cause in lagging war effort"
+        "Experts Say Grain Shortage Key Cause In Mariposa's Lagging War Effort"
     ]
     find_event["explore5"].newspaper_lines = [
-        "government insiders say surrender imminent, country cannot continue given food shortage"
+        "Government insiders say surrender imminent, Mariposa cannot continue war given food shortage"
     ]
     find_event["explore5"].is_headline = True
+    find_event["explore6"].newspaper_lines = [
+        "Mariposa capitulates, government leaders flee, nuclear weapons missing"
+    ]
+    find_event["explore6"].is_headline = True
 
     find_event["bees4"].newspaper_lines = [
         "local zoologist reports unprecedented levels of bee, ant cooperation",
@@ -132,6 +139,10 @@ def main():
         "local villagers flee after bee attack, become laughingstock of nation"
     ]
     find_event["bees7"].is_headline = True
+    find_event["bees8"].newspaper_lines = [
+        "Military Mobalizes Against New Insect Threat, Say Venom \"Is Like Nothing We've Ever Seen\""
+    ]
+    find_event["bees8"].is_headline = True
 
     find_event["radioactive-explore"].newspaper_lines = [
         "nuclear power plant infested with ants",
@@ -173,6 +184,7 @@ def main():
     find_event["explore3"].advisor_name = "explorer"
     find_event["explore4"].advisor_name = "explorer"
     find_event["explore5"].advisor_name = "explorer"
+    find_event["explore6"].advisor_name = "explorer"
 
     find_event["bees"].advisor_name = "bee"
     find_event["bees2"].advisor_name = "bee"
@@ -182,6 +194,7 @@ def main():
     find_event["bees5"].advisor_name = "bee"
     find_event["bees6"].advisor_name = "bee"
     find_event["bees7"].advisor_name = "bee"
+    find_event["bees8"].advisor_name = "bee"
 
     find_event["radioactive-discover"].advisor_name = "explorer"
     find_event["radioactive-wait"].advisor_name = "explorer"
@@ -190,6 +203,7 @@ def main():
 
     event_queue = [
         getRandDecision(all_decisions, decision_hooks),
+        find_event["bee endgame"],
         getRandDecision(all_decisions, decision_hooks),
         getRandElement(all_events),
         getRandDecision(all_quests, quest_hooks),
@@ -240,15 +254,15 @@ def main():
             event_num += 1
 
             if isinstance(current_decision, events.Quest):
-                print("quest:", current_decision.name)
                 if current_decision.chosen_line != "_":
-                    headlines_queue.append(
-                        (current_decision.chosen_line, current_decision.is_headline)
-                    )
+                    headlines_queue.append((current_decision.chosen_line, current_decision.is_headline))
 
                 if current_decision.next_event != "_":
                     next_quest = find_event[current_decision.next_event]
-                    quest_queue.append(next_quest)
+                    if isinstance(next_quest, popups.EndgameScreen):
+                        event_queue.insert(1, next_quest)
+                    else:
+                        quest_queue.append(next_quest)
 
             else:
                 next_event_name = current_decision.next_event
@@ -261,14 +275,10 @@ def main():
                     event_queue.append(next_event)
 
             # resource control trigger
-            if (
-                event_num % 3 == 0
-            ):  # so that resource control events don't happen for a bunch of turns in a row
+            if (event_num % 3 == 0):  # so that resource control events don't happen for a bunch of turns in a row
                 if Resources.instance.population < 20:
                     event_queue.insert(0, find_event["low population"])
-                elif (
-                    Resources.instance.territory < Resources.instance.population - 20
-                ):  # elif statements so multiple resource control events don't happen at once
+                elif (Resources.instance.territory < Resources.instance.population - 20):  # elif statements so multiple resource control events don't happen at once
                     event_queue.insert(0, find_event["low territory"])
                 elif Resources.instance.food > Resources.instance.population + 20:
                     if Resources.instance.population < Resources.instance.territory:

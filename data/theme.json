@@ -66,6 +66,12 @@
       "size": "48"
     }
   },
+  "endgame_subtitle": {
+    "font": {
+      "name": "fira_code",
+      "size": "36"
+    }
+  },
   "food_display": {
     "colours": {
       "dark_bg": "#AAAA0040",
