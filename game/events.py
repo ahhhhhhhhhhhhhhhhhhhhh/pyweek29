@@ -131,6 +131,8 @@ class Event:
 
         self._ready()
 
+        print("now playing event:", self.name)
+
     def _ready(self):
         self.apply_impact(self.impacts)
         if not self.text_impacted:

@@ -1,9 +1,7 @@
 import pygame
-
 import pygame_gui
 
 from game import loader
-
 
 class Resources:
     instance = None
