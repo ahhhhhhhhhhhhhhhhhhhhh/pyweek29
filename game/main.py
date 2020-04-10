@@ -46,25 +46,19 @@ def main():
 
     town_im = popups.Towns.get_image("default")
 
+    # data object loads in all gamedata
     Data()
 
-    print(Data.instance.__dict__)
+    for key in Data.instance.__dict__.keys():
+        print(key, ":", Data.instance.__dict__[key]) 
 
     SoundManager(manager, width, height)
 
-    normal_headlines = loader.loadHeadlines("headlines.txt")
-    headlines_queue = (
-        []
-    )  # list of tuples: (string of newspaper line, boolean is headline)
-    newspaper = popups.Newspaper(
-        getRandHeadline(normal_headlines),
-        getRandHeadline(normal_headlines),
-        getRandHeadline(normal_headlines),
-        getRandHeadline(normal_headlines),
-    )
-
     # creates the Resources object, which can be accessed from anywhere as Resources.instance
     Resources(Data.instance.food, Data.instance.population, Data.instance.territory)
+
+    # setting up newspaper variable as placeholder. Actual headlines are added when the newspaper displays
+    newspaper = popups.Newspaper("it","doesn't","even","matter") 
 
     all_events = loader.loadEvents("events.txt")
     all_decisions = loader.loadDecisions("decisions.txt")
@@ -78,27 +72,10 @@ def main():
     for event in all_events + all_decisions + all_quests:
         find_event[event.name] = event
 
-    #setting up endgames
-    find_event["bee endgame"] = popups.EndgameScreen("bee endgame")
-    find_event["bee endgame"].town = "bee"
-    find_event["bee endgame"].message = "You did it! Human civilization is no longer. The bees, aided by the technology created in your joint labs, spread accross the Earth, building a new kind of civilization. The era of humans has ended. All because of a small trade route, and a partnership, between a bee hive and an inisigificant ant colony."
+    setupEndgames(find_event)
+    setupHeadlines(find_event)
+    setupAdvisors(find_event)
 
-    find_event["explore endgame"] = popups.EndgameScreen("explore endgame")
-    find_event["explore endgame"].town = "destroyed"
-    find_event["explore endgame"].message = "After their surrender, rouge government officials chose to launch nuclear weapons against their enemies, destroying human society as we know it. All because of a food shortage stemming from an insignificant ant colony."
-    
-    find_event["ant takeover endgame"] = popups.EndgameScreen("ant takeover endgame")
-    find_event["ant takeover endgame"].town = "ant"
-    find_event["ant takeover endgame"].message = "When those lone explorers ventured into the mysterious concrete building, they were mutated into a new form of ant, one that was destined to rule the world. From this insignificant ant colony came the most sophisticated society known to earth."
-    
-    find_event["superhero endgame"] = popups.EndgameScreen("superhero endgame")
-    find_event["superhero endgame"].town = "superhero"
-    find_event["superhero endgame"].message = "Who knew that the ants that ventured into the mysterious concrete building were actually entering a nuclear power plant, and the radiation that the absorbed would later be transferred to a human, to create the next superhero, ManAnt. Now humanity is safe from threats of any kind as ManAnt protects the race from destruction."
-    
-    find_event["democracy endgame"] = popups.EndgameScreen("democracy endgame")
-    find_event["democracy endgame"].town = "future"
-    find_event["democracy endgame"].message = "Inspired by a book about a function democracy found in an ant colony, countries around the world opened their governments to the people, becoming more transparent, fair, and championing democratic ideals. This led to an unprecedented era of productivity, scientific breakthrough, and happiness. The Eath has truly become a utopia, all thanks to the actions of a seemengly insigificant ant colony"
-    
     #checks to made sure all leads from all decisions exist
     for item in [*all_decisions, *all_quests]:
         leads = item.leads_to
@@ -112,20 +89,12 @@ def main():
             if next_item != "_":
                 if next_item not in find_event:
                     raise ValueError(f"The story item {item.name} leads to nonexistent item {next_item}")
-    print("Verified story item integrity")
+    print("Verified story item integrity") 
 
-    setupHeadlines(find_event)
+    if Data.instance.event_queue == None: # means that nothing was loaded from file, and it is a new game
+        normal_headlines = loader.loadHeadlines("headlines.txt")
+        headlines_queue = []  # list of tuples: (string of newspaper line, boolean is headline)
 
-    setupAdvisors(find_event)
-
-    # manually inputting endgame images to the end of quest chains
-    find_event["bees8"].endgame_image = "bee"
-    find_event["explore6"].endgame_image = "destroyed"
-    find_event["radioactive-colony3"].endgame_image = "ant"
-    find_event["radioactive-ant2"].endgame_image = "superhero"
-    find_event["democracy5"].endgame_image = "future"
-
-    if Data.instance.event_queue == None:
         event_queue = [
             getRandDecision(all_decisions, decision_hooks),
             getRandDecision(all_decisions, decision_hooks),
@@ -138,9 +107,18 @@ def main():
         current_decision = event_queue.pop(0)
     
     else:
+        headlines_queue = Data.instance.headlines_queue
+        normal_headlines = Data.instance.all_headlines
+
         event_queue = [generateNewspaper(headlines_queue, normal_headlines) if event_name == "newspaper" else find_event[event_name] for event_name in Data.instance.event_queue]
         quest_queue = [find_event[event_name] for event_name in Data.instance.quest_queue]
-        current_decision = find_event[Data.instance.current_decision]
+
+        if Data.instance.current_decision == "newspaper":
+            current_decision = popups.Newspaper(*Data.instance.current_headlines)
+        else:
+            current_decision = find_event[Data.instance.current_decision]
+
+        
 
     current_decision.ready()
 
@@ -151,7 +129,10 @@ def main():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                Data.instance.save(Resources.instance, event_queue, quest_queue, current_decision)
+                if isinstance(current_decision, popups.Newspaper):
+                    Data.instance.save(Resources.instance, event_queue, quest_queue, current_decision, headlines_queue, normal_headlines, current_decision.headlines)
+                else:
+                    Data.instance.save(Resources.instance, event_queue, quest_queue, current_decision, headlines_queue, normal_headlines, None)
                 pygame.quit()
                 raise SystemExit
 
@@ -259,14 +240,14 @@ def getRandElement(lst):
 # make sure all decisions get cycled through before repeats
 def getRandDecision(all_decisions, decision_hooks):
     if len(decision_hooks) == 0:
-        decision_hooks = [decision for decision in all_decisions if decision.hook]
+        decision_hooks.extend([decision for decision in all_decisions if decision.hook])
     return decision_hooks.pop(random.randrange(0, len(decision_hooks)))
 
 
 # headlines also get cycled through
 def getRandHeadline(normal_headlines):
     if len(normal_headlines) == 0:
-        normal_headlines = loader.loadHeadlines("headlines.txt")
+        normal_headlines.extend(loader.loadHeadlines("headlines.txt"))
     return normal_headlines.pop(random.randrange(len(normal_headlines)))
 
 
@@ -296,6 +277,8 @@ def generateNewspaper(headlines_queue, normal_headlines):
         )
 
     return newspaper
+
+
 
 # manually inputting all quest newspaper headlines
 def setupHeadlines(find_event):
@@ -380,6 +363,7 @@ def setupHeadlines(find_event):
     ]
     find_event["democracy5"].is_headline = True
 
+
 # manually setting all advisor images
 def setupAdvisors(find_event):
     # decisions
@@ -424,3 +408,32 @@ def setupAdvisors(find_event):
     find_event["radioactive-colony2"].advisor_name = "explorer"
     find_event["radioactive-colony3"].advisor_name = "explorer"
     find_event["radioactive-colony4"].advisor_name = "explorer"
+
+# setting up endgames and endgame images
+def setupEndgames(find_event):
+    find_event["bee endgame"] = popups.EndgameScreen("bee endgame")
+    find_event["bee endgame"].town = "bee"
+    find_event["bee endgame"].message = "You did it! Human civilization is no longer. The bees, aided by the technology created in your joint labs, spread accross the Earth, building a new kind of civilization. The era of humans has ended. All because of a small trade route, and a partnership, between a bee hive and an inisigificant ant colony."
+
+    find_event["explore endgame"] = popups.EndgameScreen("explore endgame")
+    find_event["explore endgame"].town = "destroyed"
+    find_event["explore endgame"].message = "After their surrender, rouge government officials chose to launch nuclear weapons against their enemies, destroying human society as we know it. All because of a food shortage stemming from an insignificant ant colony."
+    
+    find_event["ant takeover endgame"] = popups.EndgameScreen("ant takeover endgame")
+    find_event["ant takeover endgame"].town = "ant"
+    find_event["ant takeover endgame"].message = "When those lone explorers ventured into the mysterious concrete building, they were mutated into a new form of ant, one that was destined to rule the world. From this insignificant ant colony came the most sophisticated society known to earth."
+    
+    find_event["superhero endgame"] = popups.EndgameScreen("superhero endgame")
+    find_event["superhero endgame"].town = "superhero"
+    find_event["superhero endgame"].message = "Who knew that the ants that ventured into the mysterious concrete building were actually entering a nuclear power plant, and the radiation that the absorbed would later be transferred to a human, to create the next superhero, ManAnt. Now humanity is safe from threats of any kind as ManAnt protects the race from destruction."
+    
+    find_event["democracy endgame"] = popups.EndgameScreen("democracy endgame")
+    find_event["democracy endgame"].town = "future"
+    find_event["democracy endgame"].message = "Inspired by a book about a functioning democracy found in an ant colony, countries around the world opened their governments to the people, becoming more transparent, fair, and championing democratic ideals. This led to an unprecedented era of productivity, scientific breakthrough, and happiness. The Eath has truly become a utopia, all thanks to the actions of a seemengly insigificant ant colony"
+   
+    # manually inputting endgame images to the end of quest chains
+    find_event["bees8"].endgame_image = "bee"
+    find_event["explore6"].endgame_image = "destroyed"
+    find_event["radioactive-colony3"].endgame_image = "ant"
+    find_event["radioactive-ant2"].endgame_image = "superhero"
+    find_event["democracy5"].endgame_image = "future" 

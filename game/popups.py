@@ -46,6 +46,8 @@ class Newspaper:
         newspaper = scale_image(newspaper, 4)
         newspaper = newspaper.convert_alpha()
 
+        self.headlines = [message, *args] # need to be able to reference headlines easily later for saving gamedata
+
         messages = [message, *args]
         messages = [mes.title() if "'" not in mes else mes for mes in messages]
 
