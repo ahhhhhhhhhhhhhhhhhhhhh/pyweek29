@@ -64,9 +64,6 @@ def main():
     all_decisions = loader.loadDecisions("decisions.txt")
     all_quests = loader.loadQuests("quests.txt")
 
-    decision_hooks = [decision for decision in all_decisions if decision.hook]
-    quest_hooks = [quest for quest in all_quests if quest.hook]
-
     # dict of event names to event to easily reference events
     find_event = {}
     for event in all_events + all_decisions + all_quests:
@@ -95,6 +92,9 @@ def main():
         normal_headlines = loader.loadHeadlines("headlines.txt")
         headlines_queue = []  # list of tuples: (string of newspaper line, boolean is headline)
 
+        decision_hooks = [decision for decision in all_decisions if decision.hook]
+        quest_hooks = [quest for quest in all_quests if quest.hook]
+
         event_queue = [
             getRandDecision(all_decisions, decision_hooks),
             getRandDecision(all_decisions, decision_hooks),
@@ -109,6 +109,9 @@ def main():
     else:
         headlines_queue = Data.instance.headlines_queue
         normal_headlines = Data.instance.all_headlines
+        
+        decision_hooks = [find_event[event_name] for event_name in Data.instance.decision_hooks]
+        quest_hooks = [find_event[event_name] for event_name in Data.instance.quest_hooks]
 
         event_queue = [generateNewspaper(headlines_queue, normal_headlines) if event_name == "newspaper" else find_event[event_name] for event_name in Data.instance.event_queue]
         quest_queue = [find_event[event_name] for event_name in Data.instance.quest_queue]
@@ -130,9 +133,9 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 if isinstance(current_decision, popups.Newspaper):
-                    Data.instance.save(Resources.instance, event_queue, quest_queue, current_decision, headlines_queue, normal_headlines, current_decision.headlines)
+                    Data.instance.save(Resources.instance, event_queue, quest_queue, current_decision, decision_hooks, quest_hooks, headlines_queue, normal_headlines, current_decision.headlines)
                 else:
-                    Data.instance.save(Resources.instance, event_queue, quest_queue, current_decision, headlines_queue, normal_headlines, None)
+                    Data.instance.save(Resources.instance, event_queue, quest_queue, current_decision, decision_hooks, quest_hooks, headlines_queue, normal_headlines, None)
                 pygame.quit()
                 raise SystemExit
 
