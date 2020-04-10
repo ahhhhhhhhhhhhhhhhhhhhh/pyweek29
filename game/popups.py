@@ -243,6 +243,7 @@ class EndgameScreen:
 
         self.elapsed_time = 0
         self.zoom_time = 8
+        self.zoom_started = False
         self.zooming = True
         self.zoom_im = None
         self.x = 0.0
@@ -253,14 +254,24 @@ class EndgameScreen:
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
 
-        screen = pygame.display.get_surface()
-        self.zoom_im = screen.copy()
-
         self.font_color = "#000000" if self.town != "future" else "#FFFFFF"
   
     def display(self, time_delta):
         screen = pygame.display.get_surface()
 
+        if self.zoom_started: 
+            self._display_zoom(time_delta, screen)
+
+        if not self.zoom_started:
+            self.zoom_started = True
+            self.zoom_im = screen.copy()
+
+        self.manager.update(time_delta)
+        self.manager.draw_ui(screen)
+
+        return False
+
+    def _display_zoom(self, time_delta, screen):
         self.elapsed_time += time_delta
 
         if self.zooming:
@@ -307,11 +318,6 @@ class EndgameScreen:
             screen.blit(current_zoom, (int(self.x), int(self.y)))
         else:
             screen.blit(self.zoom_im, (int(self.x), int(self.y)))
-
-        self.manager.update(time_delta)
-        self.manager.draw_ui(pygame.display.get_surface())
-
-        return False
 
     def process_events(self, event):
         self.manager.process_events(event)
