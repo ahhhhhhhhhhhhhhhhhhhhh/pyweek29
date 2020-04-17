@@ -280,6 +280,6 @@ class Quest(Decision):
         var = super().display(time_delta)
 
         if var and self.endgame_image:
-            popups.Towns.current_town = popups.Towns.get_image(self.endgame_image)
+            popups.Towns.current_town = self.endgame_image
 
         return var

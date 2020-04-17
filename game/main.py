@@ -44,8 +44,6 @@ def main():
     eyes = pygame.transform.scale(eyes, (40, 8))
     eyes = eyes.convert_alpha()
 
-    town_im = popups.Towns.get_image("default")
-
     # data object loads in all gamedata
     Data()
 
@@ -121,6 +119,8 @@ def main():
         else:
             current_decision = find_event[Data.instance.current_decision]
 
+        popups.Towns.current_town = Data.instance.town_image
+
         
 
     current_decision.ready()
@@ -133,9 +133,9 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 if isinstance(current_decision, popups.Newspaper):
-                    Data.instance.save(Resources.instance, event_queue, quest_queue, current_decision, decision_hooks, quest_hooks, headlines_queue, normal_headlines, current_decision.headlines)
+                    Data.instance.save(Resources.instance, event_queue, quest_queue, current_decision, decision_hooks, quest_hooks, headlines_queue, normal_headlines, current_decision.headlines, popups.Towns.current_town)
                 else:
-                    Data.instance.save(Resources.instance, event_queue, quest_queue, current_decision, decision_hooks, quest_hooks, headlines_queue, normal_headlines, None)
+                    Data.instance.save(Resources.instance, event_queue, quest_queue, current_decision, decision_hooks, quest_hooks, headlines_queue, normal_headlines, None, popups.Towns.current_town)
                 pygame.quit()
                 raise SystemExit
 
@@ -150,7 +150,7 @@ def main():
         manager.update(time_delta)
         Resources.instance.manager.update(time_delta)
 
-        screen.blit(popups.Towns.current_town, (898, 48))
+        screen.blit(popups.Towns.get_image(popups.Towns.current_town), (898, 48))
 
         bg_current_time += time_delta
         if bg_current_time > bg_flip_time:

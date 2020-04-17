@@ -11,7 +11,7 @@ class Data:
     def __init__(self):
         self.load()
 
-    def save(self, resources, event_queue, quest_queue, current_decision, decision_hooks, quest_hooks, headlines_queue, all_headlines, current_headlines):
+    def save(self, resources, event_queue, quest_queue, current_decision, decision_hooks, quest_hooks, headlines_queue, all_headlines, current_headlines, town_image):
         self.food = resources.food
         self.population = resources.population
         self.territory = resources.territory
@@ -23,6 +23,7 @@ class Data:
         self.headlines_queue = headlines_queue
         self.all_headlines = all_headlines
         self.current_headlines = current_headlines
+        self.town_image = town_image
 
         pickle.dump(Data.instance, open(loader.filepath("gamedata.txt"), "wb"))
         print("saved gamedata to file")
@@ -53,6 +54,7 @@ class Data:
             self.headlines_queue = None
             self.all_headlines = None
             self.current_headlines = None
+            self.town_image = None
 
             pickle.dump(self, open(loader.filepath("gamedata.txt"), "wb"))
 

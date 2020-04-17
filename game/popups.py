@@ -34,9 +34,7 @@ class Towns:
     def get_image(name):
         return Towns.images[name]
 
-    current_town = "unset"
-
-Towns.current_town = Towns.get_image("default")
+    current_town = "default"
 
 class Newspaper:
     def __init__(self, message, *args):
