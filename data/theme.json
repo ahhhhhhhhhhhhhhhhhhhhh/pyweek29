@@ -102,6 +102,12 @@
       "size": "26"
     }
   },
+  "main_menu_title": {
+    "font": {
+      "name": "fira_code",
+      "size": "80"
+    }
+  },
   "horizontal_slider": {
     "colours": {
       "normal_bg": "#25292e",
