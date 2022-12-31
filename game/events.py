@@ -1,11 +1,9 @@
 import pygame
 import pygame_gui
 
-from game.resources import Resources
-from game import loader
-from game import more_elements
-from game import popups
+from game import loader, more_elements, popups
 from game.popups import scale_image
+from game.resources import Resources
 
 
 class Images:
@@ -36,9 +34,7 @@ class Images:
     food_icon = pygame.transform.scale(
         pygame.image.load(loader.filepath("food_icon.png")), (40, 40)
     )
-    pop_icon = pygame.transform.scale(
-        pygame.image.load(loader.filepath("pop_icon.png")), (40, 40)
-    )
+    pop_icon = pygame.transform.scale(pygame.image.load(loader.filepath("pop_icon.png")), (40, 40))
     territory_icon = pygame.transform.scale(
         pygame.image.load(loader.filepath("territory_icon.png")), (40, 40)
     )
@@ -49,9 +45,7 @@ class Icons:
     images = {}
 
     for name in names:
-        images[name] = scale_image(
-            pygame.image.load(loader.filepath(f"advisors/{name}.png")), 4
-        )
+        images[name] = scale_image(pygame.image.load(loader.filepath(f"advisors/{name}.png")), 4)
 
     @staticmethod
     def get_image(name):
@@ -63,9 +57,7 @@ def impacts_to_html(outcome):
     outcome = [str(i) for i in outcome]
     outcome = ["+" + i if int(i) > 0 else i for i in outcome]
     outcome = [
-        f"<font color='#FF0000'>{i}</font>"
-        if int(i) < 0
-        else f"<font color='#00FF00'>{i}</font>"
+        f"<font color='#FF0000'>{i}</font>" if int(i) < 0 else f"<font color='#00FF00'>{i}</font>"
         for i in outcome
     ]
     out = ""
@@ -93,23 +85,16 @@ class Event:
         self.next_event = "_"  # needed for common interface with decisions
         self.advisor_name = "advisor"
 
-
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
         self.finished = False
 
-        self.button_ext_background = more_elements.ImageBox(
-            Images.button_ext_image, (50, 150)
-        )
+        self.button_ext_background = more_elements.ImageBox(Images.button_ext_image, (50, 150))
         self.button_ext_background.visible = False
-        self.button_background = more_elements.ImageBox(
-            Images.button_scroll_image, (50, 200)
-        )
+        self.button_background = more_elements.ImageBox(Images.button_scroll_image, (50, 200))
         self.button_background.visible = False
         self.background_image = more_elements.ImageBox(Images.scroll_image1, (15, 150))
-        self.advisor_image = more_elements.ImageBox(
-            Icons.get_image(self.advisor_name), (180, 145)
-        )
+        self.advisor_image = more_elements.ImageBox(Icons.get_image(self.advisor_name), (180, 145))
 
         self.image_group = more_elements.Group(
             self.button_background,
@@ -217,9 +202,7 @@ class Decision(Event):
             cumulative_height += button.relative_rect.height + 10
             self.decision_buttons.append(button)
 
-        self.button_background.set_position(
-            pygame.Rect(50, cumulative_height - 250, 300, 300)
-        )
+        self.button_background.set_position(pygame.Rect(50, cumulative_height - 250, 300, 300))
         self.button_ext_background.set_position(
             pygame.Rect(50, max(cumulative_height - 550, 150), 300, 300)
         )
@@ -270,9 +253,7 @@ class Quest(Decision):
 
         # prevents an error when all of a quest's options leads to another event
         if self.next_event in self.leads_to:
-            self.chosen_line = self.newspaper_lines[
-                self.leads_to.index(self.next_event)
-            ]
+            self.chosen_line = self.newspaper_lines[self.leads_to.index(self.next_event)]
 
     def display(self, time_delta):
         var = super().display(time_delta)

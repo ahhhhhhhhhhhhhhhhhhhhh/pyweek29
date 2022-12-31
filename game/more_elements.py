@@ -1,5 +1,5 @@
-import pygame_gui
 import pygame
+import pygame_gui
 
 
 class TextButton(pygame_gui.elements.UIButton):

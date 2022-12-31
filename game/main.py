@@ -5,11 +5,9 @@ import pygame
 import pygame.freetype
 import pygame_gui
 
-from game import loader
-from game import events
-from game import popups
-from game.sound import SoundManager
+from game import events, loader, popups
 from game.resources import Resources
+from game.sound import SoundManager
 
 width, height = [1280, 720]
 
@@ -64,28 +62,38 @@ def main():
     for event in all_events + all_decisions + all_quests:
         find_event[event.name] = event
 
-    #setting up endgames
+    # setting up endgames
     find_event["bee endgame"] = popups.EndgameScreen("bee endgame")
     find_event["bee endgame"].town = "bee"
-    find_event["bee endgame"].message = "You did it! Human civilization is no longer. The bees, aided by the technology created in your joint labs, spread accross the Earth, building a new kind of civilization. The era of humans has ended. All because of a small trade route, and a partnership, between a bee hive and an inisigificant ant colony."
+    find_event[
+        "bee endgame"
+    ].message = "You did it! Human civilization is no longer. The bees, aided by the technology created in your joint labs, spread accross the Earth, building a new kind of civilization. The era of humans has ended. All because of a small trade route, and a partnership, between a bee hive and an inisigificant ant colony."
 
     find_event["explore endgame"] = popups.EndgameScreen("explore endgame")
     find_event["explore endgame"].town = "destroyed"
-    find_event["explore endgame"].message = "After their surrender, rouge government officials chose to launch nuclear weapons against their enemies, destroying human society as we know it. All because of a food shortage stemming from an insignificant ant colony."
-    
+    find_event[
+        "explore endgame"
+    ].message = "After their surrender, rouge government officials chose to launch nuclear weapons against their enemies, destroying human society as we know it. All because of a food shortage stemming from an insignificant ant colony."
+
     find_event["ant takeover endgame"] = popups.EndgameScreen("ant takeover endgame")
     find_event["ant takeover endgame"].town = "ant"
-    find_event["ant takeover endgame"].message = "When those lone explorers ventured into the mysterious concrete building, they were mutated into a new form of ant, one that was destined to rule the world. From this insignificant ant colony came the most sophisticated society known to earth."
-    
+    find_event[
+        "ant takeover endgame"
+    ].message = "When those lone explorers ventured into the mysterious concrete building, they were mutated into a new form of ant, one that was destined to rule the world. From this insignificant ant colony came the most sophisticated society known to earth."
+
     find_event["superhero endgame"] = popups.EndgameScreen("superhero endgame")
     find_event["superhero endgame"].town = "superhero"
-    find_event["superhero endgame"].message = "Who knew that the ants that ventured into the mysterious concrete building were actually entering a nuclear power plant, and the radiation that the absorbed would later be transferred to a human, to create the next superhero, ManAnt. Now humanity is safe from threats of any kind as ManAnt protects the race from destruction."
-    
+    find_event[
+        "superhero endgame"
+    ].message = "Who knew that the ants that ventured into the mysterious concrete building were actually entering a nuclear power plant, and the radiation that the absorbed would later be transferred to a human, to create the next superhero, ManAnt. Now humanity is safe from threats of any kind as ManAnt protects the race from destruction."
+
     find_event["democracy endgame"] = popups.EndgameScreen("democracy endgame")
     find_event["democracy endgame"].town = "future"
-    find_event["democracy endgame"].message = "Inspired by a book about a functioning democracy found in an ant colony, countries around the world opened their governments to the people, becoming more transparent, fair, and championing democratic ideals. This led to an unprecedented era of productivity, scientific breakthrough, and happiness. The Eath has truly become a utopia, all thanks to the actions of a seemengly insigificant ant colony"
+    find_event[
+        "democracy endgame"
+    ].message = "Inspired by a book about a functioning democracy found in an ant colony, countries around the world opened their governments to the people, becoming more transparent, fair, and championing democratic ideals. This led to an unprecedented era of productivity, scientific breakthrough, and happiness. The Eath has truly become a utopia, all thanks to the actions of a seemengly insigificant ant colony"
 
-    #checks to made sure all leads from all decisions exist
+    # checks to made sure all leads from all decisions exist
     for item in [*all_decisions, *all_quests]:
         leads = item.leads_to
         actual_leads = []  # needs preprocessing because of the new multi lead things
@@ -98,7 +106,9 @@ def main():
         for next_item in actual_leads:
             if next_item != "_":
                 if next_item not in find_event:
-                    raise ValueError(f"The story item {item.name} leads to nonexistent item {next_item}")
+                    raise ValueError(
+                        f"The story item {item.name} leads to nonexistent item {next_item}"
+                    )
     print("Verified story item integrity")
 
     # manually inputting endgame images to the end of quest chains
@@ -115,11 +125,13 @@ def main():
     setup_advisor_icons(find_event)
 
     global game_scene
-    game_scene = GameScene(backgrounds, all_events, all_decisions, all_quests, find_event, normal_headlines)
+    game_scene = GameScene(
+        backgrounds, all_events, all_decisions, all_quests, find_event, normal_headlines
+    )
     global main_menu
     main_menu = MainMenu()
 
-    #current_scene = game_scene
+    # current_scene = game_scene
     current_scene = main_menu
 
     SoundManager(game_scene.manager, width, height)
@@ -146,6 +158,7 @@ def main():
 
         pygame.display.flip()
 
+
 class MainMenu:
     def __init__(self):
         self.manager = pygame_gui.UIManager((width, height), loader.filepath("theme.json"))
@@ -155,14 +168,16 @@ class MainMenu:
 
         self.title_text = pygame_gui.elements.UILabel(
             manager=self.manager,
-            relative_rect=pygame.Rect(width/2 - 500, 100, 1000, 200),
+            relative_rect=pygame.Rect(width / 2 - 500, 100, 1000, 200),
             text="Queen of the Hill",
             object_id="main_menu_title",
         )
 
-        self.start_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(width/2 - 100, height/2 + 200, 200, 100),
-                                             text="Start",
-                                             manager=self.manager)
+        self.start_button = pygame_gui.elements.UIButton(
+            relative_rect=pygame.Rect(width / 2 - 100, height / 2 + 200, 200, 100),
+            text="Start",
+            manager=self.manager,
+        )
 
     def process_events(self, event):
         if event.type == pygame.USEREVENT:
@@ -175,7 +190,7 @@ class MainMenu:
         return self
 
     def draw(self, screen):
-        screen.blit(self.background, (0,0))
+        screen.blit(self.background, (0, 0))
 
         self.manager.draw_ui(screen)
 
@@ -183,12 +198,19 @@ class MainMenu:
         if game_scene.event_num > 0 and self.start_button.text != "Resume":
             self.start_button.set_text("Resume")
 
-
         self.manager.update(time_delta)
 
 
 class GameScene:
-    def __init__(self, backgrounds, all_events, all_decisions, all_quests, find_event, normal_headlines):
+    def __init__(
+        self,
+        backgrounds,
+        all_events,
+        all_decisions,
+        all_quests,
+        find_event,
+        normal_headlines,
+    ):
         self.manager = pygame_gui.UIManager((width, height), loader.filepath("theme.json"))
 
         self.all_events = all_events
@@ -217,7 +239,8 @@ class GameScene:
         self.current_decision = self.event_queue.pop(0)
         self.current_decision.ready()
 
-        self.headlines_queue = ([])  # list of tuples: (string of newspaper line, boolean is headline)
+        # list of tuples: (string of newspaper line, boolean is headline)
+        self.headlines_queue = []
         self.normal_headlines = normal_headlines
         self.event_queue.append(self.generate_newspaper())
 
@@ -232,7 +255,12 @@ class GameScene:
 
             if isinstance(self.current_decision, events.Quest):
                 if self.current_decision.chosen_line != "_":
-                    self.headlines_queue.append((self.current_decision.chosen_line, self.current_decision.is_headline))
+                    self.headlines_queue.append(
+                        (
+                            self.current_decision.chosen_line,
+                            self.current_decision.is_headline,
+                        )
+                    )
 
                 if self.current_decision.next_event != "_":
                     next_quest = self.find_event[self.current_decision.next_event]
@@ -244,18 +272,18 @@ class GameScene:
             else:
                 next_event_name = self.current_decision.next_event
                 if self.current_decision.next_event.count(",") > 0:
-                    next_event_name = random.choice(
-                        self.current_decision.next_event.split(",")
-                    )
+                    next_event_name = random.choice(self.current_decision.next_event.split(","))
                 if next_event_name != "_":
                     next_event = self.find_event[next_event_name]
                     self.event_queue.append(next_event)
 
             # resource control trigger
-            if self.event_num % 3 == 0:  # so that resource control events don't happen for a bunch of turns in a row
+            # so that resource control events don't happen for a bunch of turns in a row
+            if self.event_num % 3 == 0:
                 if Resources.instance.population < 20:
                     self.event_queue.insert(0, self.find_event["low population"])
-                elif (Resources.instance.territory < Resources.instance.population - 20):  # elif statements so multiple resource control events don't happen at once
+                # elif statements so multiple resource control events don't happen at once
+                elif Resources.instance.territory < Resources.instance.population - 20:
                     self.event_queue.insert(0, self.find_event["low territory"])
                 elif Resources.instance.food > Resources.instance.population + 20:
                     if Resources.instance.population < Resources.instance.territory:
@@ -276,7 +304,7 @@ class GameScene:
                 self.event_queue.insert(0, self.find_event["starvation"])
 
             self.current_decision = self.event_queue.pop(0)
-            #current_decision = popups.EndgameScreen() ################### testing purposes
+            # current_decision = popups.EndgameScreen() ################### testing purposes
             self.current_decision.ready()
 
             print("now playing event:", self.current_decision.name)
@@ -300,7 +328,7 @@ class GameScene:
 
     def process_events(self, event):
         if event.type == pygame.KEYDOWN:
-            if event.key == 27:  #esc key
+            if event.key == 27:  # esc key
                 return main_menu
 
         self.manager.process_events(event)
@@ -312,7 +340,7 @@ class GameScene:
         screen.blit(popups.Towns.current_town, (898, 48))
         screen.blit(self.bg, (0, 0))
 
-        #screen.blit(eyes, (644, 248))
+        # screen.blit(eyes, (644, 248))
 
         Resources.instance.manager.draw_ui(screen)
 
@@ -382,7 +410,7 @@ def setup_event_headlines(find_event):
     ]
     find_event["explore3"].newspaper_lines = [
         "farmers report a state-wide grain shortage, blame ants",
-        "farmers report a state-wide grain shortage, blame ants"
+        "farmers report a state-wide grain shortage, blame ants",
     ]
     find_event["explore4"].newspaper_lines = [
         "Experts Say Grain Shortage Key Cause In Mariposa's Lagging War Effort"
@@ -411,7 +439,7 @@ def setup_event_headlines(find_event):
     ]
     find_event["bees7"].is_headline = True
     find_event["bees8"].newspaper_lines = [
-        "Military Mobalizes Against New Insect Threat, Say Venom \"Is Like Nothing We've Ever Seen\""
+        'Military Mobalizes Against New Insect Threat, Say Venom "Is Like Nothing We\'ve Ever Seen"'
     ]
     find_event["bees8"].is_headline = True
 
@@ -449,12 +477,13 @@ def setup_event_headlines(find_event):
     ]
     find_event["democracy4"].newspaper_lines = [
         "'Even Ants Can Do It', A Book Written By Steven Herald, The Discoverer Of Ant Democracy",
-        "_"
+        "_",
     ]
     find_event["democracy5"].newspaper_lines = [
         "Citizens accross the world are rallying for worldwide democracy, inspired by recent book on ants"
     ]
     find_event["democracy5"].is_headline = True
+
 
 # manually defines advisor icons for special events
 def setup_advisor_icons(find_event):

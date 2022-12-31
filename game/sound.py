@@ -14,9 +14,7 @@ class SoundManager:
         self.width, self.height = width, height
         self.sounds = [
             pygame.mixer.Sound(loader.filepath("sound_files/ButtonSoundTrimmed.wav")),
-            pygame.mixer.Sound(
-                loader.filepath("sound_files/NewsPaperMusicTrimmed.wav")
-            ),
+            pygame.mixer.Sound(loader.filepath("sound_files/NewsPaperMusicTrimmed.wav")),
         ]
         pygame.mixer.music.load(loader.filepath("sound_files/RepeatMusic.mp3"))
         self.slidesDisplayed = False

@@ -1,13 +1,11 @@
+import random
+import textwrap
+
 import pygame
 import pygame.freetype
-import textwrap
-import random
-
 import pygame_gui
 
-from game import loader
-from game import events
-from game import more_elements
+from game import events, loader, more_elements
 from game.sound import SoundManager
 
 
@@ -26,9 +24,7 @@ class Towns:
     images = {}
 
     for name in names:
-        images[name] = scale_image(
-            pygame.image.load(loader.filepath(f"towns/{name}.png")), 2
-        )
+        images[name] = scale_image(pygame.image.load(loader.filepath(f"towns/{name}.png")), 2)
 
     @staticmethod
     def get_image(name):
@@ -36,7 +32,9 @@ class Towns:
 
     current_town = "unset"
 
+
 Towns.current_town = Towns.get_image("default")
+
 
 class Newspaper:
     def __init__(self, message, *args):
@@ -107,9 +105,7 @@ class Newspaper:
 
         for i, text in enumerate(lines):
             rendered = self.font.render(text, size=font_size)[0]
-            x = (
-                rect.x + rect.width / 2 - rendered.get_width() / 2
-            )  # horizontal centering by line
+            x = rect.x + rect.width / 2 - rendered.get_width() / 2  # horizontal centering by line
             image.blit(rendered, (x, int(starting_y + i * font_size * 1.1)))
 
     def ready(self):
@@ -237,7 +233,7 @@ class EndgameScreen:
         self.message = "THIS IS AN EXAMPLE MESSAGE"  # set by code that calls this
         # "Thanks to the efforts of a humble ant colony: history is altered"
 
-        self.town = "bee" #name of town to show
+        self.town = "bee"  # name of town to show
 
         self.elapsed_time = 0
         self.zoom_time = 8
@@ -255,7 +251,7 @@ class EndgameScreen:
         self.zoom_im = screen.copy()
 
         self.font_color = "#000000" if self.town != "future" else "#FFFFFF"
-  
+
     def display(self, time_delta):
         screen = pygame.display.get_surface()
 
@@ -264,7 +260,7 @@ class EndgameScreen:
         if self.zooming:
             self.x = -3592 * self.elapsed_time / self.zoom_time
             self.y = -192 * self.elapsed_time / self.zoom_time
-            
+
         if self.elapsed_time > self.zoom_time and self.zooming:
             self.zooming = False
             self.zoom_im = scale_image(self.zoom_im, 4)
@@ -301,7 +297,7 @@ class EndgameScreen:
             )
 
         if self.zooming:
-            current_zoom = scale_image(self.zoom_im, 1 + (3/self.zoom_time * self.elapsed_time))
+            current_zoom = scale_image(self.zoom_im, 1 + (3 / self.zoom_time * self.elapsed_time))
             screen.blit(current_zoom, (int(self.x), int(self.y)))
         else:
             screen.blit(self.zoom_im, (int(self.x), int(self.y)))
