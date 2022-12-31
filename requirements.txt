@@ -1,2 +1,2 @@
 pygame
-pygame_gui
+pygame_gui=0.4.2
