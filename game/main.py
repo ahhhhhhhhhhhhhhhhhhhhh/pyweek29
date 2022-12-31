@@ -25,8 +25,6 @@ def main():
     screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
 
-    manager = pygame_gui.UIManager((width, height), loader.filepath("theme.json"))
-
     backgrounds = []
     for i in range(1, 18):
         im = pygame.image.load(loader.filepath(f"queen_animation/QR{i}.png"))
@@ -45,19 +43,6 @@ def main():
 
     town_im = popups.Towns.get_image("default")
 
-    SoundManager(manager, width, height)
-
-    normal_headlines = loader.loadHeadlines("headlines.txt")
-    headlines_queue = (
-        []
-    )  # list of tuples: (string of newspaper line, boolean is headline)
-    newspaper = popups.Newspaper(
-        getRandHeadline(normal_headlines),
-        getRandHeadline(normal_headlines),
-        getRandHeadline(normal_headlines),
-        getRandHeadline(normal_headlines),
-    )
-
     food = 50
     population = 50
     territory = 50
@@ -65,17 +50,18 @@ def main():
     # creates the Resources object, which can be accessed from anywhere as Resources.instance
     Resources(food, population, territory)
 
+    normal_headlines = loader.loadHeadlines("headlines.txt")
+
     all_events = loader.loadEvents("events.txt")
     all_decisions = loader.loadDecisions("decisions.txt")
     all_quests = loader.loadQuests("quests.txt")
-    all_endgames = []  # placeholder
 
     decision_hooks = [decision for decision in all_decisions if decision.hook]
     quest_hooks = [quest for quest in all_quests if quest.hook]
 
     # dict of event names to event to easily reference events
     find_event = {}
-    for event in all_events + all_decisions + all_quests + all_endgames:
+    for event in all_events + all_decisions + all_quests:
         find_event[event.name] = event
 
     #setting up endgames
@@ -97,8 +83,8 @@ def main():
     
     find_event["democracy endgame"] = popups.EndgameScreen("democracy endgame")
     find_event["democracy endgame"].town = "future"
-    find_event["democracy endgame"].message = "Inspired by a book about a function democracy found in an ant colony, countries around the world opened their governments to the people, becoming more transparent, fair, and championing democratic ideals. This led to an unprecedented era of productivity, scientific breakthrough, and happiness. The Eath has truly become a utopia, all thanks to the actions of a seemengly insigificant ant colony"
-    
+    find_event["democracy endgame"].message = "Inspired by a book about a functioning democracy found in an ant colony, countries around the world opened their governments to the people, becoming more transparent, fair, and championing democratic ideals. This led to an unprecedented era of productivity, scientific breakthrough, and happiness. The Eath has truly become a utopia, all thanks to the actions of a seemengly insigificant ant colony"
+
     #checks to made sure all leads from all decisions exist
     for item in [*all_decisions, *all_quests]:
         leads = item.leads_to
@@ -113,10 +99,282 @@ def main():
             if next_item != "_":
                 if next_item not in find_event:
                     raise ValueError(f"The story item {item.name} leads to nonexistent item {next_item}")
-
     print("Verified story item integrity")
 
+    # manually inputting endgame images to the end of quest chains
+    find_event["bees8"].endgame_image = "bee"
+    find_event["explore6"].endgame_image = "destroyed"
+    find_event["radioactive-colony3"].endgame_image = "ant"
+    find_event["radioactive-ant2"].endgame_image = "superhero"
+    find_event["democracy5"].endgame_image = "future"
+
     # manually inputting newspaper headlines
+    setup_event_headlines(find_event)
+
+    # manually inputting advisor icons
+    setup_advisor_icons(find_event)
+
+    global game_scene
+    game_scene = GameScene(backgrounds, all_events, all_decisions, all_quests, find_event, normal_headlines)
+    global main_menu
+    main_menu = MainMenu()
+
+    #current_scene = game_scene
+    current_scene = main_menu
+
+    SoundManager(game_scene.manager, width, height)
+
+    while True:
+        time_delta = clock.tick(60) / 1000
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                raise SystemExit
+
+            if event.type == pygame.USEREVENT:
+                pass
+
+            current_scene = current_scene.process_events(event)
+
+            Resources.instance.manager.process_events(event)
+            SoundManager.instance.process_events(event)
+
+        current_scene.draw(screen)
+
+        current_scene.update(time_delta)
+
+        pygame.display.flip()
+
+class MainMenu:
+    def __init__(self):
+        self.manager = pygame_gui.UIManager((width, height), loader.filepath("theme.json"))
+
+        self.background = popups.Towns.get_image("ant")
+        self.background = pygame.transform.scale(self.background, (width, height))
+
+        self.title_text = pygame_gui.elements.UILabel(
+            manager=self.manager,
+            relative_rect=pygame.Rect(width/2 - 500, 100, 1000, 200),
+            text="Queen of the Hill",
+            object_id="main_menu_title",
+        )
+
+        self.start_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(width/2 - 100, height/2 + 200, 200, 100),
+                                             text="Start",
+                                             manager=self.manager)
+
+    def process_events(self, event):
+        if event.type == pygame.USEREVENT:
+            if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                if event.ui_element == self.start_button:
+                    return game_scene
+
+        self.manager.process_events(event)
+
+        return self
+
+    def draw(self, screen):
+        screen.blit(self.background, (0,0))
+
+        self.manager.draw_ui(screen)
+
+    def update(self, time_delta):
+        if game_scene.event_num > 0 and self.start_button.text != "Resume":
+            self.start_button.set_text("Resume")
+
+
+        self.manager.update(time_delta)
+
+
+class GameScene:
+    def __init__(self, backgrounds, all_events, all_decisions, all_quests, find_event, normal_headlines):
+        self.manager = pygame_gui.UIManager((width, height), loader.filepath("theme.json"))
+
+        self.all_events = all_events
+        self.all_decisions = all_decisions
+        self.decision_hooks = [decision for decision in self.all_decisions if decision.hook]
+        self.all_quests = all_quests
+        self.quest_hooks = [quest for quest in self.all_quests if quest.hook]
+
+        self.find_event = find_event
+
+        self.event_num = 0
+
+        self.bg_current_time = 0
+        self.bg_flip_time = 0.1
+        self.bg_pos = 0
+        self.bgs = backgrounds
+        self.bg = self.bgs[self.bg_pos]
+
+        self.event_queue = [
+            self.get_rand_decision(),
+            self.get_rand_decision(),
+            self.get_rand_event(),
+            self.get_rand_event(),
+        ]
+        self.quest_queue = []
+        self.current_decision = self.event_queue.pop(0)
+        self.current_decision.ready()
+
+        self.headlines_queue = ([])  # list of tuples: (string of newspaper line, boolean is headline)
+        self.normal_headlines = normal_headlines
+        self.event_queue.append(self.generate_newspaper())
+
+    def update(self, time_delta):
+        self.manager.update(time_delta)
+        self.update_bg(time_delta)
+
+        Resources.instance.manager.update(time_delta)
+
+        if self.current_decision.display(time_delta):
+            self.event_num += 1
+
+            if isinstance(self.current_decision, events.Quest):
+                if self.current_decision.chosen_line != "_":
+                    self.headlines_queue.append((self.current_decision.chosen_line, self.current_decision.is_headline))
+
+                if self.current_decision.next_event != "_":
+                    next_quest = self.find_event[self.current_decision.next_event]
+                    if isinstance(next_quest, popups.EndgameScreen):
+                        self.event_queue.insert(1, next_quest)
+                    else:
+                        self.quest_queue.append(next_quest)
+
+            else:
+                next_event_name = self.current_decision.next_event
+                if self.current_decision.next_event.count(",") > 0:
+                    next_event_name = random.choice(
+                        self.current_decision.next_event.split(",")
+                    )
+                if next_event_name != "_":
+                    next_event = self.find_event[next_event_name]
+                    self.event_queue.append(next_event)
+
+            # resource control trigger
+            if self.event_num % 3 == 0:  # so that resource control events don't happen for a bunch of turns in a row
+                if Resources.instance.population < 20:
+                    self.event_queue.insert(0, self.find_event["low population"])
+                elif (Resources.instance.territory < Resources.instance.population - 20):  # elif statements so multiple resource control events don't happen at once
+                    self.event_queue.insert(0, self.find_event["low territory"])
+                elif Resources.instance.food > Resources.instance.population + 20:
+                    if Resources.instance.population < Resources.instance.territory:
+                        self.event_queue.insert(0, self.find_event["food surplus population"])
+                    else:
+                        self.event_queue.insert(0, self.find_event["food surplus territory"])
+
+            # losing scenarios
+            if Resources.instance.population <= 0:
+                lose_screen = popups.EndScreen()
+                lose_screen.message = "Try as you might, your colony simply could not survive. Without any workers, you are forced to flee as your territory is taken over by others."
+                self.event_queue.insert(0, lose_screen)
+            elif Resources.instance.territory <= 0:
+                lose_screen = popups.EndScreen()
+                lose_screen.message = "Try as you might, your colony simply could not survive. Without any territory you can claim on your own, you and your remaining workers are forced to flee the area."
+                self.event_queue.insert(0, lose_screen)
+            elif Resources.instance.food <= 0:
+                self.event_queue.insert(0, self.find_event["starvation"])
+
+            self.current_decision = self.event_queue.pop(0)
+            #current_decision = popups.EndgameScreen() ################### testing purposes
+            self.current_decision.ready()
+
+            print("now playing event:", self.current_decision.name)
+            print("event_queue:", [event.name for event in self.event_queue])
+
+            if isinstance(self.current_decision, popups.Newspaper):
+                while len(self.event_queue) < 5:
+                    rand = random.randrange(100)
+                    if rand < 65:
+                        self.event_queue.append(self.get_rand_decision())
+                    else:
+                        self.event_queue.append(self.get_rand_event())
+
+                # only adds another quest hook if there is not an ongoing quest
+                if len(self.quest_queue) == 0:
+                    self.event_queue.append(self.get_rand_quest())
+                else:
+                    self.event_queue.append(self.quest_queue.pop(0))
+
+                self.event_queue.append(self.generate_newspaper())
+
+    def process_events(self, event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == 27:  #esc key
+                return main_menu
+
+        self.manager.process_events(event)
+        self.current_decision.process_events(event)
+
+        return self
+
+    def draw(self, screen):
+        screen.blit(popups.Towns.current_town, (898, 48))
+        screen.blit(self.bg, (0, 0))
+
+        #screen.blit(eyes, (644, 248))
+
+        Resources.instance.manager.draw_ui(screen)
+
+        self.manager.draw_ui(screen)
+
+    def update_bg(self, time_delta):
+        self.bg_current_time += time_delta
+        if self.bg_current_time > self.bg_flip_time:
+            self.bg_current_time = 0
+            self.bg_pos += 1
+            self.bg_pos %= len(self.bgs)
+
+        self.bg = self.bgs[self.bg_pos]
+
+    def get_rand_decision(self):
+        if len(self.decision_hooks) == 0:
+            self.decision_hooks = [decision for decision in self.all_decisions if decision.hook]
+        return self.decision_hooks.pop(random.randrange(0, len(self.decision_hooks)))
+
+    def get_rand_quest(self):
+        if len(self.quest_hooks) == 0:
+            self.quest_hooks = [quest for quest in self.all_quests if quest.hook]
+        return self.quest_hooks.pop(random.randrange(0, len(self.quest_hooks)))
+
+    def get_rand_event(self):
+        return self.all_events[random.randrange(0, len(self.all_events))]
+
+    def generate_newspaper(self):
+        if len(self.headlines_queue) > 0:
+            data = self.headlines_queue.pop(0)
+            if data[1]:  # means queue fills headline
+                newspaper = popups.Newspaper(
+                    data[0],
+                    self.get_rand_headline(),
+                    self.get_rand_headline(),
+                    self.get_rand_headline(),
+                )
+            else:
+                newspaper = popups.Newspaper(
+                    self.get_rand_headline(),
+                    data[0],
+                    self.get_rand_headline(),
+                    self.get_rand_headline(),
+                )
+        else:
+            newspaper = popups.Newspaper(
+                self.get_rand_headline(),
+                self.get_rand_headline(),
+                self.get_rand_headline(),
+                self.get_rand_headline(),
+            )
+
+        return newspaper
+
+    def get_rand_headline(self):
+        if len(self.normal_headlines) == 0:
+            self.normal_headlines = loader.loadHeadlines("headlines.txt")
+        return self.normal_headlines.pop(random.randrange(len(self.normal_headlines)))
+
+
+# manually defines newspaper headlines for special events
+def setup_event_headlines(find_event):
     find_event["explore2"].newspaper_lines = [
         "local grain silo infested with ants",
         "local grain silo infested with ants",
@@ -198,14 +456,8 @@ def main():
     ]
     find_event["democracy5"].is_headline = True
 
-    # manually inputting endgame images to the end of quest chains
-    find_event["bees8"].endgame_image = "bee"
-    find_event["explore6"].endgame_image = "destroyed"
-    find_event["radioactive-colony3"].endgame_image = "ant"
-    find_event["radioactive-ant2"].endgame_image = "superhero"
-    find_event["democracy5"].endgame_image = "future"
-
-    # manually inputting advisor icons
+# manually defines advisor icons for special events
+def setup_advisor_icons(find_event):
     # decisions
     find_event["beetle start"].advisor_name = "beetle"
     find_event["beetle demand"].advisor_name = "beetle"
@@ -246,177 +498,3 @@ def main():
     find_event["radioactive-colony2"].advisor_name = "explorer"
     find_event["radioactive-colony3"].advisor_name = "explorer"
     find_event["radioactive-colony4"].advisor_name = "explorer"
-    
-    
-    event_queue = [
-        getRandDecision(all_decisions, decision_hooks),
-        getRandDecision(all_decisions, decision_hooks),
-        getRandElement(all_events),
-        #getRandDecision(all_quests, quest_hooks),
-        getRandElement(all_events),
-        newspaper,
-    ]
-    
-    print (event_queue[3].name)
-    
-    quest_queue = []  # specific queue for quest events
-
-    current_decision = event_queue.pop(0)
-    # current_decision = popups.EndScreen() #Uncomment start of line to test endgame object
-    current_decision.ready()
-
-    event_num = 0  # number of events processed
-
-    while True:
-        time_delta = clock.tick(60) / 1000
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                raise SystemExit
-
-            if event.type == pygame.USEREVENT:
-                pass
-
-            manager.process_events(event)
-            Resources.instance.manager.process_events(event)
-            SoundManager.instance.process_events(event)
-            current_decision.process_events(event)
-
-        manager.update(time_delta)
-        Resources.instance.manager.update(time_delta)
-
-        screen.blit(popups.Towns.current_town, (898, 48))
-
-        bg_current_time += time_delta
-        if bg_current_time > bg_flip_time:
-            bg_current_time = 0
-            bg_pos += 1
-            bg_pos %= len(backgrounds)
-
-        screen.blit(backgrounds[bg_pos], (0, 0))
-        screen.blit(eyes, (644, 248))
-
-        Resources.instance.manager.draw_ui(screen)
-
-        if current_decision.display(time_delta):
-            event_num += 1
-
-            if isinstance(current_decision, events.Quest):
-                if current_decision.chosen_line != "_":
-                    headlines_queue.append((current_decision.chosen_line, current_decision.is_headline))
-
-                if current_decision.next_event != "_":
-                    next_quest = find_event[current_decision.next_event]
-                    if isinstance(next_quest, popups.EndgameScreen):
-                        event_queue.insert(1, next_quest)
-                    else:
-                        quest_queue.append(next_quest)
-
-            else:
-                next_event_name = current_decision.next_event
-                if current_decision.next_event.count(",") > 0:
-                    next_event_name = random.choice(
-                        current_decision.next_event.split(",")
-                    )
-                if next_event_name != "_":
-                    next_event = find_event[next_event_name]
-                    event_queue.append(next_event)
-
-            # resource control trigger
-            if event_num % 3 == 0:  # so that resource control events don't happen for a bunch of turns in a row
-                if Resources.instance.population < 20:
-                    event_queue.insert(0, find_event["low population"])
-                elif (Resources.instance.territory < Resources.instance.population - 20):  # elif statements so multiple resource control events don't happen at once
-                    event_queue.insert(0, find_event["low territory"])
-                elif Resources.instance.food > Resources.instance.population + 20:
-                    if Resources.instance.population < Resources.instance.territory:
-                        event_queue.insert(0, find_event["food surplus population"])
-                    else:
-                        event_queue.insert(0, find_event["food surplus territory"])
-
-            if Resources.instance.population <= 0:
-                lose_screen = popups.EndScreen()
-                lose_screen.message = "Try as you might, your colony simply could not survive. Without any workers, you are forced to flee as your territory is taken over by others."
-                event_queue.insert(0, lose_screen)
-            elif Resources.instance.territory <= 0:
-                lose_screen = popups.EndScreen()
-                lose_screen.message = "Try as you might, your colony simply could not survive. Without any territory you can claim on your own, you and your remaining workers are forced to flee the area."
-                event_queue.insert(0, lose_screen)
-            elif Resources.instance.food <= 0:
-                event_queue.insert(0, find_event["starvation"])
-
-            current_decision = event_queue.pop(0)
-            #current_decision = popups.EndgameScreen() ###################testing purposes
-            current_decision.ready()
-            print("now playing event:", current_decision.name)
-
-            if isinstance(current_decision, popups.Newspaper):
-                while len(event_queue) < 5:
-                    rand = random.randrange(100)
-                    if rand < 65:
-                        event_queue.append(getRandDecision(all_decisions, decision_hooks))
-                    else:
-                        event_queue.append(getRandElement(all_events))
-
-                # only adds another quest hook if there is not an ongoing quest
-                if len(quest_queue) == 0:
-                    event_queue.append(getRandDecision(all_quests, quest_hooks))
-                else:
-                    event_queue.append(quest_queue.pop(0))
-
-                current_decision = generateNewspaper(headlines_queue, normal_headlines)
-                current_decision.ready()
-
-                event_queue.append(newspaper)
-
-
-        manager.draw_ui(screen)
-
-        pygame.display.flip()
-
-
-def getRandElement(lst):
-    return lst[random.randrange(0, len(lst))]
-
-
-# make sure all decisions get cycled through before repeats
-def getRandDecision(all_decisions, decision_hooks):
-    if len(decision_hooks) == 0:
-        decision_hooks = [decision for decision in all_decisions if decision.hook]
-    return decision_hooks.pop(random.randrange(0, len(decision_hooks)))
-
-
-# headlines also get cycled through
-def getRandHeadline(normal_headlines):
-    if len(normal_headlines) == 0:
-        normal_headlines = loader.loadHeadlines("headlines.txt")
-    return normal_headlines.pop(random.randrange(len(normal_headlines)))
-
-
-def generateNewspaper(headlines_queue, normal_headlines):
-    if len(headlines_queue) > 0:
-        data = headlines_queue.pop(0)
-        if data[1]:  # means queue fills headline
-            newspaper = popups.Newspaper(
-                data[0],
-                getRandHeadline(normal_headlines),
-                getRandHeadline(normal_headlines),
-                getRandHeadline(normal_headlines),
-            )
-        else:
-            newspaper = popups.Newspaper(
-                getRandHeadline(normal_headlines),
-                data[0],
-                getRandHeadline(normal_headlines),
-                getRandHeadline(normal_headlines),
-            )
-    else:
-        newspaper = popups.Newspaper(
-            getRandHeadline(normal_headlines),
-            getRandHeadline(normal_headlines),
-            getRandHeadline(normal_headlines),
-            getRandHeadline(normal_headlines),
-        )
-
-    return newspaper
