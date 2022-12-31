@@ -86,7 +86,8 @@ class Event:
         self.advisor_name = "advisor"
 
     def ready(self):
-        self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
+        # self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
+        self.manager = pygame_gui.UIManager((1280, 720))
         self.finished = False
 
         self.button_ext_background = more_elements.ImageBox(Images.button_ext_image, (50, 150))
@@ -160,10 +161,9 @@ class Event:
     def process_events(self, event):
         self.manager.process_events(event)
 
-        if event.type == pygame.USEREVENT:
-            if event.user_type == "ui_button_pressed":
-                if event.ui_element == self.next_button:
-                    self.finished = True
+        if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            if event.ui_element == self.next_button:
+                self.finished = True
 
     def apply_impact(self, impact):
         Resources.instance.food += impact[0]
@@ -210,30 +210,29 @@ class Decision(Event):
     def process_events(self, event):
         super().process_events(event)
 
-        if event.type == pygame.USEREVENT:
-            if event.user_type == "ui_button_pressed":
-                if event.ui_element in self.decision_buttons:
-                    user_choice = self.decision_buttons.index(event.ui_element)
+        if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            if event.ui_element in self.decision_buttons:
+                user_choice = self.decision_buttons.index(event.ui_element)
 
-                    self.textbox.html_text = self.outcomes[user_choice]
-                    html, icons = impacts_to_html(self.impacts[user_choice])
-                    self.textbox.html_text += html
-                    self.textbox.rebuild()
+                self.textbox.html_text = self.outcomes[user_choice]
+                html, icons = impacts_to_html(self.impacts[user_choice])
+                self.textbox.html_text += html
+                self.textbox.rebuild()
 
-                    self.apply_impact(self.impacts[user_choice])
+                self.apply_impact(self.impacts[user_choice])
 
-                    for button in self.decision_buttons:
-                        button.kill()
+                for button in self.decision_buttons:
+                    button.kill()
 
-                    self.button_background.set_position(pygame.Rect(50, 200, 300, 300))
+                self.button_background.set_position(pygame.Rect(50, 200, 300, 300))
 
-                    self.next_button = pygame_gui.elements.UIButton(
-                        relative_rect=pygame.Rect(50, 400, 300, 40),
-                        text="Next",
-                        manager=self.manager,
-                    )
+                self.next_button = pygame_gui.elements.UIButton(
+                    relative_rect=pygame.Rect(50, 400, 300, 40),
+                    text="Next",
+                    manager=self.manager,
+                )
 
-                    self.next_event = self.leads_to[user_choice]
+                self.next_event = self.leads_to[user_choice]
 
 
 class Quest(Decision):

@@ -112,13 +112,12 @@ class SoundManager:
         if self.slidesDisplayed:
             self.updateVolume()
 
-        if event.type == pygame.USEREVENT:
-            if event.user_type == "ui_button_pressed":
-                self.playButtonSound()
+        if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            self.playButtonSound()
 
-                if event.ui_element == self.volumeButton:
-                    if self.slidesDisplayed:
-                        self.killVolumeSlides()
-                        self.displayVolumeButton()
-                    else:
-                        self.displayVolumeSlides()
+            if event.ui_element == self.volumeButton:
+                if self.slidesDisplayed:
+                    self.killVolumeSlides()
+                    self.displayVolumeButton()
+                else:
+                    self.displayVolumeSlides()
