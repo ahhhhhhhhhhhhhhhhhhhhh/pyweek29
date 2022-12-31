@@ -28,7 +28,7 @@ def main():
         im = pygame.image.load(loader.filepath(f"queen_animation/QR{i}.png"))
         im = pygame.transform.scale(im, (1280, 720))
         im.set_colorkey((167, 255, 255))
-        im = im.convert_alpha()
+        im = im.convert()
         backgrounds.append(im)
 
     food = 50
@@ -326,8 +326,6 @@ class GameScene:
     def draw(self, screen):
         screen.blit(popups.Towns.current_town, (898, 48))
         screen.blit(self.bg, (0, 0))
-
-        # screen.blit(eyes, (644, 248))
 
         Resources.instance.manager.draw_ui(screen)
 
