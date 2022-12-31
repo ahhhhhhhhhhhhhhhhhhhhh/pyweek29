@@ -142,7 +142,11 @@
   },
   "horizontal_slider.#sliding_button": {
     "colours": {
-      "normal_bg": "#FF0000"
+      "normal_bg": "#CC0000",
+      "hovered_bg": "#FF0000",
+      "active_bg": "#FF0000",
+      "disabled_bg": "#FF0000",
+      "selected_bg": "#CC0000"
     }
   }
 }
