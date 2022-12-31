@@ -31,16 +31,6 @@ def main():
         im = im.convert_alpha()
         backgrounds.append(im)
 
-    bg_flip_time = 0.1
-    bg_pos = 0
-    bg_current_time = 0
-
-    eyes = pygame.image.load(loader.filepath(f"eyes.png"))
-    eyes = pygame.transform.scale(eyes, (40, 8))
-    eyes = eyes.convert_alpha()
-
-    town_im = popups.Towns.get_image("default")
-
     food = 50
     population = 50
     territory = 50
@@ -53,9 +43,6 @@ def main():
     all_events = loader.loadEvents("events.txt")
     all_decisions = loader.loadDecisions("decisions.txt")
     all_quests = loader.loadQuests("quests.txt")
-
-    decision_hooks = [decision for decision in all_decisions if decision.hook]
-    quest_hooks = [quest for quest in all_quests if quest.hook]
 
     # dict of event names to event to easily reference events
     find_event = {}
