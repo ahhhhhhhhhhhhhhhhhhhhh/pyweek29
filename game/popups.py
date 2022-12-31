@@ -151,7 +151,7 @@ class Newspaper:
         screen.blit(im, loc)
 
         if not self.playSound:
-            SoundManager.instance.playNewspaperSound()
+            SoundManager.instance.play_newspaper_sound()
             self.playSound = True
 
         return self.finished

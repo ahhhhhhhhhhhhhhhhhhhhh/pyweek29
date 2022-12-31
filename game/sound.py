@@ -17,108 +17,105 @@ class SoundManager:
             pygame.mixer.Sound(loader.filepath("sound_files/NewsPaperMusicTrimmed.wav")),
         ]
         pygame.mixer.music.load(loader.filepath("sound_files/RepeatMusic.mp3"))
-        self.slidesDisplayed = False
-        self.loadVolume()
-        pygame.mixer.music.set_volume(self.musicVolume)
+        self.sliders_displayed = False
+        self.load_volume()
+        pygame.mixer.music.set_volume(self.music_volume)
 
-        self.displayVolumeButton()
-        self.playMusic()
-        pygame.mixer.music.set_volume(self.musicVolume * self.masterVolume)
-        for i in self.sounds:
-            pygame.mixer.Sound.set_volume(i, self.masterVolume)
+        self.create_volume_button()
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(self.music_volume * self.master_volume)
+        for sound in self.sounds:
+            sound.set_volume(self.master_volume)
 
         SoundManager.instance = self
 
-    def displayVolumeSlides(self):
-        self.musicSlide = pygame_gui.elements.UIHorizontalSlider(
+    def create_volume_sliders(self):
+        self.music_volume_slider = pygame_gui.elements.UIHorizontalSlider(
             pygame.Rect(self.width - 150, self.height - 20, 140, 15),
-            self.musicVolume,
+            self.music_volume,
             [0, 0.5],
             self.manager,
         )
-        self.masterSoundSlide = pygame_gui.elements.UIHorizontalSlider(
+        self.master_volume_slider = pygame_gui.elements.UIHorizontalSlider(
             pygame.Rect(self.width - 150, self.height - 80, 140, 15),
-            self.masterVolume,
+            self.master_volume,
             [0, 1],
             self.manager,
         )
-        self.musicSlideText = pygame_gui.elements.UITextBox(
+        self.music_volume_text = pygame_gui.elements.UITextBox(
             manager=self.manager,
             relative_rect=pygame.Rect(self.width - 150, self.height - 60, 140, 40),
             html_text="Music Volume",
         )
-        self.masterSoundSlideText = pygame_gui.elements.UITextBox(
+        self.master_volume_text = pygame_gui.elements.UITextBox(
             manager=self.manager,
             relative_rect=pygame.Rect(self.width - 150, self.height - 120, 140, 40),
             html_text="Master Volume",
         )
-        self.volumeButton.kill()
-        self.volumeButton = pygame_gui.elements.UIButton(
+        self.volume_button.kill()
+        self.volume_button = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect(self.width - 70, self.height - 160, 60, 30),
             text="volume",
             manager=self.manager,
         )
-        self.slidesDisplayed = True
+        self.sliders_displayed = True
 
-    def killVolumeSlides(self):
-        self.musicSlide.kill()
-        self.masterSoundSlide.kill()
-        self.musicSlideText.kill()
-        self.masterSoundSlideText.kill()
-        self.volumeButton.kill()
-        self.slidesDisplayed = False
+    def kill_volume_sliders(self):
+        self.music_volume_slider.kill()
+        self.master_volume_slider.kill()
+        self.music_volume_text.kill()
+        self.master_volume_text.kill()
+        self.volume_button.kill()
+        self.sliders_displayed = False
 
-    def displayVolumeButton(self):
-        self.volumeButton = pygame_gui.elements.UIButton(
+    def create_volume_button(self):
+        self.volume_button = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect(self.width - 70, self.height - 40, 60, 30),
             text="volume",
             manager=self.manager,
         )
 
-    def playMusic(self):
-        pygame.mixer.music.play(-1)
+    def update_volume(self):
+        self.music_volume = self.music_volume_slider.get_current_value()
+        self.master_volume = self.master_volume_slider.get_current_value()
+        pygame.mixer.music.set_volume(self.music_volume * self.master_volume)
+        self.save_volume()
+        for sound in self.sounds:
+            sound.set_volume(self.master_volume)
 
-    def updateVolume(self):
-        self.musicVolume = self.musicSlide.get_current_value()
-        self.masterVolume = self.masterSoundSlide.get_current_value()
-        pygame.mixer.music.set_volume(self.musicVolume * self.masterVolume)
-        self.saveVolume()
-        for i in self.sounds:
-            pygame.mixer.Sound.set_volume(i, self.masterVolume)
+    def play_button_sound(self):
+        self.sounds[0].play()
 
-    def playButtonSound(self):
-        pygame.mixer.Sound.play(self.sounds[0])
+    def play_newspaper_sound(self):
+        self.sounds[1].play()
 
-    def playNewspaperSound(self):
-        pygame.mixer.Sound.play(self.sounds[1])
-
-    def saveVolume(self):
+    def save_volume(self):
         data = {
             "Volume": {
-                "masterVolume": self.masterVolume,
-                "musicVolume": self.musicVolume,
+                "masterVolume": self.master_volume,
+                "musicVolume": self.music_volume,
             }
         }
         with open(loader.filepath("persistence.json"), "w") as write_file:
             json.dump(data, write_file)
 
-    def loadVolume(self):
+    def load_volume(self):
         with open(loader.filepath("persistence.json"), "r") as read_file:
             data = json.load(read_file)
-            self.masterVolume = data["Volume"]["masterVolume"]
-            self.musicVolume = data["Volume"]["musicVolume"]
+            self.master_volume = data["Volume"]["masterVolume"]
+            self.music_volume = data["Volume"]["musicVolume"]
 
     def process_events(self, event):
-        if self.slidesDisplayed:
-            self.updateVolume()
+        if self.sliders_displayed:
+            self.update_volume()
 
         if event.type == pygame.USEREVENT:
             if event.user_type == "ui_button_pressed":
-                self.playButtonSound()
+                self.play_button_sound()
 
-                if event.ui_element == self.volumeButton:
-                    if self.slidesDisplayed:
-                        self.killVolumeSlides()
-                        self.displayVolumeButton()
+                if event.ui_element == self.volume_button:
+                    if self.sliders_displayed:
+                        self.kill_volume_sliders()
+                        self.create_volume_button()
                     else:
-                        self.displayVolumeSlides()
+                        self.create_volume_sliders()
