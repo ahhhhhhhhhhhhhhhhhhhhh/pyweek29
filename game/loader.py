@@ -115,5 +115,5 @@ def loadQuests(filename):
 def loadHeadlines(filename):
     file = load(filename).readlines()
     file = [line.rstrip().decode() for line in file]
-    print("loaded " + str(len(file)) + " headlines")
+
     return file

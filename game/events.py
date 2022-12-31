@@ -131,8 +131,6 @@ class Event:
 
         self._ready()
 
-        print("now playing event:", self.name)
-
     def _ready(self):
         self.apply_impact(self.impacts)
         if not self.text_impacted:
@@ -280,6 +278,6 @@ class Quest(Decision):
         var = super().display(time_delta)
 
         if var and self.endgame_image:
-            popups.Towns.current_town = self.endgame_image
+            popups.Towns.current_town = popups.Towns.get_image(self.endgame_image)
 
         return var
