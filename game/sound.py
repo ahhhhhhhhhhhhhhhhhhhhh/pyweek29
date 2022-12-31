@@ -4,7 +4,7 @@ import pygame
 import pygame_gui
 
 from game import loader
-
+from game.data import Data
 
 class SoundManager:
     instance = None
@@ -20,27 +20,26 @@ class SoundManager:
         ]
         pygame.mixer.music.load(loader.filepath("sound_files/RepeatMusic.mp3"))
         self.slidesDisplayed = False
-        self.loadVolume()
-        pygame.mixer.music.set_volume(self.musicVolume)
+        pygame.mixer.music.set_volume(Data.instance.musicVolume)
 
         self.displayVolumeButton()
         self.playMusic()
-        pygame.mixer.music.set_volume(self.musicVolume * self.masterVolume)
+        pygame.mixer.music.set_volume(Data.instance.musicVolume * Data.instance.masterVolume)
         for i in self.sounds:
-            pygame.mixer.Sound.set_volume(i, self.masterVolume)
+            pygame.mixer.Sound.set_volume(i, Data.instance.masterVolume)
 
         SoundManager.instance = self
 
     def displayVolumeSlides(self):
         self.musicSlide = pygame_gui.elements.UIHorizontalSlider(
             pygame.Rect(self.width - 150, self.height - 20, 140, 15),
-            self.musicVolume,
+            Data.instance.musicVolume,
             [0, 0.5],
             self.manager,
         )
         self.masterSoundSlide = pygame_gui.elements.UIHorizontalSlider(
             pygame.Rect(self.width - 150, self.height - 80, 140, 15),
-            self.masterVolume,
+            Data.instance.masterVolume,
             [0, 1],
             self.manager,
         )
@@ -81,34 +80,17 @@ class SoundManager:
         pygame.mixer.music.play(-1)
 
     def updateVolume(self):
-        self.musicVolume = self.musicSlide.get_current_value()
-        self.masterVolume = self.masterSoundSlide.get_current_value()
-        pygame.mixer.music.set_volume(self.musicVolume * self.masterVolume)
-        self.saveVolume()
+        Data.instance.musicVolume = self.musicSlide.get_current_value()
+        Data.instance.masterVolume = self.masterSoundSlide.get_current_value()
+        pygame.mixer.music.set_volume(Data.instance.musicVolume * Data.instance.masterVolume)
         for i in self.sounds:
-            pygame.mixer.Sound.set_volume(i, self.masterVolume)
+            pygame.mixer.Sound.set_volume(i, Data.instance.masterVolume)
 
     def playButtonSound(self):
         pygame.mixer.Sound.play(self.sounds[0])
 
     def playNewspaperSound(self):
         pygame.mixer.Sound.play(self.sounds[1])
-
-    def saveVolume(self):
-        data = {
-            "Volume": {
-                "masterVolume": self.masterVolume,
-                "musicVolume": self.musicVolume,
-            }
-        }
-        with open(loader.filepath("persistence.json"), "w") as write_file:
-            json.dump(data, write_file)
-
-    def loadVolume(self):
-        with open(loader.filepath("persistence.json"), "r") as read_file:
-            data = json.load(read_file)
-            self.masterVolume = data["Volume"]["masterVolume"]
-            self.musicVolume = data["Volume"]["musicVolume"]
 
     def process_events(self, event):
         if self.slidesDisplayed:
