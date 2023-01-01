@@ -7,21 +7,12 @@ from game.resources import Resources
 
 
 class Images:
-    scroll_image = pygame.transform.scale(
-        pygame.image.load(loader.filepath("ui_images/scroll004.png")), (400, 300)
-    )
-    scroll_image1 = pygame.transform.scale(
-        pygame.image.load(loader.filepath("ui_images/scroll001.png")), (400, 300)
-    )
-    scroll_image2 = pygame.transform.scale(
-        pygame.image.load(loader.filepath("ui_images/scroll002.png")), (400, 300)
-    )
-    scroll_image3 = pygame.transform.scale(
-        pygame.image.load(loader.filepath("ui_images/scroll003.png")), (400, 300)
-    )
-    scroll_image4 = pygame.transform.scale(
-        pygame.image.load(loader.filepath("ui_images/scroll004.png")), (400, 300)
-    )
+    scroll_images = [
+        pygame.transform.scale(
+            pygame.image.load(loader.filepath(f"ui_images/scroll00{i}.png")), (400, 300)
+        )
+        for i in range(5)
+    ]
     button_scroll_image = pygame.transform.scale(
         pygame.image.load(loader.filepath("ui_images/button.png")), (300, 300)
     )
@@ -72,6 +63,64 @@ def impacts_to_html(outcome):
     return "".join(out)
 
 
+class Scroll:
+    def __init__(self, manager: pygame_gui.UIManager, main_text: str, advisor_name: str):
+        self.manager = manager
+        self.text = main_text
+
+        self.finished = False
+        self.scroll_index = 0
+        self.flip_time = 0.1  # time between frames
+        self.animation_timer = 0
+
+        self.background = more_elements.ImageBox(Images.scroll_images[0], (15, 150))
+        self.button_background = more_elements.ImageBox(Images.button_scroll_image, (50, 200))
+        self.button_background.visible = False
+        self.button_ext_background = more_elements.ImageBox(Images.button_ext_image, (50, 150))
+        self.button_ext_background.visible = False
+        self.advisor_image = more_elements.ImageBox(Icons.get_image(advisor_name), (180, 145))
+
+        self.image_group = more_elements.Group(
+            self.button_background,
+            self.button_ext_background,
+            self.background,
+            self.advisor_image,
+        ) 
+
+        self.textbox = pygame_gui.elements.UITextBox(
+            manager=self.manager,
+            relative_rect=pygame.Rect(50, 175, 300, 200),
+            html_text="",
+        )
+
+    def display(self, time_delta):
+        self.image_group.draw(pygame.display.get_surface())
+
+        # updating scroll animation
+        self.animation_timer += time_delta
+        if not self.finished and self.animation_timer > self.flip_time:
+            self.animation_timer = 0
+            if self.scroll_index < len(Images.scroll_images) - 1:
+                self.scroll_index += 1
+                self.background.image = Images.scroll_images[self.scroll_index]
+            # if scroll animation finished, make bottom of scroll visible
+            else:
+                self.finished = True
+                self.set_text(self.text)
+                self.button_ext_background.visible = True
+                self.button_background.visible = True
+
+        self.manager.update(time_delta)
+        self.manager.draw_ui(pygame.display.get_surface())
+
+        return self.finished
+
+    def set_text(self, text):
+        self.textbox.html_text = text
+        self.textbox.rebuild()
+
+
+
 class Event:
     def __init__(self, name):
         self.name = name
@@ -89,40 +138,11 @@ class Event:
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
         self.finished = False
 
-        self.button_ext_background = more_elements.ImageBox(Images.button_ext_image, (50, 150))
-        self.button_ext_background.visible = False
-        self.button_background = more_elements.ImageBox(Images.button_scroll_image, (50, 200))
-        self.button_background.visible = False
-        self.background_image = more_elements.ImageBox(Images.scroll_image1, (15, 150))
-        self.advisor_image = more_elements.ImageBox(Icons.get_image(self.advisor_name), (180, 145))
-
-        self.image_group = more_elements.Group(
-            self.button_background,
-            self.button_ext_background,
-            self.background_image,
-            self.advisor_image,
-        )
-
-        self.textbox = pygame_gui.elements.UITextBox(
-            manager=self.manager,
-            relative_rect=pygame.Rect(50, 175, 300, 200),
-            html_text="",
-        )
-
-        self.animation_stage = 1
-        self.animation_stages = 5
-        self.animation_time = 0
-        self.animation_flip_time = 0.1
-
-        self._ready()
-
-    def _ready(self):
         self.apply_impact(self.impacts)
-        if not self.text_impacted:
-            html = impacts_to_html(self.impacts)
-            self.text += html
-            self.text_impacted = True
+        html = impacts_to_html(self.impacts)
+        self.text += html
 
+        self.scroll = Scroll(self.manager, self.text, self.advisor_name)
         self.next_button = None
 
     def create_buttons(self):
@@ -133,27 +153,9 @@ class Event:
         )
 
     def display(self, time_delta):
-        self.image_group.draw(pygame.display.get_surface())
-
-        self.animation_time += time_delta
-        if self.animation_stage < self.animation_stages:
-            if self.animation_time > self.animation_flip_time:
-                self.animation_time = 0
-                self.animation_stage += 1
-                if self.animation_stage < self.animation_stages:
-                    self.background_image.image = getattr(
-                        Images, f"scroll_image{self.animation_stage}"
-                    )
-                if self.animation_stage == self.animation_stages - 1:
-                    self.textbox.html_text = self.text
-                    self.textbox.rebuild()
-                if self.animation_stage == self.animation_stages:
-                    self.button_ext_background.visible = True
-                    self.button_background.visible = True
-                    self.create_buttons()
-
-        self.manager.update(time_delta)
-        self.manager.draw_ui(pygame.display.get_surface())
+        animation_done = self.scroll.display(time_delta)
+        if animation_done and self.next_button is None:
+            self.create_buttons()
 
         return self.finished
 
@@ -179,8 +181,6 @@ class Decision(Event):
         self.hook = False  # if decision is the beginning of a series of events/decisions
         self.quest = False
 
-        self.advisor = "advisor"
-
         self.options = [] 
 
     def _ready(self):
@@ -199,10 +199,13 @@ class Decision(Event):
             cumulative_height += button.relative_rect.height + 10
             self.decision_buttons.append(button)
 
-        self.button_background.set_position(pygame.Rect(50, cumulative_height - 250, 300, 300))
-        self.button_ext_background.set_position(
+        self.scroll.button_background.set_position(pygame.Rect(50, cumulative_height - 250, 300, 300))
+        self.scroll.button_ext_background.set_position(
             pygame.Rect(50, max(cumulative_height - 550, 150), 300, 300)
         )
+
+        # messy solution, want to clarify the event/decision inheritence to avoid this
+        self.next_button = ""
 
     def process_events(self, event):
         super().process_events(event)
@@ -217,15 +220,14 @@ class Decision(Event):
         user_choice = self.decision_buttons.index(event.ui_element)
         selected = self.options[user_choice]
 
-        self.textbox.html_text = selected.outcome + impacts_to_html(selected.impacts)
-        self.textbox.rebuild()
+        self.scroll.set_text(selected.outcome + impacts_to_html(selected.impacts))
 
         self.apply_impact(selected.impacts)
 
         for button in self.decision_buttons:
             button.kill()
 
-        self.button_background.set_position(pygame.Rect(50, 200, 300, 300))
+        self.scroll.button_background.set_position(pygame.Rect(50, 200, 300, 300))
 
         self.next_button = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect(50, 400, 300, 40),

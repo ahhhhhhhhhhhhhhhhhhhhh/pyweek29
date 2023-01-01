@@ -51,7 +51,7 @@ def load_decisions(filename):
 
     i = 0
     while i < len(file):
-        line = file[i]
+        line = file[i].strip("\t")
         if len(line) > 0 and line[0] == "#":
             d, i = read_decision(file, i)
             decisions.append(d)
@@ -74,7 +74,7 @@ def read_decision(file, i):
     d = events.Decision(file[i][1:])
 
     while i < len(file) and file[i] != "":
-        line = file[i]
+        line = file[i].strip("\t")
         if line[0] == "[":
             tag, i, args = read_tag(file, i)
 
@@ -85,9 +85,9 @@ def read_decision(file, i):
                 case "hook":
                     d.hook = True
                 case "quest":
-                    d.quest = False
+                    d.quest = True
                 case "advisor":
-                    d.advisor = args[0]
+                    d.advisor_name = args[0]
                 case _:
                     print("read_decision: unknown tag", tag)
         else:
@@ -98,8 +98,8 @@ def read_decision(file, i):
         
 def read_option(file, i):
     opt = events.Option()
-    opt.text = file[i]
-    opt.outcome = file[i + 1]
+    opt.text = file[i].strip("\t")
+    opt.outcome = file[i + 1].strip("\t")
     opt.impacts = [int(n) for n in file[i + 2].split(",")]
     i += 3
 
