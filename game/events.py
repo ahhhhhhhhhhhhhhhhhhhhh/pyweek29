@@ -53,25 +53,23 @@ class Icons:
 
 
 def impacts_to_html(outcome):
-    orig_outcome = outcome
-    outcome = [str(i) for i in outcome]
-    outcome = ["+" + i if int(i) > 0 else i for i in outcome]
-    outcome = [
-        f"<font color='#FF0000'>{i}</font>" if int(i) < 0 else f"<font color='#00FF00'>{i}</font>"
+    str_outcome = [
+        f"<font color='#00FF00'>{'+' + str(i)}</font>" if i > 0 else 
+        f"<font color='#FF0000'>{i}</font>" 
         for i in outcome
     ]
-    out = ""
-    icons = []
-    if orig_outcome[0] != 0:
-        out += f"<br>{outcome[0]} <font color='#FFFF00'>food</font>"
-        icons.append(Images.food_icon)
-    if orig_outcome[1] != 0:
-        out += f"<br>{outcome[1]} <font color='#FF00FF'>population</font>"
-        icons.append(Images.pop_icon)
-    if orig_outcome[2] != 0:
-        out += f"<br>{outcome[2]} <font color='#00FFFF'>territory</font>"
-        icons.append(Images.territory_icon)
-    return out, icons
+    labels = [
+        "<font color='#FFFF00'>food</font>",
+        "<font color='#FF00FF'>population</font>",
+        "<font color='#00FFFF'>territory</font>"
+    ]
+    out = (
+        f"<br>{s} {label}" 
+        for s, label, val in zip(str_outcome, labels, outcome)
+        if val != 0
+    )
+
+    return "".join(out)
 
 
 class Event:
@@ -84,6 +82,8 @@ class Event:
 
         self.next_event = "_"  # needed for common interface with decisions
         self.advisor_name = "advisor"
+
+        self.quest = False
 
     def ready(self):
         self.manager = pygame_gui.UIManager((1280, 720), loader.filepath("theme.json"))
@@ -119,7 +119,7 @@ class Event:
     def _ready(self):
         self.apply_impact(self.impacts)
         if not self.text_impacted:
-            html, icons = impacts_to_html(self.impacts)
+            html = impacts_to_html(self.impacts)
             self.text += html
             self.text_impacted = True
 
@@ -160,31 +160,28 @@ class Event:
     def process_events(self, event):
         self.manager.process_events(event)
 
-        if event.type == pygame.USEREVENT:
-            if event.user_type == "ui_button_pressed":
-                if event.ui_element == self.next_button:
-                    self.finished = True
+        if (
+            event.type == pygame.USEREVENT and 
+            event.user_type == "ui_button_pressed" and 
+            event.ui_element == self.next_button
+        ):
+            self.finished = True
 
     def apply_impact(self, impact):
         Resources.instance.food += impact[0]
         Resources.instance.population += impact[1]
         Resources.instance.territory += impact[2]
 
-
 class Decision(Event):
     def __init__(self, name):
         super().__init__(name)
 
-        self.hook = True  # if decision is the beginning of a series of events/decisions
+        self.hook = False  # if decision is the beginning of a series of events/decisions
+        self.quest = False
 
-        self.options = ["choice 1", "choice 2", "choice 3"]
-        self.outcomes = ["this happened", "that happened", "something else"]
-        self.impacts = [
-            [1, 1, 1],
-            [0, 0, 0],
-            [0, 0, 0],
-        ]  # [food, population, territory]
-        self.leads_to = ["_", "_", "_"]  # _ means no following event
+        self.advisor = "advisor"
+
+        self.options = [] 
 
     def _ready(self):
         self.decision_buttons = []
@@ -193,10 +190,10 @@ class Decision(Event):
     def create_buttons(self):
         self.decision_buttons = []
         cumulative_height = 400
-        for i, option in enumerate(self.options):
+        for option in self.options:
             button = more_elements.TextButton(
                 relative_rect=pygame.Rect(50, cumulative_height, 300, 20),
-                text=option,
+                text=option.text,
                 manager=self.manager,
             )
             cumulative_height += button.relative_rect.height + 10
@@ -210,36 +207,52 @@ class Decision(Event):
     def process_events(self, event):
         super().process_events(event)
 
-        if event.type == pygame.USEREVENT:
-            if event.user_type == "ui_button_pressed":
-                if event.ui_element in self.decision_buttons:
-                    user_choice = self.decision_buttons.index(event.ui_element)
+        if event.type != pygame.USEREVENT:
+            return
+        if event.user_type != "ui_button_pressed":
+            return
+        if event.ui_element not in self.decision_buttons:
+            return
 
-                    self.textbox.html_text = self.outcomes[user_choice]
-                    html, icons = impacts_to_html(self.impacts[user_choice])
-                    self.textbox.html_text += html
-                    self.textbox.rebuild()
+        user_choice = self.decision_buttons.index(event.ui_element)
+        selected = self.options[user_choice]
 
-                    self.apply_impact(self.impacts[user_choice])
+        self.textbox.html_text = selected.outcome + impacts_to_html(selected.impacts)
+        self.textbox.rebuild()
 
-                    for button in self.decision_buttons:
-                        button.kill()
+        self.apply_impact(selected.impacts)
 
-                    self.button_background.set_position(pygame.Rect(50, 200, 300, 300))
+        for button in self.decision_buttons:
+            button.kill()
 
-                    self.next_button = pygame_gui.elements.UIButton(
-                        relative_rect=pygame.Rect(50, 400, 300, 40),
-                        text="Next",
-                        manager=self.manager,
-                    )
+        self.button_background.set_position(pygame.Rect(50, 200, 300, 300))
 
-                    self.next_event = self.leads_to[user_choice]
+        self.next_button = pygame_gui.elements.UIButton(
+            relative_rect=pygame.Rect(50, 400, 300, 40),
+            text="Next",
+            manager=self.manager,
+        )
+
+        self.next_event = selected.leads_to
+        self.chosen_line = selected.newspaper
+
+class Option:
+    def __init__(self):
+        self.text = "text"
+        self.outcome = ""
+        self.impacts = [0, 0, 0]
+
+        self.leads_to = "_"
+
+        self.newspaper = ""
+        self.is_headline = False
 
 
 class Quest(Decision):
     def _quest_init(self):  # called special in the quest loader
         self.prereqs = [0, 0, 0]  # food, population, territory
         self.newspaper_lines = [
+            "_",
             "_",
             "_",
             "_",

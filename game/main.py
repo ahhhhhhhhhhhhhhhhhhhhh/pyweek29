@@ -38,11 +38,11 @@ def main():
     # creates the Resources object, which can be accessed from anywhere as Resources.instance
     Resources(food, population, territory)
 
-    normal_headlines = loader.loadHeadlines("headlines.txt")
+    normal_headlines = loader.load_lines("headlines.txt")
 
-    all_events = loader.loadEvents("events.txt")
-    all_decisions = loader.loadDecisions("decisions.txt")
-    all_quests = loader.loadQuests("quests.txt")
+    all_events = loader.load_events("events.txt")
+    all_decisions = loader.load_decisions("decisions.txt")
+    all_quests = loader.load_decisions("quests.txt")
 
     # dict of event names to event to easily reference events
     find_event = {}
@@ -60,7 +60,7 @@ def main():
     find_event["explore endgame"].town = "destroyed"
     find_event[
         "explore endgame"
-    ].message = "After their surrender, rouge government officials chose to launch nuclear weapons against their enemies, destroying human society as we know it. All because of a food shortage stemming from an insignificant ant colony."
+    ].message = "After their surrender, rogue government officials chose to launch nuclear weapons against their enemies, destroying human society as we know it. All because of a food shortage stemming from an insignificant ant colony."
 
     find_event["ant takeover endgame"] = popups.EndgameScreen("ant takeover endgame")
     find_event["ant takeover endgame"].town = "ant"
@@ -82,7 +82,8 @@ def main():
 
     # checks to made sure all leads from all decisions exist
     for item in [*all_decisions, *all_quests]:
-        leads = item.leads_to
+        leads = [o.leads_to for o in item.options]
+        # leads = item.leads_to
         actual_leads = []  # needs preprocessing because of the new multi lead things
         for next_item in leads:
             if next_item.count(","):
@@ -105,11 +106,34 @@ def main():
     find_event["radioactive-ant2"].endgame_image = "superhero"
     find_event["democracy5"].endgame_image = "future"
 
-    # manually inputting newspaper headlines
-    setup_event_headlines(find_event)
 
-    # manually inputting advisor icons
-    setup_advisor_icons(find_event)
+    # with open("fixed_formatting_decisions.txt", "w") as file:
+    #     to_write = []
+    #     for d in all_decisions:
+    #         to_write.append(f"#{d.name}")
+    #         if d.hook:
+    #             to_write.append("[hook]")
+    #         if type(d) == events.Quest:
+    #             to_write.append("[quest]")
+    #         if d.advisor != "advisor":
+    #             to_write.append(f"[advisor] {d.advisor}")
+    #         to_write.append(d.text)
+    #         for i, option in enumerate(d.options):
+    #             to_write.append("[choice]")
+    #             to_write.append(f"\t{option}")
+    #             to_write.append(f"\t{d.outcomes[i]}")
+    #             to_write.append(f"\t{', '.join([str(x) for x in d.impacts[i]])}")
+    #             if d.leads_to[i] != "_":
+    #                 to_write.append(f"\t[leads_to] {d.leads_to[i]}")
+    #             # print(d.newspaper_lines, i)
+    #             if d.newspaper_lines[i] != "_":
+    #                 to_write.append(f"\t[newspaper] {d.newspaper_lines[i]}")
+    #             if d.is_headline:
+    #                 to_write.append("\t[headline]")
+
+    #         to_write.append("")
+
+    #     file.writelines([l + "\n" for l in to_write])
 
     global game_scene
     game_scene = GameScene(
@@ -237,81 +261,80 @@ class GameScene:
 
         Resources.instance.manager.update(time_delta)
 
-        if self.current_decision.display(time_delta):
-            self.event_num += 1
+        done = self.current_decision.display(time_delta)
+        if not done:
+            return
 
-            if isinstance(self.current_decision, events.Quest):
-                if self.current_decision.chosen_line != "_":
-                    self.headlines_queue.append(
-                        (
-                            self.current_decision.chosen_line,
-                            self.current_decision.is_headline,
-                        )
-                    )
 
-                if self.current_decision.next_event != "_":
-                    next_quest = self.find_event[self.current_decision.next_event]
-                    if isinstance(next_quest, popups.EndgameScreen):
-                        self.event_queue.insert(1, next_quest)
-                    else:
-                        self.quest_queue.append(next_quest)
+        self.event_num += 1
 
-            else:
-                next_event_name = self.current_decision.next_event
-                if self.current_decision.next_event.count(",") > 0:
-                    next_event_name = random.choice(self.current_decision.next_event.split(","))
-                if next_event_name != "_":
-                    next_event = self.find_event[next_event_name]
-                    self.event_queue.append(next_event)
+        if type(self.current_decision) == events.Decision and self.current_decision.quest:
+            if self.current_decision.chosen_line:
+                self.headlines_queue.append((self.current_decision.chosen_line, self.current_decision.is_headline))
 
-            # resource control trigger
-            # so that resource control events don't happen for a bunch of turns in a row
-            if self.event_num % 3 == 0:
-                if Resources.instance.population < 20:
-                    self.event_queue.insert(0, self.find_event["low population"])
-                # elif statements so multiple resource control events don't happen at once
-                elif Resources.instance.territory < Resources.instance.population - 20:
-                    self.event_queue.insert(0, self.find_event["low territory"])
-                elif Resources.instance.food > Resources.instance.population + 20:
-                    if Resources.instance.population < Resources.instance.territory:
-                        self.event_queue.insert(0, self.find_event["food surplus population"])
-                    else:
-                        self.event_queue.insert(0, self.find_event["food surplus territory"])
-
-            # losing scenarios
-            if Resources.instance.population <= 0:
-                lose_screen = popups.EndScreen()
-                lose_screen.message = "Try as you might, your colony simply could not survive. Without any workers, you are forced to flee as your territory is taken over by others."
-                self.event_queue.insert(0, lose_screen)
-            elif Resources.instance.territory <= 0:
-                lose_screen = popups.EndScreen()
-                lose_screen.message = "Try as you might, your colony simply could not survive. Without any territory you can claim on your own, you and your remaining workers are forced to flee the area."
-                self.event_queue.insert(0, lose_screen)
-            elif Resources.instance.food <= 0:
-                self.event_queue.insert(0, self.find_event["starvation"])
-
-            self.current_decision = self.event_queue.pop(0)
-            # current_decision = popups.EndgameScreen() ################### testing purposes
-            self.current_decision.ready()
-
-            print("now playing event:", self.current_decision.name)
-            print("event_queue:", [event.name for event in self.event_queue])
-
-            if isinstance(self.current_decision, popups.Newspaper):
-                while len(self.event_queue) < 5:
-                    rand = random.randrange(100)
-                    if rand < 65:
-                        self.event_queue.append(self.get_rand_decision())
-                    else:
-                        self.event_queue.append(self.get_rand_event())
-
-                # only adds another quest hook if there is not an ongoing quest
-                if len(self.quest_queue) == 0:
-                    self.event_queue.append(self.get_rand_quest())
+            if self.current_decision.next_event != "_":
+                next_quest = self.find_event[self.current_decision.next_event]
+                if isinstance(next_quest, popups.EndgameScreen):
+                    self.event_queue.insert(1, next_quest)
                 else:
-                    self.event_queue.append(self.quest_queue.pop(0))
+                    self.quest_queue.append(next_quest)
 
-                self.event_queue.append(self.generate_newspaper())
+        else:
+            next_event_name = self.current_decision.next_event
+            if self.current_decision.next_event.count(",") > 0:
+                next_event_name = random.choice(self.current_decision.next_event.split(","))
+            if next_event_name != "_":
+                next_event = self.find_event[next_event_name]
+                self.event_queue.append(next_event)
+
+        # resource control trigger
+        # so that resource control events don't happen for a bunch of turns in a row
+        if self.event_num % 3 == 0:
+            if Resources.instance.population < 20:
+                self.event_queue.insert(0, self.find_event["low population"])
+            # elif statements so multiple resource control events don't happen at once
+            elif Resources.instance.territory < Resources.instance.population - 20:
+                self.event_queue.insert(0, self.find_event["low territory"])
+            elif Resources.instance.food > Resources.instance.population + 20:
+                if Resources.instance.population < Resources.instance.territory:
+                    self.event_queue.insert(0, self.find_event["food surplus population"])
+                else:
+                    self.event_queue.insert(0, self.find_event["food surplus territory"])
+
+        # losing scenarios
+        if Resources.instance.population <= 0:
+            lose_screen = popups.EndScreen()
+            lose_screen.message = "Try as you might, your colony simply could not survive. Without any workers, you are forced to flee as your territory is taken over by others."
+            self.event_queue.insert(0, lose_screen)
+        elif Resources.instance.territory <= 0:
+            lose_screen = popups.EndScreen()
+            lose_screen.message = "Try as you might, your colony simply could not survive. Without any territory you can claim on your own, you and your remaining workers are forced to flee the area."
+            self.event_queue.insert(0, lose_screen)
+        elif Resources.instance.food <= 0:
+            self.event_queue.insert(0, self.find_event["starvation"])
+
+        self.current_decision = self.event_queue.pop(0)
+        # current_decision = popups.EndgameScreen() ################### testing purposes
+        self.current_decision.ready()
+
+        print("now playing event:", self.current_decision.name)
+        print("event_queue:", [event.name for event in self.event_queue])
+
+        if isinstance(self.current_decision, popups.Newspaper):
+            while len(self.event_queue) < 5:
+                rand = random.randrange(100)
+                if rand < 65:
+                    self.event_queue.append(self.get_rand_decision())
+                else:
+                    self.event_queue.append(self.get_rand_event())
+
+            # only adds another quest hook if there is not an ongoing quest
+            if len(self.quest_queue) == 0:
+                self.event_queue.append(self.get_rand_quest())
+            else:
+                self.event_queue.append(self.quest_queue.pop(0))
+
+            self.event_queue.append(self.generate_newspaper())
 
     def process_events(self, event):
         if event.type == pygame.KEYDOWN:
@@ -385,130 +408,3 @@ class GameScene:
             self.normal_headlines = loader.loadHeadlines("headlines.txt")
         return self.normal_headlines.pop(random.randrange(len(self.normal_headlines)))
 
-
-# manually defines newspaper headlines for special events
-def setup_event_headlines(find_event):
-    find_event["explore2"].newspaper_lines = [
-        "local grain silo infested with ants",
-        "local grain silo infested with ants",
-        "_",
-    ]
-    find_event["explore3"].newspaper_lines = [
-        "farmers report a state-wide grain shortage, blame ants",
-        "farmers report a state-wide grain shortage, blame ants",
-    ]
-    find_event["explore4"].newspaper_lines = [
-        "Experts Say Grain Shortage Key Cause In Mariposa's Lagging War Effort"
-    ]
-    find_event["explore5"].newspaper_lines = [
-        "Government insiders say surrender imminent, Mariposa cannot continue war given food shortage"
-    ]
-    find_event["explore5"].is_headline = True
-    find_event["explore6"].newspaper_lines = [
-        "Mariposa capitulates, government leaders flee, nuclear weapons missing"
-    ]
-    find_event["explore6"].is_headline = True
-
-    find_event["bees4"].newspaper_lines = [
-        "local zoologist reports unprecedented levels of bee, ant cooperation",
-        "_",
-    ]
-    find_event["bees5"].newspaper_lines = [
-        'local zoologist finds ants and bees living together: "completely unprecedented"'
-    ]
-    find_event["bees6"].newspaper_lines = [
-        'experts report local ants, bees seem "way, way too smart"'
-    ]
-    find_event["bees7"].newspaper_lines = [
-        "local villagers flee after bee attack, become laughingstock of nation"
-    ]
-    find_event["bees7"].is_headline = True
-    find_event["bees8"].newspaper_lines = [
-        'Military Mobalizes Against New Insect Threat, Say Venom "Is Like Nothing We\'ve Ever Seen"'
-    ]
-    find_event["bees8"].is_headline = True
-
-    find_event["radioactive-explore"].newspaper_lines = [
-        "nuclear power plant infested with ants",
-        "scientists worry about enviromental impact of local nuclear plant",
-    ]
-    find_event["radioactive-ant"].newspaper_lines = [
-        "reports of abnormally large ants scare residents",
-        "_",
-    ]
-    find_event["radioactive-ant2"].newspaper_lines = [
-        "have radioactive ants created the next superhero? exclusive interview with ManAnt",
-        "have radioactive ants created the next superhero? exclusive interview with ManAnt",
-    ]
-    find_event["radioactive-ant2"].is_headline = True
-    find_event["radioactive-ant3"].newspaper_lines = [
-        "experts say nation-wide drop in crime due to ManAnt",
-    ]
-    find_event["radioactive-ant3"].is_headline = True
-    find_event["radioactive-colony3"].newspaper_lines = [
-        "new 'super ant' discovered in nearby anthill",
-        "_",
-    ]
-    find_event["radioactive-colony4"].newspaper_lines = [
-        "'Super Ants' Force Residents Out Of Homes, Evacuation Of Town In Progress",
-        "_",
-    ]
-    find_event["radioactive-colony4"].is_headline = True
-
-    find_event["democracy3"].newspaper_lines = [
-        "_",
-        "_",
-        "scientist discovers ant colony with democratic society",
-    ]
-    find_event["democracy4"].newspaper_lines = [
-        "'Even Ants Can Do It', A Book Written By Steven Herald, The Discoverer Of Ant Democracy",
-        "_",
-    ]
-    find_event["democracy5"].newspaper_lines = [
-        "Citizens accross the world are rallying for worldwide democracy, inspired by recent book on ants"
-    ]
-    find_event["democracy5"].is_headline = True
-
-
-# manually defines advisor icons for special events
-def setup_advisor_icons(find_event):
-    # decisions
-    find_event["beetle start"].advisor_name = "beetle"
-    find_event["beetle demand"].advisor_name = "beetle"
-    find_event["beetle border skirmish"].advisor_name = "beetle"
-    find_event["beetle planning"].advisor_name = "beetle"
-    find_event["new land"].advisor_name = "explorer"
-    find_event["storm"].advisor_name = "worker"
-    find_event["refugees"].advisor_name = "explorer"
-    find_event["grasshopper"].advisor_name = "explorer"
-    find_event["grasshopper variation2"].advisor_name = "explorer"
-    find_event["cockroach merchant"].advisor_name = "cockroach"
-    find_event["cockroach merchant returns"].advisor_name = "cockroach"
-    # events
-    find_event["new tunnels"].advisor_name = "worker"
-    # quests
-    find_event["explore2"].advisor_name = "explorer"
-    find_event["explore3"].advisor_name = "explorer"
-    find_event["explore4"].advisor_name = "explorer"
-    find_event["explore5"].advisor_name = "explorer"
-    find_event["explore6"].advisor_name = "explorer"
-
-    find_event["bees"].advisor_name = "bee"
-    find_event["bees2"].advisor_name = "bee"
-    find_event["bees3 a"].advisor_name = "bee"
-    find_event["bees3 b"].advisor_name = "bee"
-    find_event["bees4"].advisor_name = "bee"
-    find_event["bees5"].advisor_name = "bee"
-    find_event["bees6"].advisor_name = "bee"
-    find_event["bees7"].advisor_name = "bee"
-    find_event["bees8"].advisor_name = "bee"
-
-    find_event["radioactive-discover"].advisor_name = "explorer"
-    find_event["radioactive-wait"].advisor_name = "explorer"
-    find_event["radioactive-explore"].advisor_name = "explorer"
-    find_event["radioactive-ant"].advisor_name = "explorer"
-    find_event["radioactive-ant2"].advisor_name = "explorer"
-    find_event["radioactive-colony"].advisor_name = "explorer"
-    find_event["radioactive-colony2"].advisor_name = "explorer"
-    find_event["radioactive-colony3"].advisor_name = "explorer"
-    find_event["radioactive-colony4"].advisor_name = "explorer"

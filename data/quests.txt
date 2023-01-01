@@ -1,375 +1,422 @@
--------------------------- Nuclear War Ending --------------------------
-
 #explore
-true
+[hook]
+[quest]
 Your advisors think it would be a good idea to send out several ants as explorers, looking for new sources of food
-3
-That's a great idea! Send out as many explorers as possible!
-Several bold young workers leave the colony to explore
-0, -10, 0
-explore2
-Send out a few explorers, but keep most workers home
-Several bold young workers leave the colony to explore
-0, -3, 0
-explore2
-Not right now
-Your advisors are frustrated, but accept your decision
-0, 0, 0
-_
+[option]
+	That's a great idea! Send out as many explorers as possible!
+	Several bold young workers leave the colony to explore
+	0, -10, 0
+	[leads_to] explore2
+[option]
+	Send out a few explorers, but keep most workers home
+	Several bold young workers leave the colony to explore
+	0, -3, 0
+	[leads_to] explore2
+[option]
+	Not right now
+	Your advisors are frustrated, but accept your decision
+	0, 0, 0
 
 #explore2
-false
+[quest]
 One of your explorers claims to have found a massive treasure trove of free food. Do you send more workers to retrieve it?
-2
-Yes
-The explorer wasn't lying. Your workers bring back a seemingly endless supply of food. They say it was just sitting there, free to take in a giant metal tower
-30, 0, 0
-explore3
-No
-The explorer, as well as your advisors are quite perplexed you don't take advantage of this opportunity
-0, 0, 0
-_
+[option]
+	Yes
+	The explorer wasn't lying. Your workers bring back a seemingly endless supply of food. They say it was just sitting there, free to take in a giant metal tower
+	30, 0, 0
+	[leads_to] explore3
+	[newspaper] local grain silo infested with ants
+[option]
+	No
+	The explorer, as well as your advisors are quite perplexed you don't take advantage of this opportunity
+	0, 0, 0
+	[newspaper] local grain silo infested with ants
 
 #explore3
-false
+[quest]
 Your advisors have suggested searching for more metal towers of food. It seems too good an opportunity to pass up.
-2
-Yes, we should transfer most of our workers from farming to exploring and moving this grain back to our colony
-Your ants fan out across the countryside, bringing back as much grain as your colony can consume
-40, 0, 0
-explore4
-Continue exploring and shuttling back grain, but keep most of our workers farming at home
-The metal towers continue to supply a seemingly infinite supply of food for your colony
-20, 0, 0
-explore4
+[option]
+	Yes, we should transfer most of our workers from farming to exploring and moving this grain back to our colony
+	Your ants fan out across the countryside, bringing back as much grain as your colony can consume
+	40, 0, 0
+	[leads_to] explore4
+	[newspaper] farmers report a state-wide grain shortage, blame ants
+[option]
+	Continue exploring and shuttling back grain, but keep most of our workers farming at home
+	The metal towers continue to supply a seemingly infinite supply of food for your colony
+	20, 0, 0
+	[leads_to] explore4
+	[newspaper] farmers report a state-wide grain shortage, blame ants
 
 #explore4
-false
+[quest]
 Your explorers continue to find more grain towers, and your workers bring back a steady surplus of food
-1
-Excellent
-Your colony is extremely well fed
-20, 0, 0
-explore5
+[option]
+	Excellent
+	Your colony is extremely well fed
+	20, 0, 0
+	[leads_to] explore5
+	[newspaper] Experts Say Grain Shortage Key Cause In Mariposa's Lagging War Effort
 
 #explore5
-false
+[quest]
 Your explorers are having to search further and further for grain towers, but they continue to bring back food
-1
-Good
-Hopefully this food supply doesn't run out
-20, 0, 0
-explore6
+[option]
+	Good
+	Hopefully this food supply doesn't run out
+	20, 0, 0
+	[leads_to] explore6
+	[newspaper] Government insiders say surrender imminent, Mariposa cannot continue war given food shortage
+	[headline]
 
 #explore6
-false
+[quest]
 As your explorers spread out through more and more human areas, they find more and more craters and exploded wreckage. Some of your explorers are disappearing, while others report barely escaping from human battlefields. There is little grain left to take.
-2
-Pull back all explorers
-You confine your workers to the colony to protect them, but you are concerned the human fighting may soon reach your territory
--10, -3, 0
-explore endgame
-Continue searching for food
-Even if a few explorers die, the free grain is too valuable for your colony. You just hope the human fighting doesn't reach your territory
-10, -12, 0
-explore endgame
-
-
--------------------------- Bee and Ant Civilization Ending --------------------------
+[option]
+	Pull back all explorers
+	You confine your workers to the colony to protect them, but you are concerned the human fighting may soon reach your territory
+	-10, -3, 0
+	[leads_to] explore endgame
+	[newspaper] Mariposa capitulates, government leaders flee, nuclear weapons missing
+	[headline]
+[option]
+	Continue searching for food
+	Even if a few explorers die, the free grain is too valuable for your colony. You just hope the human fighting doesn't reach your territory
+	10, -12, 0
+	[leads_to] explore endgame
+	[newspaper] Mariposa capitulates, government leaders flee, nuclear weapons missing
+	[headline]
 
 #bees
-true
+[hook]
+[quest]
 An envoy from a nearby bee hive has arrived. Do you welcome him into your court?
-2
-Yes, I am interested in what the bee has to say
-The bee ambassador is pleased, and gives you a gift of honey
-5, 0, 0
-bees2
-No, I hate the bees. Send him away!
-The bee ambassador is deeply offended. You have likely ruined any chance of a diplomatic connection
-0, 0, 0
-_
+[option]
+	Yes, I am interested in what the bee has to say
+	The bee ambassador is pleased, and gives you a gift of honey
+	5, 0, 0
+	[leads_to] bees2
+[option]
+	No, I hate the bees. Send him away!
+	The bee ambassador is deeply offended. You have likely ruined any chance of a diplomatic connection
+	0, 0, 0
 
 #bees2
-false
+[quest]
 The bee ambassador believes that your colony and his hive could have a closer, mutually beneficial relationship. He wants to establish a trade route.
-3
-Sounds like a fantastic idea. We should invest in making this trade route as good as possible!
-You send a group of workers with supplies to begin building paths and trade posts between your colony and the hive
--10, -6, 0
-bees3 a
-A trade route sounds nice, but the bees should do most of the work
-You send a minimal amount of workers and supplies to help construct the trade route
--4, -2, 0
-bees3 b
-No, our colony stands alone
-The bee ambassador leaves your court, frustrated by your refusal
-0, 0, 0
-_
+[option]
+	Sounds like a fantastic idea. We should invest in making this trade route as good as possible!
+	You send a group of workers with supplies to begin building paths and trade posts between your colony and the hive
+	-10, -6, 0
+	[leads_to] bees3 a
+[option]
+	A trade route sounds nice, but the bees should do most of the work
+	You send a minimal amount of workers and supplies to help construct the trade route
+	-4, -2, 0
+	[leads_to] bees3 b
+[option]
+	No, our colony stands alone
+	The bee ambassador leaves your court, frustrated by your refusal
+	0, 0, 0
 
 #bees3 a
-false
+[quest]
 The trade route has been constructed, and your colony has become a hub of commercial activity
-1
-Excellent
-You hope your friendly relationship with the bees can continue
-20, 10, 0
-bees4
+[option]
+	Excellent
+	You hope your friendly relationship with the bees can continue
+	20, 10, 0
+	[leads_to] bees4
 
 #bees3 b
-false
+[quest]
 The bees have finished building the trade route, and your colony now has access to more food and luxury items. Morale in your colony is high
-1
-Excellent
-You hope your friendly relationship with the bees can continue
-10, 5, 0
-bees4
+[option]
+	Excellent
+	You hope your friendly relationship with the bees can continue
+	10, 5, 0
+	[leads_to] bees4
 
 #bees4
-false
+[quest]
 The bee ambassador hopes your two nations can become even more closely intertwined. He proposes forming a joint colony of bees and ants nearby
-2
-Sounds like a wonderful idea
-Construction is quick, and the new colony seems to be doing very well, with bees and ants happily living alongside each other
-10, 20, 20
-bees5
-Bees and ants living together? Ridiculous!
-The bee ambassador is frustrated, but drops the idea
-0, 0, 0
-_
+[option]
+	Sounds like a wonderful idea
+	Construction is quick, and the new colony seems to be doing very well, with bees and ants happily living alongside each other
+	10, 20, 20
+	[leads_to] bees5
+	[newspaper] local zoologist reports unprecedented levels of bee, ant cooperation
+[option]
+	Bees and ants living together? Ridiculous!
+	The bee ambassador is frustrated, but drops the idea
+	0, 0, 0
 
 #bees5
-false
+[quest]
 The joint colony of bees and ants has been thriving. The bee ambassador excitedly informs you that many more joint colonies are springing up around the outskirts of your territory
-1
-This will expand our territory a great deal. Wonderful!
-Your close relationship with the bees is quickly becoming a dominant empire in the area
-25, 40, 40
-bees6
+[option]
+	This will expand our territory a great deal. Wonderful!
+	Your close relationship with the bees is quickly becoming a dominant empire in the area
+	25, 40, 40
+	[leads_to] bees6
+	[newspaper] local zoologist finds ants and bees living together: "completely unprecedented"
 
 #bees6
-false
+[quest]
 Many of the joint colonies have created research teams. The combination of bee and ant knowledge has led to an unprecedented number of discoveries, improving your farming, housing, and military
-1
-We should invest more into these research labs!
-We can only hope the scientific breakthroughs continue at this rapid pace
-50, 50, 50
-bees7
+[option]
+	We should invest more into these research labs!
+	We can only hope the scientific breakthroughs continue at this rapid pace
+	50, 50, 50
+	[leads_to] bees7
+	[newspaper] experts report local ants, bees seem "way, way too smart"
 
 #bees7
-false
+[quest]
 As more and more new colonies are built, you have brushed up against the edge of some human towns. Some have suggested attacking the humans to expel them from the area and create more room for ants and bees
-2
-We should attack unexpectedly with a massive force of ants and bees together to scare the humans away
-While many brave soldiers die, the humans ultimately flee from the onslaught. You quickly build new colonies in the massive amount of free land
-20, -50, 100
-bees8
-Some researchers claim they have developed a new venom that will be extra effective against humans. Time for a real world test!
-The venom is very effective, and the humans flee quickly without much of a fight. You quickly build new colonies in the massive amount of free land
-20, -10, 100
-bees8
+[option]
+	We should attack unexpectedly with a massive force of ants and bees together to scare the humans away
+	While many brave soldiers die, the humans ultimately flee from the onslaught. You quickly build new colonies in the massive amount of free land
+	20, -50, 100
+	[leads_to] bees8
+	[newspaper] local villagers flee after bee attack, become laughingstock of nation
+	[headline]
+[option]
+	Some researchers claim they have developed a new venom that will be extra effective against humans. Time for a real world test!
+	The venom is very effective, and the humans flee quickly without much of a fight. You quickly build new colonies in the massive amount of free land
+	20, -10, 100
+	[leads_to] bees8
+	[newspaper] local villagers flee after bee attack, become laughingstock of nation
+	[headline]
 
 #bees8
-false
+[quest]
 Emboldened by your recent victory against the humans, the bee leaders want to launch more attacks against the humans, and continue to research ever more effective venoms. They dream of a world without humans, where bees and ants can rule together
-1
-You couldn't stop them if you tried
-The bee leaders excitedly continue their war on humans.
-0, 0, 0
-bee endgame
-
-
--------------------------- Human Utopia Ending --------------------------
+[option]
+	You couldn't stop them if you tried
+	The bee leaders excitedly continue their war on humans.
+	0, 0, 0
+	[leads_to] bee endgame
+	[newspaper] Military Mobalizes Against New Insect Threat, Say Venom "Is Like Nothing We've Ever Seen"
+	[headline]
 
 #democracy1
-true
+[hook]
+[quest]
 Some of the ants have been questioning your qualifications to lead. What do you do?
-2
-Hold a public address
-Your speech inspires some ants, but many are still doubtful of your right to lead
-0, 0, 0
-democracy2
-Ignore them
-Many ants are happy you didn't waste time on a pointless address, but some are still convinced you are not a fit leader.
-0, 0, 0
-democracy2
+[option]
+	Hold a public address
+	Your speech inspires some ants, but many are still doubtful of your right to lead
+	0, 0, 0
+	[leads_to] democracy2
+[option]
+	Ignore them
+	Many ants are happy you didn't waste time on a pointless address, but some are still convinced you are not a fit leader.
+	0, 0, 0
+	[leads_to] democracy2
 
 #democracy2
-false
+[quest]
 The ants questioning your rule have created a citizens council that will review all the decisions you do, and express the feelings of the common ants. What do you do?
-2
-Banish them all
-Serves them right. How dare they question your rule.
-0, -7, 0
-_
-Allow them to stay
-Might as well let them stay. It's not like they have any real power
-0, 0, 0
-democracy3
+[option]
+	Banish them all
+	Serves them right. How dare they question your rule.
+	0, -7, 0
+[option]
+	Allow them to stay
+	Might as well let them stay. It's not like they have any real power
+	0, 0, 0
+	[leads_to] democracy3
 
 #democracy3
-false
+[quest]
 The citizens council protests the last decision you made! Hours of arguing leads to a loss of productivity. What do you do?
-3
-Abolish the council
-The council members are furious and stage protests, hurting productivity even more.
--10, 0, 0
-_
-Continue on
-They continue to argue, but eventually accept your decision.
--5, 0, 0
-democracy3
-Give the council an actual leadership role.
-The common ants are elated now that they have representation in their government, and your colony looks to be on the way to a functioning democracy!
-10, 5, 0
-democracy4
+[option]
+	Abolish the council
+	The council members are furious and stage protests, hurting productivity even more.
+	-10, 0, 0
+[option]
+	Continue on
+	They continue to argue, but eventually accept your decision.
+	-5, 0, 0
+	[leads_to] democracy3
+[option]
+	Give the council an actual leadership role.
+	The common ants are elated now that they have representation in their government, and your colony looks to be on the way to a functioning democracy!
+	10, 5, 0
+	[leads_to] democracy4
+	[newspaper] scientist discovers ant colony with democratic society
 
 #democracy4
-false
+[quest]
 You and the citizens council have been working well together, even if it sometimes takes longer to get things done. However, the citizens of your colony are demanding a written consitution that expands the power of citizens council. How do you respond?
-2
-Yes, a consitution is a good idea
-The council is happy, and an official constitution is drafted. The celebration boosts the morale of workers and you see a surplus of food! Things are looking up.
-25, 10, 0
-democracy5
-No, I will not surrender power! Dismantle the citizens council immediately
-The council is furious, and organizes a large scale revolution. Many ants abandon the colony, and more are killed in the riots. In the end, you are left with few workers and lacking food stores.
--20, -15, -10
-_
+[option]
+	Yes, a consitution is a good idea
+	The council is happy, and an official constitution is drafted. The celebration boosts the morale of workers and you see a surplus of food! Things are looking up.
+	25, 10, 0
+	[leads_to] democracy5
+	[newspaper] 'Even Ants Can Do It', A Book Written By Steven Herald, The Discoverer Of Ant Democracy
+[option]
+	No, I will not surrender power! Dismantle the citizens council immediately
+	The council is furious, and organizes a large scale revolution. Many ants abandon the colony, and more are killed in the riots. In the end, you are left with few workers and lacking food stores.
+	-20, -15, -10
 
 #democracy5
-false
+[quest]
 The citizens council has recently passed laws protecting individual's rights. The ants in your colony are happy, and productivity is at record highs
-1
-Wonderful
-You are glad the citizen's council is doing a good job with their expanded power
-20, 10, 0
-democracy endgame
-
--------------------------- Super Ant Ending --------------------------
+[option]
+	Wonderful
+	You are glad the citizen's council is doing a good job with their expanded power
+	20, 10, 0
+	[leads_to] democracy endgame
+	[newspaper] Citizens accross the world are rallying for worldwide democracy, inspired by recent book on ants
+	[headline]
 
 #radioactive-discover
-true
+[hook]
+[quest]
 Your scouts have found a large concrete building on the edge of your territory. Do you want to send some scouts to explore it?
-2
-Go for it!
-A few ants leave to explore the mysterious building.
-0, -5, 0
-radioactive-explore
-Not now...
-You keep your ants at home
-0, 0, 0
-radioactive-wait
+[option]
+	Go for it!
+	A few ants leave to explore the mysterious building.
+	0, -5, 0
+	[leads_to] radioactive-explore
+[option]
+	Not now...
+	You keep your ants at home
+	0, 0, 0
+	[leads_to] radioactive-wait
 
 #radioactive-wait
-false
+[quest]
 Your scouts have been gossiping about the large concrete building that you refused to explore. It seems they think you are trying to hide something. Do you disprove their rumors and explore it?
-2
-Yes, these scouts need something to do anyway
-Your bravest scouts go out to explore the building.
-0, -5, 0
-radioactive-explore
-No, I'm queen, I don't worry about the peasants opinion
-The scouts continue to spread rumors, but your firm will convince some to reconsider.
-0, 0, 0
-_
+[option]
+	Yes, these scouts need something to do anyway
+	Your bravest scouts go out to explore the building.
+	0, -5, 0
+	[leads_to] radioactive-explore
+[option]
+	No, I'm queen, I don't worry about the peasants opinion
+	The scouts continue to spread rumors, but your firm will convince some to reconsider.
+	0, 0, 0
 
 #radioactive-explore
-false
+[quest]
 Your scouts sent to the concrete building come back with grim news, the concrete building holds no food, only complex machinery and vats of an inedible green liquid.
-2
-Go back and look for more!
-The same scouts go back to explore every nook and cranny
-0, 0, 0
-radioactive-explore
-No, focus on farming
-The scouts are put to work on the farms, and you get a surplus of food.
-5, 5, 0
-radioactive-ant
+[option]
+	Go back and look for more!
+	The same scouts go back to explore every nook and cranny
+	0, 0, 0
+	[leads_to] radioactive-explore
+	[newspaper] nuclear power plant infested with ants
+[option]
+	No, focus on farming
+	The scouts are put to work on the farms, and you get a surplus of food.
+	5, 5, 0
+	[leads_to] radioactive-ant
+	[newspaper] scientists worry about enviromental impact of local nuclear plant
 
 #radioactive-ant
-false
+[quest]
 The ants who visited the mysterious concrete building are getting sick, but it is unlike any other sickness you have seen. Some are growing antennae in unusual places or losing hair and teeth. Do you banish these ants or try to heal them?
-2
-Banish them, it is for the good of the colony
-Many ants agree with you, but some are sympathetic to the sick ants.
-0, -5, 0
-radioactive-ant2
-Try to heal them
-You put your best medical ants on the case, but they are skeptical they can help them.
--3, 0, 0
-radioactive-colony
+[option]
+	Banish them, it is for the good of the colony
+	Many ants agree with you, but some are sympathetic to the sick ants.
+	0, -5, 0
+	[leads_to] radioactive-ant2
+	[newspaper] reports of abnormally large ants scare residents
+[option]
+	Try to heal them
+	You put your best medical ants on the case, but they are skeptical they can help them.
+	-3, 0, 0
+	[leads_to] radioactive-colony
 
 #radioactive-ant2
-false
+[quest]
 Your scouts have heard rumors about the sick ants that were banished, now living in the nearby human towns. The common ants are afraid that the sickness has spread to other ants before they left. What do you do?
-2
-Nothing
-Many ants panic anyway, and some barricade themselves in their homes
--5, 0, 0
-radioactive-ant3
-Lock down colony
-The colony is locked down for a week, and the common ants are glad you are wary of the disease
--10, 0, 0
-radioactive-ant3
+[option]
+	Nothing
+	Many ants panic anyway, and some barricade themselves in their homes
+	-5, 0, 0
+	[leads_to] radioactive-ant3
+	[newspaper] have radioactive ants created the next superhero? exclusive interview with ManAnt
+	[headline]
+[option]
+	Lock down colony
+	The colony is locked down for a week, and the common ants are glad you are wary of the disease
+	-10, 0, 0
+	[leads_to] radioactive-ant3
+	[newspaper] have radioactive ants created the next superhero? exclusive interview with ManAnt
+	[headline]
 
 #radioactive-ant3
-false
+[quest]
 The scouts are talking between each other, and they want to see what happened to the banished sick ants.
-1
-Lets find out
-The scouts bring back the most amazing story, they saw a human with antenna and legs roaming the city streets at night. What or who it is, they don't know.
-0, 0, 0
-superhero endgame
+[option]
+	Lets find out
+	The scouts bring back the most amazing story, they saw a human with antenna and legs roaming the city streets at night. What or who it is, they don't know.
+	0, 0, 0
+	[leads_to] superhero endgame
+	[newspaper] experts say nation-wide drop in crime due to ManAnt
+	[headline]
 
 #radioactive-colony
-false
+[quest]
 Your medical team has suddenly started showing symptoms similar to the sick ants. Ants are in a panic about this new disease, What do you do?
-3
-Nothing
-Many ants panic anyway, and some barricade themselves in their homes
--5, 0, 0
-radioactive-colony2
-Quarantine all ants with symptoms
-The medical workers are now quarantined with the sick ants, and their fate looks grim.
-0, 0, 0
-radioactive-colony2
-Lock down the whole colony
-Many ants are glad you are taking this seriously, though productivity is lost
--5, 0, 0
-radioactive-colony2
+[option]
+	Nothing
+	Many ants panic anyway, and some barricade themselves in their homes
+	-5, 0, 0
+	[leads_to] radioactive-colony2
+[option]
+	Quarantine all ants with symptoms
+	The medical workers are now quarantined with the sick ants, and their fate looks grim.
+	0, 0, 0
+	[leads_to] radioactive-colony2
+[option]
+	Lock down the whole colony
+	Many ants are glad you are taking this seriously, though productivity is lost
+	-5, 0, 0
+	[leads_to] radioactive-colony2
 
 #radioactive-colony2
-false
+[quest]
 The mysterious illness has spread quicker than you could have expected, all of your precautions have done nothing. Now almost half of your colony is sick. Farming is abandoned, people are rioting in the street, it looks to be near the end of this colony.
-1
-Continue
-It looks like there is nothing for you to do, only hope that the disease is not fatal.
--15, -15, -5
-radioactive-colony3
+[option]
+	Continue
+	It looks like there is nothing for you to do, only hope that the disease is not fatal.
+	-15, -15, -5
+	[leads_to] radioactive-colony3
 
 #radioactive-colony3
-false
+[quest]
 A miracle has occurred, many of the sick ants have gotten better. Not only that, but they are stronger and faster than ever before. Some ants are twice as big as a normal ant, and can run three times as fast. What do you do?
-2
-Accept these new ants as your warriors and put them to work
-These ants can do the work of ten normal ants, and you quickly gain a surplus of food and expand your territory
-25, 0, 25
-radioactive-colony4
-Throw them out, they are dangerous
-You really are stupid to throw these guys out. They crush your warriors and rampage through the colony, killing many. They leave to form their own colony, a new kind of super-colony to rival humanity itself
--10, -15, 0
-ant takeover endgame
+[option]
+	Accept these new ants as your warriors and put them to work
+	These ants can do the work of ten normal ants, and you quickly gain a surplus of food and expand your territory
+	25, 0, 25
+	[leads_to] radioactive-colony4
+	[newspaper] new 'super ant' discovered in nearby anthill
+[option]
+	Throw them out, they are dangerous
+	You really are stupid to throw these guys out. They crush your warriors and rampage through the colony, killing many. They leave to form their own colony, a new kind of super-colony to rival humanity itself
+	-10, -15, 0
+	[leads_to] ant takeover endgame
 
 #radioactive-colony4
-false
+[quest]
 Your colony is now composed of half super ants. These ants are strong enough to colonize the nearby human city, which was previously uninhabitable. Do you expand into the city?
-2
-Yes, this is the opportunity of a lifetime!
-Your ant colony expands into the city, and with the new super ants, you quickly gain control of house after house. The humans flee the town, and you become the most powerful ant colony in the country
-10, 10, 50
-ant takeover endgame
-No, lets play it safe.
-The super ants are indignant that you would not expand into the city. They leave to form their own colony, a new kind of super-colony to rival humanity itself
-0, -20, 0
-ant takeover endgame
+[option]
+	Yes, this is the opportunity of a lifetime!
+	Your ant colony expands into the city, and with the new super ants, you quickly gain control of house after house. The humans flee the town, and you become the most powerful ant colony in the country
+	10, 10, 50
+	[leads_to] ant takeover endgame
+	[newspaper] 'Super Ants' Force Residents Out Of Homes, Evacuation Of Town In Progress
+	[headline]
+[option]
+	No, lets play it safe.
+	The super ants are indignant that you would not expand into the city. They leave to form their own colony, a new kind of super-colony to rival humanity itself
+	0, -20, 0
+	[leads_to] ant takeover endgame
+	[headline]
+

@@ -18,102 +18,104 @@ def load(filename, mode="rb"):
     return open(os.path.join(data_dir, filename), mode)
 
 
-from game import events  # so that Images class can use loader.filepath()
+# so that Images class can use loader.filepath()
+from game import events  
 
+def load_lines(filename):
+    return [line.rstrip().decode() for line in load(filename).readlines()]
 
-def loadEvents(filename):
-    file = load(filename).readlines()
-    file = [line.rstrip().decode() for line in file]
-
-    all_events = []
+def load_events(filename):
+    file = load_lines(filename)
+    loaded = []
 
     i = 0
     while i < len(file):
         line = file[i]
         if len(line) > 0 and line[0] == "#":
-            event = events.Event("".join(line[1:]))
+            event = events.Event(line[1:])
             event.text = file[i + 1]
             event.impacts = [int(i) for i in file[i + 2].split(",")]
 
-            all_events.append(event)
+            loaded.append(event)
 
             i += 2
 
         i += 1
-    print("loaded " + str(len(all_events)) + " events")
-    return all_events
 
+    print(f"Loaded {len(loaded)} events")
+    return loaded
 
-def loadDecisions(filename):
-    file = load(filename).readlines()
-    file = [line.rstrip().decode() for line in file]
-
-    all_decisions = []
+def load_decisions(filename):
+    file = load_lines(filename)
+    decisions = []
 
     i = 0
     while i < len(file):
         line = file[i]
         if len(line) > 0 and line[0] == "#":
-            event = loadDecision(file, i)
+            d, i = read_decision(file, i)
+            decisions.append(d)
+        else:
+            i += 1
 
-            all_decisions.append(event)
+    print(f"Loaded {len(decisions)} decisions")
+    return decisions
 
-            i += 3 + len(event.options) * 4
+def read_tag(file, i):
+    line = file[i].split()
+    assert len(line) > 0
+    tag = line[0]
+    assert tag[0] == "[" and tag[-1] == "]"
+    tag = tag[1:-1]
 
-        i += 1
-    print("loaded " + str(len(all_decisions)) + " decisions")
-    return all_decisions
+    return tag, i + 1, line[1:]
 
+def read_decision(file, i):
+    d = events.Decision(file[i][1:])
 
-def loadDecision(file, i):
-    line = file[i]
-
-    event = events.Decision("".join(line[1:]))
-
-    event.hook = file[i + 1].lower() == "true"
-
-    event.text = file[i + 2]
-
-    event.options = []
-    event.impacts = []
-    event.outcomes = []
-    event.leads_to = []
-
-    num_choices = int(file[i + 3])
-    for choice in range(num_choices):
-        event.options.append(file[i + 4 + choice * 4])
-        event.outcomes.append(file[i + 5 + choice * 4])
-        event.impacts.append([int(i) for i in file[i + 6 + choice * 4].split(",")])
-        event.leads_to.append(file[i + 7 + choice * 4])
-
-    return event
-
-
-def loadQuests(filename):
-    file = load(filename).readlines()
-    file = [line.rstrip().decode() for line in file]
-
-    all_quests = []
-
-    i = 0
-    while i < len(file):
+    while i < len(file) and file[i] != "":
         line = file[i]
-        if len(line) > 0 and line[0] == "#":
-            quest = loadDecision(file, i)
-            quest.__class__ = events.Quest
-            quest._quest_init()
+        if line[0] == "[":
+            tag, i, args = read_tag(file, i)
 
-            all_quests.append(quest)
+            match tag:
+                case "option":
+                    option, i = read_option(file, i)
+                    d.options.append(option)
+                case "hook":
+                    d.hook = True
+                case "quest":
+                    d.quest = False
+                case "advisor":
+                    d.advisor = args[0]
+                case _:
+                    print("read_decision: unknown tag", tag)
+        else:
+            d.text = line
+            i += 1
 
-            i += 3 + len(quest.options) * 4
+    return d, i
+        
+def read_option(file, i):
+    opt = events.Option()
+    opt.text = file[i]
+    opt.outcome = file[i + 1]
+    opt.impacts = [int(n) for n in file[i + 2].split(",")]
+    i += 3
 
-        i += 1
-    print("loaded " + str(len(all_quests)) + " quests")
-    return all_quests
+    while i < len(file) and file[i] != "":
+        tag, i, args = read_tag(file, i)
 
+        match tag:
+            case "option":
+                return opt, i - 1
+            case "leads_to":
+                opt.leads_to = " ".join(args)
+            case "newspaper":
+                opt.newspaper = " ".join(args)
+            case "headline":
+                opt.is_headline = True
+            case _:
+                print("read_option: unknown tag", tag)
 
-def loadHeadlines(filename):
-    file = load(filename).readlines()
-    file = [line.rstrip().decode() for line in file]
-
-    return file
+    return opt, i

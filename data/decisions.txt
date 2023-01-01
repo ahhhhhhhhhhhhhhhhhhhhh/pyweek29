@@ -1,606 +1,562 @@
 #theft
-true
+[hook]
 An ant was found stealing from the colony's food supply! What do you do?
-2
-Banish the ant
-Angry at your decision, several of the banished ant's friends leave with them
-0, -5, 0
-_
-Do nothing
-Seeing there are no consequences, more ants begin to steal food
--10, 0, 0
-_
+[option]
+	Banish the ant
+	Angry at your decision, several of the banished ant's friends leave with them
+	0, -5, 0
+[option]
+	Do nothing
+	Seeing there are no consequences, more ants begin to steal food
+	-10, 0, 0
 
 #beetle start
-true
+[hook]
 A colony of beetles near our border has been acting aggressively and encroaching on our territory. How should we respond?
-3
-Send a diplomat to talk things over
-The diplomat will take several days to reach the beetle colony. Hopefully they can resolve the situation
-0, 0, 0
-beetle demand
-Station troops at the border, attack any beetles who cross into your territory
-You hope this show of force will make the beetles back down
-0, 0, 0
-_
-Do nothing
-The beetles continue to steal your land
-0, 0, -8
-beetle demand
+[option]
+	Send a diplomat to talk things over
+	The diplomat will take several days to reach the beetle colony. Hopefully they can resolve the situation
+	0, 0, 0
+	[leads_to] beetle demand
+[option]
+	Station troops at the border, attack any beetles who cross into your territory
+	You hope this show of force will make the beetles back down
+	0, 0, 0
+[option]
+	Do nothing
+	The beetles continue to steal your land
+	0, 0, -8
+	[leads_to] beetle demand
 
 #beetle demand
-false
 The nearby beetle colony demands a tribute of food, or else they will invade!
-2
-Fine, give them the food
-The beetles seem placated for now. Hopefully they will leave you alone from now on.
--15, 0, 0
-_
-This will not stand! We must make plans to invade the beetle colony
-You arrange a meeting with your top generals
-0, 0, 0
-beetle planning
+[option]
+	Fine, give them the food
+	The beetles seem placated for now. Hopefully they will leave you alone from now on.
+	-15, 0, 0
+[option]
+	This will not stand! We must make plans to invade the beetle colony
+	You arrange a meeting with your top generals
+	0, 0, 0
+	[leads_to] beetle planning
 
 #beetle border skirmish
-false
 The troops you stationed at the border have gotten into a skirmish, and several troops have died. The beetle colony is demanding a tribute of food and territory to make up for the death of their soldiers
-2
-Fine, give them what they want
-The beetles seem placated for now. Hopefully they will leave you alone from now on.
--12, 0, -9
-_
-This will not stand! We must make plans to invade the beetle colony
-You arrange a meeting with your top generals
-0, 0, 0
-beetle planning
+[option]
+	Fine, give them what they want
+	The beetles seem placated for now. Hopefully they will leave you alone from now on.
+	-12, 0, -9
+[option]
+	This will not stand! We must make plans to invade the beetle colony
+	You arrange a meeting with your top generals
+	0, 0, 0
+	[leads_to] beetle planning
 
 #beetle planning
-false
 You meet with your generals to plan your invasion of the beetle colony. How do you want to attack?
-3
-Attack head-on with an overwhelming force
-You win the fight, but at heavy cost. You quickly loot the beetle colony for food, and move into the territory
-15, -14, 25
-_
-Sneak attack under the cover of darkness
-The beetles were ready for your attack, and your force is crushed. A humiliating defeat
-0, -10, -5
-_
-A pincer formation to attack both sides of the colony at once
-The beetle forces are routed, and you win an overwhelming victory. You quickly loot the beetle colony for food, and move into the territory
-15, 0, 25
-_
-
+[option]
+	Attack head-on with an overwhelming force
+	You win the fight, but at heavy cost. You quickly loot the beetle colony for food, and move into the territory
+	15, -14, 25
+[option]
+	Sneak attack under the cover of darkness
+	The beetles were ready for your attack, and your force is crushed. A humiliating defeat
+	0, -10, -5
+[option]
+	A pincer formation to attack both sides of the colony at once
+	The beetle forces are routed, and you win an overwhelming victory. You quickly loot the beetle colony for food, and move into the territory
+	15, 0, 25
 
 #protestor
-true
+[hook]
 An extremist ant is speaking out against you. What do you do?
-3
-Respond publicly
-The extremist's supporters are turned by your insightful speech, and the protestor is scorned
-0, 0, 0
-_
-Banishment
-The extremist's supporters riot in the streets, killing many innocent ants
-0, -10, 0
-_
-Nothing
-The extremist slowly loses public support, but he still has a group of tight followers.
-0, 0, 0
-protestor2
+[option]
+	Respond publicly
+	The extremist's supporters are turned by your insightful speech, and the protestor is scorned
+	0, 0, 0
+[option]
+	Banishment
+	The extremist's supporters riot in the streets, killing many innocent ants
+	0, -10, 0
+[option]
+	Nothing
+	The extremist slowly loses public support, but he still has a group of tight followers.
+	0, 0, 0
+	[leads_to] protestor2
 
 #protestor2
-false
 The extremist ant is back, this time with an army! He demands a section of territory or he will destroy the colony. What do you do?
-3
-Agree to his terms
-He takes a large part of your territory
-0, 0, -20
-_
-Fight against him
-He fights back, and many casualties are suffered, but in the end you get him under control
-0, -10, 0
-_
-Trick him into losing his army
-You try to trick him, but he sees through you, and his army escapes, rampaging through the colony, killing ants and destroying territory
-0, -20, -20
-_
+[option]
+	Agree to his terms
+	He takes a large part of your territory
+	0, 0, -20
+[option]
+	Fight against him
+	He fights back, and many casualties are suffered, but in the end you get him under control
+	0, -10, 0
+[option]
+	Trick him into losing his army
+	You try to trick him, but he sees through you, and his army escapes, rampaging through the colony, killing ants and destroying territory
+	0, -20, -20
 
 #grasshopper
-true
+[hook]
 Your scouts find an injured grasshopper in your territory. Do you help heal it or kill it?
-2
-Heal it
-The grasshopper gives you a gift of food
-10, 0, 0
-_,grasshopper grateful
-Kill it
-The grasshopper escapes from your ants and attacks the colony, killing many and destroying supplies.
--5, -15, 0
-_
+[option]
+	Heal it
+	The grasshopper gives you a gift of food
+	10, 0, 0
+	[leads_to] _,grasshopper grateful
+[option]
+	Kill it
+	The grasshopper escapes from your ants and attacks the colony, killing many and destroying supplies.
+	-5, -15, 0
 
 #grasshopper variation2
-true
+[hook]
 Your scouts find an injured grasshopper in your territory. Do you help heal it or kill it?
-2
-Heal it
-The ungrateful grasshopper hops off without so much as a thanks after you nurse it back to health
--5, 0, 0
-_
-Kill it
-The grasshopper doesn't put up much of a fight in its current condition.
-10, 0, 0
-_
+[option]
+	Heal it
+	The ungrateful grasshopper hops off without so much as a thanks after you nurse it back to health
+	-5, 0, 0
+[option]
+	Kill it
+	The grasshopper doesn't put up much of a fight in its current condition.
+	10, 0, 0
 
 #grasshopper grateful
-false
 The grasshopper you healed earlier spots some old ant tunnels that you can use
-1
-Great!
-The grasshopper shows you where they are
-0, 0, 10
-_
+[option]
+	Great!
+	The grasshopper shows you where they are
+	0, 0, 10
 
 #plague
-true
+[hook]
 One of your workers has fallen ill. Other ants are worried it might spread. How do you respond?
-3
-This is nothing to be worried about. The flu kills 900 million ants per year.
-The illness spreads quickly, killing at a high rate
-0, -10, 0
-plague2
-Quarantine all ants with symptoms
-The illness spreads faster than you could have predicted, and your quarantine is ineffective. Some ants die.
-0, -5, 0
-plague2
-Lock down the whole colony until the sickness is gone
-Some productivity is lost, but the illness doesn't spread
--5, -1, 0
-_
+[option]
+	This is nothing to be worried about. The flu kills 900 million ants per year.
+	The illness spreads quickly, killing at a high rate
+	0, -10, 0
+	[leads_to] plague2
+[option]
+	Quarantine all ants with symptoms
+	The illness spreads faster than you could have predicted, and your quarantine is ineffective. Some ants die.
+	0, -5, 0
+	[leads_to] plague2
+[option]
+	Lock down the whole colony until the sickness is gone
+	Some productivity is lost, but the illness doesn't spread
+	-5, -1, 0
 
 #plague2
-false
 The plague has continued to spread. It now infects many workers. The situation is desperate. What will you do?
-2
-Divert resources to caring for the sick and researching a cure
-More lives are lost, but you eventually get the pandemic under control
--10, -5, 0
-_
-Expel the sick ants from your colony
-Many are unhappy with your decision, but it is effective in ridding the colony of the disease
-0, -20, 0
-_
+[option]
+	Divert resources to caring for the sick and researching a cure
+	More lives are lost, but you eventually get the pandemic under control
+	-10, -5, 0
+[option]
+	Expel the sick ants from your colony
+	Many are unhappy with your decision, but it is effective in ridding the colony of the disease
+	0, -20, 0
 
 #refugees
-true
+[hook]
 A nearby ant hill was destroyed, and several disheveled survivors have made their way towards your colony. Do you accept them in?
-2
-No, turn them away
-The refugee ants are disappointed, and wander away to continue searching for a new home
-0, 0, 0
-_
-Yes, we could use more workers
-Some of the new arrivals need to be nursed back to health, but all are eventually integrated into your colony
--5, 10, 0
-_
+[option]
+	No, turn them away
+	The refugee ants are disappointed, and wander away to continue searching for a new home
+	0, 0, 0
+[option]
+	Yes, we could use more workers
+	Some of the new arrivals need to be nursed back to health, but all are eventually integrated into your colony
+	-5, 10, 0
 
 #religion-start
-true
+[hook]
 One of your workers starts preaching about an all powerful entity watching over us all
-3
-The only all powerful being around here is me
-Disappointing the newly pious, you begin suppressing this upstart ideology. They go on hunger strike
-9, 0, 0
-religion-suppressed1
-Let them have their beliefs
-I'm a Queen dammit, not the thought police. I couldn't care less what my employees do in their free time.
-0, 0, 0
-_
-Tell me more about these exciting ideas
-You convert the colony to Ant-imism. The new sense of unity between the worker ants raises productivity, although you do spend some food on ceremonies.
--3, 5, 5
-religion-adopted1
+[option]
+	The only all powerful being around here is me
+	Disappointing the newly pious, you begin suppressing this upstart ideology. They go on hunger strike
+	9, 0, 0
+	[leads_to] religion-suppressed1
+[option]
+	Let them have their beliefs
+	I'm a Queen dammit, not the thought police. I couldn't care less what my employees do in their free time.
+	0, 0, 0
+[option]
+	Tell me more about these exciting ideas
+	You convert the colony to Ant-imism. The new sense of unity between the worker ants raises productivity, although you do spend some food on ceremonies.
+	-3, 5, 5
+	[leads_to] religion-adopted1
 
 #religion-suppressed1
-false
 The new religious ants plead with you again to be able to practice freely. Will you let them?
-2
-Yes
-As a benevolent leader you concede. The happy ants have higher productivity
-4, 0, 2
-_
-No
-Seeing that this colony won't work for them, the religious ants leave
-0, -5, 0
-religion-suppressed2
+[option]
+	Yes
+	As a benevolent leader you concede. The happy ants have higher productivity
+	4, 0, 2
+[option]
+	No
+	Seeing that this colony won't work for them, the religious ants leave
+	0, -5, 0
+	[leads_to] religion-suppressed2
 
 #religion-suppressed2
-false
 You have discovered that the religious ants who left your colony recently are camping out on the edge of your territory. What should we do?
-3
-Demand that they leave the area
-The religious group seem to leave, but they stay in the area, launching a guerrilla war campaign against you. They attack at random, stealing food and destroying homes
--10, 0, -4
-_
-Attack them as an example to all other ants considering disloyalty
-You succeed in destroying the small religious band, but the fight was fierce and many lives were lost.
-0, -8, 0
-_
-Leave them alone
-The small religious group only stay in your territory for a short time before leaving to find a permanent home
-0, 0, 0
-_
+[option]
+	Demand that they leave the area
+	The religious group seem to leave, but they stay in the area, launching a guerrilla war campaign against you. They attack at random, stealing food and destroying homes
+	-10, 0, -4
+[option]
+	Attack them as an example to all other ants considering disloyalty
+	You succeed in destroying the small religious band, but the fight was fierce and many lives were lost.
+	0, -8, 0
+[option]
+	Leave them alone
+	The small religious group only stay in your territory for a short time before leaving to find a permanent home
+	0, 0, 0
 
 #religion-adopted1
-false
 The new head priest of Ant-imism comes to you, requesting that all workers be given time off to celebrate religious holidays, such as Ant-oween
-2
-Yes, fine
-Workers are happy to have a break, and colony morale is high
--4, 6, 0
-religion-adopted2
-No, that would kill productivity
-The head priest stages a strike on Ant-oween, and fights break out all over the colony
--7, -3, 0
-religion-adopted2
+[option]
+	Yes, fine
+	Workers are happy to have a break, and colony morale is high
+	-4, 6, 0
+	[leads_to] religion-adopted2
+[option]
+	No, that would kill productivity
+	The head priest stages a strike on Ant-oween, and fights break out all over the colony
+	-7, -3, 0
+	[leads_to] religion-adopted2
 
 #religion-adopted2
-false
 The head priest of Ant-imism has become more and more popular recently, and some are saying his authority rivals your own. What should you do?
-2
-Expel the head priest and his most loyal followers from the colony
-Many of your workers chose to leave with the priest, and the remaining ants are unhappy
--4, -25, 0
-_
-Give the head priest an official role
-The head priest is pleased by your symbolic gesture, and you work together to make the colony happier and more productive
-12, 7, 9
-_
+[option]
+	Expel the head priest and his most loyal followers from the colony
+	Many of your workers chose to leave with the priest, and the remaining ants are unhappy
+	-4, -25, 0
+[option]
+	Give the head priest an official role
+	The head priest is pleased by your symbolic gesture, and you work together to make the colony happier and more productive
+	12, 7, 9
 
 #incoming migration
-true
+[hook]
 Ants from war-torn colonies have heard of your glorious colony and several decide to migrate to your colony. Unfortunately there is a rumor that one, maybe more, of these ants is a spy for a rival colony. Should we allow these ants in?
-2
-Yes, let them in
-These migrating ants thank you for allowing them refuge into your colony
-0, 25, 0
-sabotage1
-No, refuse them refuge
-Although you prevent any spy from entering your colony, you lose out on a chance for a larger work force
-0, 0, 0
-_
+[option]
+	Yes, let them in
+	These migrating ants thank you for allowing them refuge into your colony
+	0, 25, 0
+	[leads_to] sabotage1
+[option]
+	No, refuse them refuge
+	Although you prevent any spy from entering your colony, you lose out on a chance for a larger work force
+	0, 0, 0
 
 #sabotage1
-false
 One of the tunnels unnaturally caves in. Communication between you and the ants on the other side of the tunnel is lost. Should we redirect our food gathering ants to fix the tunnel?
-2
-Reestablish the tunnel
-The tunnel is restored, but you find several of the ants dead. You also find that less food is gathered
--4, -5, 0
-sabotage2
-Forget about the tunnel
-The tunnel is never restored and life in the colony continues as normal
-0, -9, -4
-_
+[option]
+	Reestablish the tunnel
+	The tunnel is restored, but you find several of the ants dead. You also find that less food is gathered
+	-4, -5, 0
+	[leads_to] sabotage2
+[option]
+	Forget about the tunnel
+	The tunnel is never restored and life in the colony continues as normal
+	0, -9, -4
 
 #sabotage2
-false
 Food seems to be disappearing at an alarming rate. Because of this and the fact that a tunnel unnaturally caved in earlier, suspicions that a saboteur is in our midst have been raised. How shall we capture the saboteur?
-2
-Interrogate and search every ant
-While you investigators search and interrogate one of the ants, the missing food is found. Your investigators throw this ant in chains. In the process however, you angered many ants, and caused a few to leave.
-0, -4, 0
-spy found variation1
-Lay a trap
-Your investigators lay a trap in the food storage room and wait. No one comes and the missing food is not found.
--6, 0, 0
-sabotage3.1
+[option]
+	Interrogate and search every ant
+	While you investigators search and interrogate one of the ants, the missing food is found. Your investigators throw this ant in chains. In the process however, you angered many ants, and caused a few to leave.
+	0, -4, 0
+	[leads_to] spy found variation1
+[option]
+	Lay a trap
+	Your investigators lay a trap in the food storage room and wait. No one comes and the missing food is not found.
+	-6, 0, 0
+	[leads_to] sabotage3.1
 
 #sabotage3.1
-false
 After failing to capture the saboteur, some of the ants start to blame you for the missing food. Dissent against your rule begins to form. How shall we proceed?
-3
-Quickly search for the saboteur
-Every ant is heavily interrogated and searched. Your investigators find the missing food on an ant who turns out to be the leader of the rebellion, but many ants think you framed him. This leads to an uprising.
-6, 0, 0
-sabotage3.2
-Discreetly suppress those who dissent
-You send in undercover agents to join the formings of the rebellion. There, your agents kill all who are present. Turns out one of the rebellion members was the saboteur. However, the missing food is never found.
-0, -7, 0
-_
-give food to appease your ants
-as a sign of goodwill, you give your ants food from your colony's supply. In response, the rebellion leader urges on his members to revolt; however, he is abandoned, and your soldiers quickly seize him.
--4, -1, 0
-spy found variation2
+[option]
+	Quickly search for the saboteur
+	Every ant is heavily interrogated and searched. Your investigators find the missing food on an ant who turns out to be the leader of the rebellion, but many ants think you framed him. This leads to an uprising.
+	6, 0, 0
+	[leads_to] sabotage3.2
+[option]
+	Discreetly suppress those who dissent
+	You send in undercover agents to join the formings of the rebellion. There, your agents kill all who are present. Turns out one of the rebellion members was the saboteur. However, the missing food is never found.
+	0, -7, 0
+[option]
+	give food to appease your ants
+	as a sign of goodwill, you give your ants food from your colony's supply. In response, the rebellion leader urges on his members to revolt; however, he is abandoned, and your soldiers quickly seize him.
+	-4, -1, 0
+	[leads_to] spy found variation2
 
 #sabotage3.2
-false
 Several ants rise up and demand that you distribute more of the colony's food supply. What do you do?
-2
-Violently suppress the rebellion
-Your soldiers bloodily massacre those who rose up against you. The saboteur is found among those who died
-0, -16, 0
-_
-Accept the rebellion's demand
-You manage to avoid conflict, but the saboteur, who started all this, still manages to elude you.
--9, 0, 0
-spy found variation3
+[option]
+	Violently suppress the rebellion
+	Your soldiers bloodily massacre those who rose up against you. The saboteur is found among those who died
+	0, -16, 0
+[option]
+	Accept the rebellion's demand
+	You manage to avoid conflict, but the saboteur, who started all this, still manages to elude you.
+	-9, 0, 0
+	[leads_to] spy found variation3
 
 #spy found variation1
-false
 the saboteur is finally caught. How do you want to deal with him?
-3
-Imprison him
-You chain the saboteur and throw him into a dark hole.
-0, 0, 0
-spy's offer variation1,spy's offer variation2
-Execute him
-Your executioner chews off his head. This causes a few ants to leave your colony out of fear.
-0, -4, 0
-_
-Banish him
-Out of mercy, you decree the saboteur's banishment. He thanks you and you never see him again.
-0, 0, 0
-_
+[option]
+	Imprison him
+	You chain the saboteur and throw him into a dark hole.
+	0, 0, 0
+	[leads_to] spy's offer variation1,spy's offer variation2
+[option]
+	Execute him
+	Your executioner chews off his head. This causes a few ants to leave your colony out of fear.
+	0, -4, 0
+[option]
+	Banish him
+	Out of mercy, you decree the saboteur's banishment. He thanks you and you never see him again.
+	0, 0, 0
 
 #spy found variation2
-false
 The rebel leader you seized turns out to also be the saboteur. How do you want to deal with him?
-3
-Imprison him
-You chain the saboteur and throw him into a dark hole.
-0, 0, 0
-spy's offer variation2,spy's offer variation1
-Execute him
-Your executioner chews off his head. Out of fear and guilt, a couple ants add food to the colony's supply
-3, 0, 0
-_
-Banish him
-Out of mercy, you decree the saboteur's banishment. Thanks to your kindness, the saboteur returns all that is left of the stolen food.
-4, 0, 0
-_
+[option]
+	Imprison him
+	You chain the saboteur and throw him into a dark hole.
+	0, 0, 0
+	[leads_to] spy's offer variation2,spy's offer variation1
+[option]
+	Execute him
+	Your executioner chews off his head. Out of fear and guilt, a couple ants add food to the colony's supply
+	3, 0, 0
+[option]
+	Banish him
+	Out of mercy, you decree the saboteur's banishment. Thanks to your kindness, the saboteur returns all that is left of the stolen food.
+	4, 0, 0
 
 #spy found variation3
-false
 You finally manage to catch the saboteur as he tries to destroy another tunnel. What do you do with him?
-3
-Imprison him
-You chain the saboteur and throw him into a dark hole.
-0, 0, 0
-spy's offer variation2,spy's offer variation1
-Execute him
-Your executioner chews off his head. Out of fear and guilt, members of the rebellion return the distributed food
-9, 0, 0
-_
-Banish him
-Out of mercy, you decree the saboteur's banishment. Thanks to your kindness, the saboteur returns all that is left of the stolen food.
-2, 0, 0
-_
+[option]
+	Imprison him
+	You chain the saboteur and throw him into a dark hole.
+	0, 0, 0
+	[leads_to] spy's offer variation2,spy's offer variation1
+[option]
+	Execute him
+	Your executioner chews off his head. Out of fear and guilt, members of the rebellion return the distributed food
+	9, 0, 0
+[option]
+	Banish him
+	Out of mercy, you decree the saboteur's banishment. Thanks to your kindness, the saboteur returns all that is left of the stolen food.
+	2, 0, 0
 
 #spy's offer variation1
-false
 While in prison, the saboteur offers his service in return for freedom. He promises to steal food from the colony which sent him and bring the food to our colony.
-2
-Accept his offer
-After you release the saboteur, he runs off and never returns. This sets a bad precedent and lures more people to steal from the colony's supply of food.
--4, 0, 0
-_
-Decline his offer
-You yell "No!" Then you order your guards to make sure he never escapes.
-0, 0, 0
-_
+[option]
+	Accept his offer
+	After you release the saboteur, he runs off and never returns. This sets a bad precedent and lures more people to steal from the colony's supply of food.
+	-4, 0, 0
+[option]
+	Decline his offer
+	You yell "No!" Then you order your guards to make sure he never escapes.
+	0, 0, 0
 
 #spy's offer variation2
-false
 While in prison, the saboteur offers his service in return for freedom. He promises to steal food from the colony which sent him and bring the food to our colony.
-2
-Accept his offer
-After you release the saboteur, he runs off and returns with a large amount of food. You grants his freedom and never see him again
-6, 0, 0
-_
-Decline his offer
-You yell "No!" Then you order your guards to make sure he never escapes.
-0, 0, 0
-_
+[option]
+	Accept his offer
+	After you release the saboteur, he runs off and returns with a large amount of food. You grants his freedom and never see him again
+	6, 0, 0
+[option]
+	Decline his offer
+	You yell "No!" Then you order your guards to make sure he never escapes.
+	0, 0, 0
 
 #cockroach merchant
-true
+[hook]
 A cockroach merchant has come to your colony to hawk their wares. What shall you do?
-4
-Buy the location of some prime territory
-This cockroach knew some very good spots for ants.
--5,0,13
-_
-Lend some workers to the cockroach's home nest to help with remodeling in return for a food reward.
-The cockroach departs with some workers, promising to be back later with 20 food.
-0,-5,0
-cockroach merchant returns
-We're not interested in any trades today.
-The cockroach moves on.
-0,0,0
-_
-Kill it.
-The cockroach was pretty easy to take down, and it had lots of supplies.
-17,-1,0
-_
+[option]
+	Buy the location of some prime territory
+	This cockroach knew some very good spots for ants.
+	-5, 0, 13
+[option]
+	Lend some workers to the cockroach's home nest to help with remodeling in return for a food reward.
+	The cockroach departs with some workers, promising to be back later with 20 food.
+	0, -5, 0
+	[leads_to] cockroach merchant returns
+[option]
+	We're not interested in any trades today.
+	The cockroach moves on.
+	0, 0, 0
+[option]
+	Kill it.
+	The cockroach was pretty easy to take down, and it had lots of supplies.
+	17, -1, 0
 
 #cockroach merchant returns
-false
 The cockroach merchant you lent some workers to is back with your workers and your reward.
-1
-Excellent
-The cockroach hands them over.
-20,5,0
-_
+[option]
+	Excellent
+	The cockroach hands them over.
+	20, 5, 0
 
 #invest-var1
-true
+[hook]
 An ant approaches you, asking for an investment of 10 food, that would pay back 20 food later. Do you give the food?
-2
-Yes
-He takes the food, saying your investment is very wise.
--10, 0, 0
-invest-good,invest-bad
-No
-He says you're missing out on an opportunity.
-0, 0, 0
-_
+[option]
+	Yes
+	He takes the food, saying your investment is very wise.
+	-10, 0, 0
+	[leads_to] invest-good,invest-bad
+[option]
+	No
+	He says you're missing out on an opportunity.
+	0, 0, 0
 
 #invest-good
-false
 Your investment with the ant has paid off!
-1
-Great!
-He gave you back your 10 food plus 15 extra!
-25, 0, 0
-_
+[option]
+	Great!
+	He gave you back your 10 food plus 15 extra!
+	25, 0, 0
 
 #invest-bad
-false
 The ant you invested in came back to you, asking for one more month.
-2
-Let him have another month
-He appreciates your leniency, and promises to have the food in one month.
-0, 0, 0
-invest-good,invest-bad
-Banish him
-He protests, and your guards have to forcibly remove him, hurting nearby ants
-0, -2, 0
-_
+[option]
+	Let him have another month
+	He appreciates your leniency, and promises to have the food in one month.
+	0, 0, 0
+	[leads_to] invest-good,invest-bad
+[option]
+	Banish him
+	He protests, and your guards have to forcibly remove him, hurting nearby ants
+	0, -2, 0
 
 #termite-protection
-true
+[hook]
 A nearby termite colony has approached you seeking a trade deal. They are offering protection from the nearby cockroach colony in exchange for 4 food every season. Do you accept?
-2
-Yes
-The common ants are wary of trusting the termites, but nobody speaks up.
--4, 0, 0
-termite-payment
-No
-The termite queen leaves peacefully, saying maybe it was for the better.
-0, 0, 0
-_
+[option]
+	Yes
+	The common ants are wary of trusting the termites, but nobody speaks up.
+	-4, 0, 0
+	[leads_to] termite-payment
+[option]
+	No
+	The termite queen leaves peacefully, saying maybe it was for the better.
+	0, 0, 0
 
 #termite-payment
-false
 The termites are here to collect their 4 food.
-2
-Pay them
-They are grateful for the food, and promise to protect your colony.
--4, 0, 0
-termite-payment
-Check to see if they are defending the colony
-You send out scouts to see if the termites are defending the colony
-0, 0, 0
-termite-good-reveal,termite-bad-reveal
+[option]
+	Pay them
+	They are grateful for the food, and promise to protect your colony.
+	-4, 0, 0
+	[leads_to] termite-payment
+[option]
+	Check to see if they are defending the colony
+	You send out scouts to see if the termites are defending the colony
+	0, 0, 0
+	[leads_to] termite-good-reveal,termite-bad-reveal
 
 #termite-good-reveal
-false
 Your scouts saw the termites fighting off cockroaches, looks like they are true to their word. Do you want to keep the deal?
-2
-Keep the deal
-They are grateful for the food, and promise to protect your colony.
--4, 0, 0
-termite-payment
-Break it off, we are low on food anyway.
-The termites understand, and leave peacefully.
-0, 0, 0
-_
+[option]
+	Keep the deal
+	They are grateful for the food, and promise to protect your colony.
+	-4, 0, 0
+	[leads_to] termite-payment
+[option]
+	Break it off, we are low on food anyway.
+	The termites understand, and leave peacefully.
+	0, 0, 0
 
 #termite-bad-reveal
-false
 Your scouts talked to ants living near the cockroaches, and they say the termites never help them when a cockroach is attacking. Looks like the termites have been sleeping on the job! What do you do?
-2
-Keep the deal
-They apologize that they didn't help last time, and promise to do better
--4, 0, 0
-termite-payment
-Break it off
-The termites are offended that you would accuse them of lying, and steal some food on their way out.
--8, 0, 0
-_
+[option]
+	Keep the deal
+	They apologize that they didn't help last time, and promise to do better
+	-4, 0, 0
+	[leads_to] termite-payment
+[option]
+	Break it off
+	The termites are offended that you would accuse them of lying, and steal some food on their way out.
+	-8, 0, 0
 
 #merchants
-true
+[hook]
 Two Seasonal merchants carrying food approach your town. You depend on their trade. However, one of them is showing symptoms of a disease. Do you let them in?
-2
-Refuse their entrance
-You tell the merchants to leave. This prevents a disease outbreak, but you also fail to replenish your colony's food supply.
--9, 0, 0
-_
-Allow their entrance
-You cannot afford to refuse these merchants, so you let them in. They add extra food your colony's supply.
-15, 0, 0
-plague
-
-
-----------------RESOURCE CONTROL DECISIONS----------------
+[option]
+	Refuse their entrance
+	You tell the merchants to leave. This prevents a disease outbreak, but you also fail to replenish your colony's food supply.
+	-9, 0, 0
+[option]
+	Allow their entrance
+	You cannot afford to refuse these merchants, so you let them in. They add extra food your colony's supply.
+	15, 0, 0
+	[leads_to] plague
 
 #food surplus territory
-false
 We have a surplus of food! Should we divert resources from farming to expanding our land?
-3
-Yes, fully focus on expanding our territory
-You divert effort from farming to expanding territory
--25, 0, 10
-_
-Yes, divert a few workers from farming to expanding territory
-You divert some effort from farming to expanding territory
--10, 0, 5
-_
-No
-You do nothing
-0, 0, 0
-_
+[option]
+	Yes, fully focus on expanding our territory
+	You divert effort from farming to expanding territory
+	-25, 0, 10
+[option]
+	Yes, divert a few workers from farming to expanding territory
+	You divert some effort from farming to expanding territory
+	-10, 0, 5
+[option]
+	No
+	You do nothing
+	0, 0, 0
 
 #food surplus population
-false
 We have a surplus of food! Should we divert resources from farming to producing more larvae?
-2
-Yes, we need more workers
-Your effort is successful, and your population grows
--20, 10, 0
-_
-No, keep our surplus
-You do nothing
-0, 0, 0
-_
+[option]
+	Yes, we need more workers
+	Your effort is successful, and your population grows
+	-20, 10, 0
+[option]
+	No, keep our surplus
+	You do nothing
+	0, 0, 0
 
 #low population
-false
 Our population is desperately low! What should we do?
-2
-Attempt to lure ants from nearby ants to our colony
-By promising extra food, you are able to convince ants from other colonies to join
--10, 8, 0
-_
-Withdraw workers from all other jobs to focus on producing larvae
-You manage to bolster your larvae, but sections of your territory fall into disrepair
-0, 10, -12
-_
+[option]
+	Attempt to lure ants from nearby ants to our colony
+	By promising extra food, you are able to convince ants from other colonies to join
+	-10, 8, 0
+[option]
+	Withdraw workers from all other jobs to focus on producing larvae
+	You manage to bolster your larvae, but sections of your territory fall into disrepair
+	0, 10, -12
 
 #low territory
-false
 We don't have enough space to give all of our workers a home. What should we do?
-2
-Divert workers from farming to expanding territory
-Your workers expand out into uninhabited nearby land and expand your colony
--8, 0, 8
-_
-Crowd workers together
-Many workers are unhappy, and some leave to find other colonies.
-0, -6, 0
-_
+[option]
+	Divert workers from farming to expanding territory
+	Your workers expand out into uninhabited nearby land and expand your colony
+	-8, 0, 8
+[option]
+	Crowd workers together
+	Many workers are unhappy, and some leave to find other colonies.
+	0, -6, 0
 
 #starvation
-false
 The colony is completely out of food. The situation is desperate. What should we do?
-2
-Trade away our territory to nearby colonies in exchange for food
-Your territory shrinks considerably, but you prevent your colony from starving
-20, 0, -10
-_
-Eat some of your own workers
-Desperate times call for desperate measures. Like cannibalism!
-20, -10, 0
-_
+[option]
+	Trade away our territory to nearby colonies in exchange for food
+	Your territory shrinks considerably, but you prevent your colony from starving
+	20, 0, -10
+[option]
+	Eat some of your own workers
+	Desperate times call for desperate measures. Like cannibalism!
+	20, -10, 0
+
