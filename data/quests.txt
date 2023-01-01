@@ -19,6 +19,7 @@ Your advisors think it would be a good idea to send out several ants as explorer
 
 #explore2
 [quest]
+[advisor] explorer
 One of your explorers claims to have found a massive treasure trove of free food. Do you send more workers to retrieve it?
 [option]
 	Yes
@@ -34,6 +35,7 @@ One of your explorers claims to have found a massive treasure trove of free food
 
 #explore3
 [quest]
+[advisor] explorer
 Your advisors have suggested searching for more metal towers of food. It seems too good an opportunity to pass up.
 [option]
 	Yes, we should transfer most of our workers from farming to exploring and moving this grain back to our colony
@@ -50,6 +52,7 @@ Your advisors have suggested searching for more metal towers of food. It seems t
 
 #explore4
 [quest]
+[advisor] explorer
 Your explorers continue to find more grain towers, and your workers bring back a steady surplus of food
 [option]
 	Excellent
@@ -60,6 +63,7 @@ Your explorers continue to find more grain towers, and your workers bring back a
 
 #explore5
 [quest]
+[advisor] explorer
 Your explorers are having to search further and further for grain towers, but they continue to bring back food
 [option]
 	Good
@@ -71,6 +75,7 @@ Your explorers are having to search further and further for grain towers, but th
 
 #explore6
 [quest]
+[advisor] explorer
 As your explorers spread out through more and more human areas, they find more and more craters and exploded wreckage. Some of your explorers are disappearing, while others report barely escaping from human battlefields. There is little grain left to take.
 [option]
 	Pull back all explorers
@@ -90,6 +95,7 @@ As your explorers spread out through more and more human areas, they find more a
 #bees
 [hook]
 [quest]
+[advisor] bee
 An envoy from a nearby bee hive has arrived. Do you welcome him into your court?
 [option]
 	Yes, I am interested in what the bee has to say
@@ -103,6 +109,7 @@ An envoy from a nearby bee hive has arrived. Do you welcome him into your court?
 
 #bees2
 [quest]
+[advisor] bee
 The bee ambassador believes that your colony and his hive could have a closer, mutually beneficial relationship. He wants to establish a trade route.
 [option]
 	Sounds like a fantastic idea. We should invest in making this trade route as good as possible!
@@ -121,6 +128,7 @@ The bee ambassador believes that your colony and his hive could have a closer, m
 
 #bees3 a
 [quest]
+[advisor] bee
 The trade route has been constructed, and your colony has become a hub of commercial activity
 [option]
 	Excellent
@@ -130,6 +138,7 @@ The trade route has been constructed, and your colony has become a hub of commer
 
 #bees3 b
 [quest]
+[advisor] bee
 The bees have finished building the trade route, and your colony now has access to more food and luxury items. Morale in your colony is high
 [option]
 	Excellent
@@ -139,6 +148,7 @@ The bees have finished building the trade route, and your colony now has access 
 
 #bees4
 [quest]
+[advisor] bee
 The bee ambassador hopes your two nations can become even more closely intertwined. He proposes forming a joint colony of bees and ants nearby
 [option]
 	Sounds like a wonderful idea
@@ -153,6 +163,7 @@ The bee ambassador hopes your two nations can become even more closely intertwin
 
 #bees5
 [quest]
+[advisor] bee
 The joint colony of bees and ants has been thriving. The bee ambassador excitedly informs you that many more joint colonies are springing up around the outskirts of your territory
 [option]
 	This will expand our territory a great deal. Wonderful!
@@ -163,6 +174,7 @@ The joint colony of bees and ants has been thriving. The bee ambassador excitedl
 
 #bees6
 [quest]
+[advisor] bee
 Many of the joint colonies have created research teams. The combination of bee and ant knowledge has led to an unprecedented number of discoveries, improving your farming, housing, and military
 [option]
 	We should invest more into these research labs!
@@ -173,6 +185,7 @@ Many of the joint colonies have created research teams. The combination of bee a
 
 #bees7
 [quest]
+[advisor] bee
 As more and more new colonies are built, you have brushed up against the edge of some human towns. Some have suggested attacking the humans to expel them from the area and create more room for ants and bees
 [option]
 	We should attack unexpectedly with a massive force of ants and bees together to scare the humans away
@@ -191,6 +204,7 @@ As more and more new colonies are built, you have brushed up against the edge of
 
 #bees8
 [quest]
+[advisor] bee
 Emboldened by your recent victory against the humans, the bee leaders want to launch more attacks against the humans, and continue to research ever more effective venoms. They dream of a world without humans, where bees and ants can rule together
 [option]
 	You couldn't stop them if you tried
@@ -275,6 +289,7 @@ The citizens council has recently passed laws protecting individual's rights. Th
 #radioactive-discover
 [hook]
 [quest]
+[advisor] explorer
 Your scouts have found a large concrete building on the edge of your territory. Do you want to send some scouts to explore it?
 [option]
 	Go for it!
@@ -289,6 +304,7 @@ Your scouts have found a large concrete building on the edge of your territory. 
 
 #radioactive-wait
 [quest]
+[advisor] explorer
 Your scouts have been gossiping about the large concrete building that you refused to explore. It seems they think you are trying to hide something. Do you disprove their rumors and explore it?
 [option]
 	Yes, these scouts need something to do anyway
@@ -302,6 +318,7 @@ Your scouts have been gossiping about the large concrete building that you refus
 
 #radioactive-explore
 [quest]
+[advisor] explorer
 Your scouts sent to the concrete building come back with grim news, the concrete building holds no food, only complex machinery and vats of an inedible green liquid.
 [option]
 	Go back and look for more!
@@ -318,6 +335,7 @@ Your scouts sent to the concrete building come back with grim news, the concrete
 
 #radioactive-ant
 [quest]
+[advisor] explorer
 The ants who visited the mysterious concrete building are getting sick, but it is unlike any other sickness you have seen. Some are growing antennae in unusual places or losing hair and teeth. Do you banish these ants or try to heal them?
 [option]
 	Banish them, it is for the good of the colony
@@ -333,6 +351,7 @@ The ants who visited the mysterious concrete building are getting sick, but it i
 
 #radioactive-ant2
 [quest]
+[advisor] explorer
 Your scouts have heard rumors about the sick ants that were banished, now living in the nearby human towns. The common ants are afraid that the sickness has spread to other ants before they left. What do you do?
 [option]
 	Nothing
@@ -362,6 +381,7 @@ The scouts are talking between each other, and they want to see what happened to
 
 #radioactive-colony
 [quest]
+[advisor] explorer
 Your medical team has suddenly started showing symptoms similar to the sick ants. Ants are in a panic about this new disease, What do you do?
 [option]
 	Nothing
@@ -381,6 +401,7 @@ Your medical team has suddenly started showing symptoms similar to the sick ants
 
 #radioactive-colony2
 [quest]
+[advisor] explorer
 The mysterious illness has spread quicker than you could have expected, all of your precautions have done nothing. Now almost half of your colony is sick. Farming is abandoned, people are rioting in the street, it looks to be near the end of this colony.
 [option]
 	Continue
@@ -390,6 +411,7 @@ The mysterious illness has spread quicker than you could have expected, all of y
 
 #radioactive-colony3
 [quest]
+[advisor] explorer
 A miracle has occurred, many of the sick ants have gotten better. Not only that, but they are stronger and faster than ever before. Some ants are twice as big as a normal ant, and can run three times as fast. What do you do?
 [option]
 	Accept these new ants as your warriors and put them to work
@@ -405,6 +427,7 @@ A miracle has occurred, many of the sick ants have gotten better. Not only that,
 
 #radioactive-colony4
 [quest]
+[advisor] explorer
 Your colony is now composed of half super ants. These ants are strong enough to colonize the nearby human city, which was previously uninhabitable. Do you expand into the city?
 [option]
 	Yes, this is the opportunity of a lifetime!

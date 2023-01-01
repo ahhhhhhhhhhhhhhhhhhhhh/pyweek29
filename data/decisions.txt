@@ -12,6 +12,7 @@ An ant was found stealing from the colony's food supply! What do you do?
 
 #beetle start
 [hook]
+[advisor] beetle
 A colony of beetles near our border has been acting aggressively and encroaching on our territory. How should we respond?
 [option]
 	Send a diplomat to talk things over
@@ -29,6 +30,7 @@ A colony of beetles near our border has been acting aggressively and encroaching
 	[leads_to] beetle demand
 
 #beetle demand
+[advisor] beetle
 The nearby beetle colony demands a tribute of food, or else they will invade!
 [option]
 	Fine, give them the food
@@ -41,6 +43,7 @@ The nearby beetle colony demands a tribute of food, or else they will invade!
 	[leads_to] beetle planning
 
 #beetle border skirmish
+[advisor] beetle
 The troops you stationed at the border have gotten into a skirmish, and several troops have died. The beetle colony is demanding a tribute of food and territory to make up for the death of their soldiers
 [option]
 	Fine, give them what they want
@@ -53,6 +56,7 @@ The troops you stationed at the border have gotten into a skirmish, and several 
 	[leads_to] beetle planning
 
 #beetle planning
+[advisor] beetle
 You meet with your generals to plan your invasion of the beetle colony. How do you want to attack?
 [option]
 	Attack head-on with an overwhelming force
@@ -101,6 +105,7 @@ The extremist ant is back, this time with an army! He demands a section of terri
 
 #grasshopper
 [hook]
+[advisor] explorer
 Your scouts find an injured grasshopper in your territory. Do you help heal it or kill it?
 [option]
 	Heal it
@@ -114,6 +119,7 @@ Your scouts find an injured grasshopper in your territory. Do you help heal it o
 
 #grasshopper variation2
 [hook]
+[advisor] explorer
 Your scouts find an injured grasshopper in your territory. Do you help heal it or kill it?
 [option]
 	Heal it
@@ -162,6 +168,7 @@ The plague has continued to spread. It now infects many workers. The situation i
 
 #refugees
 [hook]
+[advisor] explorer
 A nearby ant hill was destroyed, and several disheveled survivors have made their way towards your colony. Do you accept them in?
 [option]
 	No, turn them away
@@ -380,6 +387,7 @@ While in prison, the saboteur offers his service in return for freedom. He promi
 
 #cockroach merchant
 [hook]
+[advisor] cockroach
 A cockroach merchant has come to your colony to hawk their wares. What shall you do?
 [option]
 	Buy the location of some prime territory
@@ -400,6 +408,7 @@ A cockroach merchant has come to your colony to hawk their wares. What shall you
 	17, -1, 0
 
 #cockroach merchant returns
+[advisor] cockroach
 The cockroach merchant you lent some workers to is back with your workers and your reward.
 [option]
 	Excellent
